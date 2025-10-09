@@ -1,30 +1,87 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import { ArrowRight } from "lucide-vue-next";
 import Configuration from "@/Components/Menus/Configuration.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
-</script>
-<template>
-  <AppLayout>
-    <template #sidebar>
-      <Configuration />
-    </template>
+import { onMounted, ref } from "vue";
+import SelectComponent from "@/Components/SelectComponent.vue";
+// Extracting settings from props
+const props = defineProps({
+    settings: Array,
+});
 
-    <template #content>
-      <Breadcrumb :breadcrumbs="[{ label: 'System Setup' }]" />
-      <div class="bg-white p-3 rounded w-full shadow">
-        <div class="grid grid-cols-12">
-          <div class="col-span-3">
-            <label class="text-[14px]">Date Format *</label>
-            <select class="rounded w-full py-[7px] border-gray-300 text-[14px]">
-                <option value="">Select Option</option>
-                <option value="AD">AD Format</option>
-                <option value="BS">BS Format</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </template>
-  </AppLayout>
+// Find date_type from the settings array and set it as initial form value
+const dateType = props.settings.find((setting) => setting.key === "date_type");
+const dateFormat = props.settings.find((setting) => setting.key === "date_format");
+const form = useForm({
+    date_type: dateType ? dateType.value : "",
+    date_format: dateFormat ? dateFormat.value : "",
+});
+
+onMounted(() => {
+    // Debugging purpose
+    console.log("Component Mounted with settings", props.settings);
+});
+
+const dateOptions = [
+    { label: "AD Date", value: "ad" },
+    { label: "BS Date", value: "bs" },
+    // Add as many options as needed
+];
+
+const dateFormats = [
+    { label: "YYYY-MM-DD", value: "Y-m-d" },
+    { label: "MM-DD-YYYY", value: "m-d-Y" },
+    { label: "YYYY/MM/DD", value: "Y/m/d" },
+    { label: "MM/DD/YYYY", value: "m/d/Y" },
+    // Add as many options as needed
+];
+</script>
+
+<template>
+    <AppLayout>
+        <template #sidebar>
+            <Configuration />
+        </template>
+
+        <template #content>
+            <Breadcrumb :breadcrumbs="[{ label: 'System Setup' }]" />
+            <div class="bg-white p-3 rounded w-full shadow">
+               <form @submit.prevent="form.post(route('configuration.update'))">
+                 <div class="grid grid-cols-12 gap-3">
+                    <div class="col-span-3">
+                        <label class="text-[14px]">Date Type *</label>
+                        <SelectComponent
+                            v-model="form.date_type"
+                            :options="dateOptions"
+                            label="Date Format *"
+                            placeholder="Search Date Format"
+                        />
+                    </div>
+                    <div class="col-span-3">
+                        <label class="text-[14px]">Date Format *</label>
+                        <SelectComponent
+                            v-model="form.date_format"
+                            :options="dateFormats"
+                            label="Date Format *"
+                            placeholder="Search Date Format"
+                        />
+                    </div>
+                    <div
+                        class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end"
+                    >
+                        <button
+                            :disabled="form.processing"
+                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                            type="submit"
+                        >
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+               </form>
+            </div>
+        </template>
+    </AppLayout>
 </template>

@@ -1,7 +1,7 @@
 <!-- components/PremiumBreadcrumb.vue -->
 <template>
   <nav
-    class="flex items-center text-sm text-slate-500 bg-white/10 backdrop-blur-md rounded-xl mb-3"
+    class="flex items-center text-sm text-slate-500 bg-white/10 backdrop-blur-md rounded-xl"
   >
     <!-- Home icon -->
     <Link href="/dashboard" class="flex items-center text-main transition-colors">
