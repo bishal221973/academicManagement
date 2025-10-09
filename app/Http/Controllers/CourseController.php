@@ -10,7 +10,8 @@ class CourseController extends Controller
     public function index(){
         $courses=Course::latest()->get();
         return inertia('Config/Course',[
-            'sidebar'=>'Course',
+            'menu'=>'Course',
+            'sidebar' => 'Settings',
             'courses'=>$courses,
             'course'=>new Course(),
         ]);
@@ -34,7 +35,8 @@ class CourseController extends Controller
     public function edit(Course $course){
         $courses=Course::latest()->get();
         return inertia('Config/Course',[
-            'sidebar'=>'Course',
+            'menu'=>'Course',
+            'sidebar' => 'Settings',
             'courses'=>$courses,
             'course'=>$course,
         ]);
@@ -43,5 +45,9 @@ class CourseController extends Controller
         $data=$request->validate(Course::rules($course->id));
         $course->update($data);
         return redirect()->route('course.index');
+    }
+    public function destroy($id){
+        Course::find($id)->delete();
+        return redirect()->back()->with('success','Course deleted successfully');
     }
 }

@@ -112,7 +112,7 @@ const sizeClass = computed(() => {
 }
 
 input:checked + .slider {
-  background-color: #D9A250;
+  background-color: #ef4444;
 }
 
 input:checked + .slider:before {
