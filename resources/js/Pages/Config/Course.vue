@@ -1,16 +1,11 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Link, useForm } from "@inertiajs/vue3";
-import { ArrowRight } from "lucide-vue-next";
-import Configuration from "@/Components/Menus/Configuration.vue";
+import Student from "@/Components/Menus/Student.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { computed, onMounted, ref } from "vue";
 import Table from "@/Components/Table.vue";
+import Academic from "@/Components/Menus/Academic.vue";
 import AddCourse from "@/Components/AddForm/AddCourse.vue";
-import { Move } from "lucide-vue-next";
-import { Edit } from "lucide-vue-next";
-import Delete from "@/Components/Delete.vue";
-import Switch from "@/Components/Switch.vue";
 const props = defineProps({
     settings: Object,
     courses: Object,
@@ -41,7 +36,7 @@ const tableData = computed(() =>
 <template>
     <AppLayout>
         <template #sidebar>
-            <Configuration />
+            <Academic />
         </template>
 
         <template #content>

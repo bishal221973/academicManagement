@@ -15,8 +15,8 @@ class SidebarSeeder extends Seeder
     {
         $sidebars = [
             ['title' => 'Dashboard', 'icon' => 'Home','position'=>1, 'url' => null],
-            ['title' => 'Front Office', 'icon' => 'Users', 'position' => 2, 'url' => null],
-            ['title' => 'Administration', 'icon' => 'BookOpen', 'position' => 3, 'url' => null],
+            ['title' => 'Students', 'icon' => 'Users', 'position' => 2, 'url' => 'student.index'],
+            ['title' => 'Academic', 'icon' => 'BookOpen', 'position' => 3, 'url' => 'course.index'],
             ['title' => 'Students', 'icon' => 'GraduationCap', 'position' => 4, 'url' => null],
             ['title' => 'Exam', 'icon' => 'FileCheck', 'position' => 5, 'url' => null],
             ['title' => 'HR', 'icon' => 'UserCog', 'position' => 6, 'url' => null],

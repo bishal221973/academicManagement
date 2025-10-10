@@ -11,7 +11,7 @@ class CourseController extends Controller
         $courses=Course::latest()->get();
         return inertia('Config/Course',[
             'menu'=>'Course',
-            'sidebar' => 'Settings',
+            'sidebar' => 'Academic',
             'courses'=>$courses,
             'course'=>new Course(),
         ]);
@@ -20,7 +20,7 @@ class CourseController extends Controller
     public function store(Request $request){
         $data=$request->validate(Course::rules());
         Course::create($data);
-        return redirect()->back();
+        return redirect()->back()->with('success','Course created successfully');
     }
 
     public function updateStatus(Course $course){
@@ -36,7 +36,7 @@ class CourseController extends Controller
         $courses=Course::latest()->get();
         return inertia('Config/Course',[
             'menu'=>'Course',
-            'sidebar' => 'Settings',
+            'sidebar' => 'Academic',
             'courses'=>$courses,
             'course'=>$course,
         ]);
@@ -44,7 +44,7 @@ class CourseController extends Controller
     public function update(Request $request, Course $course){
         $data=$request->validate(Course::rules($course->id));
         $course->update($data);
-        return redirect()->route('course.index');
+        return redirect()->route('course.index')->with('success','Course updated successfully');
     }
     public function destroy($id){
         Course::find($id)->delete();

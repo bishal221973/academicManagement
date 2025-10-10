@@ -28,3 +28,7 @@ Route::prefix('course-management')->group(function () {
     Route::put('/update/{course}', [CourseController::class,'update'])->name('course.update');
     Route::delete('/delete/{id}', [CourseController::class,'destroy'])->name('course.delete');
 });
+
+Route::get('student',function(){
+    return "Student Management";
+})->name('student.index');

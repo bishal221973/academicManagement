@@ -74,12 +74,14 @@ const updateData = () => {
                 <input type="text" v-model="form.name"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter course name" />
+                    <small class="text-red-600">{{ form.errors.name }}</small>
             </div>
             <div class="mb-3">
                 <label class="text-[14px]">Course Code *</label>
                 <input type="text" v-model="form.code"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter course code" />
+                <small class="text-red-600">{{ form.errors.code }}</small>
             </div>
             <div class="mb-3">
                 <label class="text-[14px]">Description</label>
