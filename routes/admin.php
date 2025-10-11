@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SectionController;
 
 Route::get('/dashboard', function () {
@@ -39,6 +40,15 @@ Route::prefix('section-management')->group(function () {
     Route::get('/edit/{section}', [SectionController::class,'edit'])->name('section.edit');
     Route::put('/update/{section}', [SectionController::class,'update'])->name('section.update');
     Route::delete('/delete/{id}', [SectionController::class,'destroy'])->name('section.delete');
+});
+
+Route::prefix('grroup-management')->group(function () {
+    Route::get('/',[GroupController::class,'index'])->name('group.index');
+    Route::post('/store', [GroupController::class,'store'])->name('group.store');
+    Route::put('/status/{group}', [GroupController::class,'updateStatus'])->name('group.update.status');
+    Route::get('/edit/{group}', [GroupController::class,'edit'])->name('group.edit');
+    Route::put('/update/{group}', [GroupController::class,'update'])->name('group.update');
+    Route::delete('/delete/{id}', [GroupController::class,'destroy'])->name('group.delete');
 });
 
 Route::get('student',function(){
