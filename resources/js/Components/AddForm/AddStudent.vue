@@ -26,6 +26,7 @@ const toggleModal = () => {
 };
 
 const form = useForm({
+    roll_number: '',
     name: '',
     registration_number: '',
     registration_date: '',
@@ -65,6 +66,8 @@ const submit = () => {
 onMounted(() => {
     if (props.student?.id) {
         toggleModal();
+
+        form.roll_number = props.student.roll_number;
         form.name = props.student.name;
         form.registration_number = props.student.registration_number;
         form.registration_date = props.student.registration_date;
@@ -167,6 +170,13 @@ function handleFileChange(event) {
                     </div>
                 </div>
                 <div class="col-span-3">
+                    <label class="text-[14px]">Roll Number *</label>
+                    <input type="text" v-model="form.roll_number"
+                        class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter roll number" />
+                    <small class="text-red-600">{{ form.errors.roll_number }}</small>
+                </div>
+                <div class="col-span-3">
                     <label class="text-[14px]">Name *</label>
                     <input type="text" v-model="form.name"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -177,7 +187,7 @@ function handleFileChange(event) {
                     <label class="text-[14px]">Registration No. *</label>
                     <input type="text" v-model="form.registration_number"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter registration" />
                     <small class="text-red-600">{{ form.errors.registration_number }}</small>
                 </div>
                 <div class="col-span-3">
@@ -212,21 +222,21 @@ function handleFileChange(event) {
                     <label class="text-[14px]">Phone</label>
                     <input type="text" v-model="form.phone"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter phone number" />
                     <small class="text-red-600">{{ form.errors.phone }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Email</label>
                     <input type="text" v-model="form.email"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter email" />
                     <small class="text-red-600">{{ form.errors.email }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">National ID</label>
                     <input type="text" v-model="form.national_id"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter national id" />
                     <small class="text-red-600">{{ form.errors.national_id }}</small>
                 </div>
 
@@ -266,28 +276,28 @@ function handleFileChange(event) {
                     <label class="text-[14px]">Father Name</label>
                     <input type="text" v-model="form.father_name"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter father name" />
                     <small class="text-red-600">{{ form.errors.father_name }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Phone</label>
                     <input type="text" v-model="form.father_phone"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter father phone" />
                     <small class="text-red-600">{{ form.errors.father_phone }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Education</label>
                     <input type="text" v-model="form.father_education"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter father education" />
                     <small class="text-red-600">{{ form.errors.father_education }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Profession</label>
                     <input type="text" v-model="form.father_profession"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter father profession" />
                     <small class="text-red-600">{{ form.errors.father_profession }}</small>
                 </div>
 
@@ -304,28 +314,28 @@ function handleFileChange(event) {
                     <label class="text-[14px]">Mother Name</label>
                     <input type="text" v-model="form.mother_name"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter mother name" />
                     <small class="text-red-600">{{ form.errors.mother_name }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Phone</label>
                     <input type="text" v-model="form.mother_phone"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter mother phone" />
                     <small class="text-red-600">{{ form.errors.mother_phone }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Education</label>
                     <input type="text" v-model="form.mother_education"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter mother education" />
                     <small class="text-red-600">{{ form.errors.mother_education }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Profession</label>
                     <input type="text" v-model="form.mother_profession"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter mother profession" />
                     <small class="text-red-600">{{ form.errors.mother_profession }}</small>
                 </div>
 
@@ -339,14 +349,14 @@ function handleFileChange(event) {
                     <label class="text-[14px]">Present</label>
                     <input type="text" v-model="form.present_address"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter present address" />
                     <small class="text-red-600">{{ form.errors.present_address }}</small>
                 </div>
                 <div class="col-span-6">
                     <label class="text-[14px]">Permanent</label>
                     <input type="text" v-model="form.permanent_address"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Enter student name" />
+                        placeholder="Enter permanent address" />
                     <small class="text-red-600">{{ form.errors.permanent_address }}</small>
                 </div>
 
@@ -362,14 +372,14 @@ function handleFileChange(event) {
                             <label class="text-[14px]">School Name</label>
                             <input type="text" v-model="form.prev_school"
                                 class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter student name" />
+                                placeholder="Enter school name" />
                             <small class="text-red-600">{{ form.errors.prev_school }}</small>
                         </div>
                         <div class="w-full">
                             <label class="text-[14px]">Class</label>
                             <input type="text" v-model="form.prev_class"
                                 class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter student name" />
+                                placeholder="Enter class" />
                             <small class="text-red-600">{{ form.errors.prev_class }}</small>
                         </div>
                         <div class="w-full">

@@ -11,7 +11,10 @@ class Student extends Model
 
     protected $guarded = ['id'];
 
-
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 
 
     protected static function boot()
@@ -52,6 +55,7 @@ class Student extends Model
     public static function rules($id = null)
     {
         return [
+            'roll_number'=>'required',
             'name' => 'required',
             'registration_number' => 'required',
             'registration_date' => 'required',

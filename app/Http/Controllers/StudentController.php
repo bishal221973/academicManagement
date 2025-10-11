@@ -9,12 +9,16 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::latest()->get()->map(function ($student) {
-            $student->registration_date = formatDate($student->registration_date);
-            $student->birth_date = formatDate($student->birth_date);
+        $students = Student::with('course')
+    ->latest()
+    ->get()
+    ->map(function ($student) {
+        $student->registration_date = $student->registration_date ? formatDate($student->registration_date) : null;
+        $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
 
-            return $student;
-        });
+        return $student;
+    });
+
         return inertia('Student/List', [
             'menu' => 'Student',
             'sidebar' => 'Students',
@@ -43,7 +47,7 @@ class StudentController extends Controller
 
      public function edit(Student $student)
     {
-        $students = Student::latest()->get()->map(function ($item) {
+        $students = Student::with('course')->latest()->get()->map(function ($item) {
             $item->registration_date = formatDate($item->registration_date);
             $item->birth_date = formatDate($item->birth_date);
 
