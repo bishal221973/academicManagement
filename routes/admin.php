@@ -19,6 +19,7 @@ Route::get('test', function () {
     return "Email not verified";
 })->name('verification.notice');
 Route::get('/configuration',[ConfigurationController::class, 'configuration'])->name('configuration');
+Route::get('/configuration-api',[ConfigurationController::class, 'configurationApi'])->name('configuration.api');
 Route::post('/configuration-update',[ConfigurationController::class, 'configurationUpdate'])->name('configuration.update');
 Route::get('/sidebar-management', [ConfigurationController::class,'Sidebar'])->name('config.sidebar');
 Route::post('/sidebar-management-update', [ConfigurationController::class,'SidebarManagement'])->name('update.sidebar');

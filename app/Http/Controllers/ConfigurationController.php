@@ -22,6 +22,15 @@ class ConfigurationController extends Controller
         ]);
     }
 
+    public function configurationApi(){
+        $settings = MySetting::get();
+        $data = [];
+        foreach($settings as $setting){
+            $data[$setting->key] = $setting->value;
+        }
+        return response()->json($data);
+    }
+
     public function sidebar()
     {
         $sidebars = Sidebar::orderByRaw('CAST(position AS UNSIGNED) ASC')->get();

@@ -5,7 +5,7 @@ import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { computed, onMounted, ref } from "vue";
 import Table from "@/Components/Table.vue";
 import Academic from "@/Components/Menus/Academic.vue";
-import AddGroup from "@/Components/AddForm/AddGroup.vue";
+import AddStudent from "@/Components/AddForm/AddStudent.vue";
 
 </script>
 
@@ -18,7 +18,7 @@ import AddGroup from "@/Components/AddForm/AddGroup.vue";
         <template #content>
             <div class="flex items-center justify-between mb-3">
                 <Breadcrumb :breadcrumbs="[{ label: 'Student Management' },{label:'Student List'}]" />
-                <AddGroup :group="group" />
+                <AddStudent :group="group" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">
