@@ -38,15 +38,18 @@ Route::prefix('course-management')->group(function () {
 
 Route::prefix('section-management')->group(function () {
     Route::get('/',[SectionController::class,'index'])->name('section.index');
+    Route::get('all',[SectionController::class,'all'])->name('section.all');
     Route::post('/store', [SectionController::class,'store'])->name('section.store');
     Route::put('/status/{section}', [SectionController::class,'updateStatus'])->name('section.update.status');
     Route::get('/edit/{section}', [SectionController::class,'edit'])->name('section.edit');
     Route::put('/update/{section}', [SectionController::class,'update'])->name('section.update');
     Route::delete('/delete/{id}', [SectionController::class,'destroy'])->name('section.delete');
+    Route::get('all',[SectionController::class,'all'])->name('section.all');
 });
 
 Route::prefix('group-management')->group(function () {
     Route::get('/',[GroupController::class,'index'])->name('group.index');
+    Route::get('all',[GroupController::class,'all'])->name('group.all');
     Route::post('/store', [GroupController::class,'store'])->name('group.store');
     Route::put('/status/{group}', [GroupController::class,'updateStatus'])->name('group.update.status');
     Route::get('/edit/{group}', [GroupController::class,'edit'])->name('group.edit');

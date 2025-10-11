@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SectionEvent;
 use App\Models\Course;
 use App\Models\Section;
 use Illuminate\Http\Request;
@@ -17,11 +18,20 @@ class SectionController extends Controller
             'section'=>new Section(),
         ]);
     }
+    
+    public function all(){
+        $sections=Section::where('status',1)->get();
+
+        return response()->json([
+            'sections'=>$sections
+        ]);
+    }
 
     public function store(Request $request){
         $data = $request->validate(Section::rules());
         try {
             Section::create($data);
+            event(new SectionEvent());
             return redirect()->back()->with('success', 'Section created successfully');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -32,7 +42,7 @@ class SectionController extends Controller
         $section->update([
             'status' => !$section->status
         ]);
-        // event(new CourseEvent());
+        event(new SectionEvent());
         return response()->json([
             'message' => 'Status updated successfully'
         ]);
@@ -51,6 +61,7 @@ class SectionController extends Controller
         $data = $request->validate(Section::rules($section->id));
         try {
             $section->update($data);
+            event(new SectionEvent());
             return redirect()->route('section.index')->with('success', 'Section updated successfully');
         } catch (\Throwable $e) {
             return redirect()->route('section.index')->with('error', $e->getMessage());
@@ -60,7 +71,7 @@ class SectionController extends Controller
     public function destroy($id)
     {
         Section::find($id)->delete();
-        // event(new CourseEvent());
+        event(new SectionEvent());
         return redirect()->route('section.index')->with('success', 'Section deleted successfully');
     }
 }

@@ -168,7 +168,7 @@ export default {
   top: calc(100% + 3px);
   left: 0;
   width: 100%;
-  height: 200px;
+  max-height: 200px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

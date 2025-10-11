@@ -63,10 +63,10 @@ const updateData = () => {
 }
 </script>
 <template>
-    <button @click="toggleModal" class="" v-if="isSelect">
+    <button @click="toggleModal" type="button" class="" v-if="isSelect">
         <component :is="Plus" />
     </button>
-    <button @click="toggleModal" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" v-else>Add Section</button>
+    <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" v-else>Add Section</button>
     
     <Modal :show="openModal" maxWidth="sm" :title="section?.id ? 'Edit Section' : 'Add Section'" @close="toggleModal" :selectedData="section">
     

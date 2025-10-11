@@ -7,6 +7,29 @@ import Table from "@/Components/Table.vue";
 import Academic from "@/Components/Menus/Academic.vue";
 import AddStudent from "@/Components/AddForm/AddStudent.vue";
 
+const props = defineProps({
+    students: Object,
+});
+
+const columns = [
+    { label: "S.N.", key: "sn" },
+    { label: "Student", key: "student" },
+    { label: "Registration No.", key: "reg_number" },
+    { label: "Reg. Date", key: "reg_date" },
+
+    { label: "Actions", key: "actions" },
+];
+
+const tableData = computed(() =>
+    props.students.map((item, index) => ({
+        sn: index + 1,
+        student: item?.name,
+        reg_number: item?.registration_number,
+        reg_date: item?.registration_date,
+
+        actions: item.id,
+    }))
+);
 </script>
 
 <template>
@@ -22,10 +45,11 @@ import AddStudent from "@/Components/AddForm/AddStudent.vue";
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">
-                    <!-- <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
+                    
+                    <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
                         :status="'group.update.status'" :edit="'group.edit'" :deleteUrl="'group.delete'">
 
-                    </Table> -->
+                    </Table>
                 </div>
             </div>
 
