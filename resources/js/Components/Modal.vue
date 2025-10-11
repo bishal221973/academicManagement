@@ -93,7 +93,7 @@ const maxWidthClass = computed(() => {
                     <div class="bg-white p-3 rounded w-full shadow">
                         <div class="flex justify-between">
                             <span>{{ title }}</span>
-                            <button @click="close" v-if="!selectedData?.id"><component :is="X" class="text-red-400 hover:text-red-600"/></button>
+                            <button @click="close" type="button" v-if="!selectedData?.id"><component :is="X" class="text-red-400 hover:text-red-600"/></button>
                         </div>
                         <hr class="my-2" />
                         <slot v-if="showSlot" />

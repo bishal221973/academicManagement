@@ -18,4 +18,6 @@
     <body class="font-sans antialiased">
         @inertia
     </body>
+      <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+
 </html>

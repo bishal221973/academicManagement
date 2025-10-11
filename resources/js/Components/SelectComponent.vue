@@ -2,8 +2,9 @@
   <div class="dropdown w-full" :class="{ 'is-open': isOpen }" ref="dropdown">
     <!-- Dropdown button with label of the selected value -->
     <div class="dropdown-search ">
-      <button type="button" @click="toggleDropdown" @keydown="onKeyDown" class="w-full text-left border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500">
-        {{ selectedLabel ?? 'Select' }}
+      <button type="button" @click="toggleDropdown" @keydown="onKeyDown" class="w-full text-left border border-gray-300 rounded-md p-[7px] focus:ring-2 focus:ring-blue-500" :class="isForm ? 'border-0 focus:ring-0' : ''">
+        
+        <span :class="selectedLabel ? '' : 'text-gray-500'">{{ selectedLabel ?? placeholder ?? 'Select' }}</span>
       </button>
     </div>
 
@@ -53,6 +54,14 @@ export default {
       validator(value) {
         return value.every(option => option.hasOwnProperty('label') && option.hasOwnProperty('value'));
       },
+    },
+    isForm: {
+      type: Boolean,
+      default: false,
+    },
+    placeholder: {
+      type: String,
+      default: 'Select an option',
     },
   },
   data() {
@@ -159,6 +168,7 @@ export default {
   top: calc(100% + 3px);
   left: 0;
   width: 100%;
+  height: 200px;
   background-color: white;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -166,6 +176,7 @@ export default {
   margin: 0;
   padding: 0;
   z-index: 1;
+  overflow-y: scroll;
 }
 
 .dropdown-item {

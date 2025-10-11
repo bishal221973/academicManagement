@@ -39,6 +39,7 @@ createInertiaApp({
             }
 
             if (flash?.error) {
+                console.log(flash.error);
                 Swal.fire({
                     toast: true,
                     position: "top-end",
