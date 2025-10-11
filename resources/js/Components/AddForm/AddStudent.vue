@@ -13,10 +13,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    group: {
+    student: {
         type: Object,
         default: null,
     },
+    title: String,
 });
 const openModal = ref(false);
 
@@ -55,18 +56,41 @@ const form = useForm({
 
 
 const submit = () => {
-    if (props.group?.id) {
+    if (props.student?.id) {
         updateData();
     } else {
         saveData();
     }
 }
 onMounted(() => {
-    if (props.group?.id) {
+    if (props.student?.id) {
         toggleModal();
-        form.name = props.group.name;
-        form.code = props.group.code;
-        form.description = props.group.description;
+        form.name = props.student.name;
+        form.registration_number = props.student.registration_number;
+        form.registration_date = props.student.registration_date;
+        form.birth_date = props.student.birth_date;
+        form.gender = props.student.gender;
+        form.religion = props.student.religion;
+        form.cast = props.student.cast;
+        form.phone = props.student.phone;
+        form.email = props.student.email;
+        form.national_id = props.student.national_id;
+        form.course_id = props.student.course_id;
+        form.section_id = props.student.section_id;
+        form.group_id = props.student.group_id;
+        form.father_name = props.student.father_name;
+        form.father_phone = props.student.father_phone;
+        form.father_education = props.student.father_education;
+        form.father_profession = props.student.father_profession;
+        form.mother_name = props.student.mother_name;
+        form.mother_phone = props.student.mother_phone;
+        form.mother_education = props.student.mother_education;
+        form.mother_profession = props.student.mother_profession;
+        form.present_address = props.student.present_address;
+        form.permanent_address = props.student.permanent_address;
+        form.prev_school = props.student.prev_school;
+        form.prev_class = props.student.prev_class;
+        form.transfer_certificate = props.student.transfer_certificate;
     }
 });
 
@@ -80,7 +104,7 @@ const saveData = () => {
 }
 
 const updateData = () => {
-    form.put(route('student.update', props.group), {
+    form.put(route('student.update', props.student), {
         onSuccess: () => {
             form.reset();
             toggleModal();
@@ -101,28 +125,39 @@ const religionOptions = [
 ];
 
 const castOptions = [
-  { label: "Brahmin", value: "Brahmin" },
-  { label: "Chhetri", value: "Chhetri" },
-  { label: "Magar", value: "Magar" },
-  { label: "Rai", value: "Rai" },
-  { label: "Limbu", value: "Limbu" },
-  { label: "Newar", value: "Newar" },
-  { label: "Tharu", value: "Tharu" },
-  { label: "Tamang", value: "Tamang" },
-  { label: "Dalit", value: "Dalit" },
-  { label: "Other", value: "Other" },
+    { label: "Brahmin", value: "Brahmin" },
+    { label: "Chhetri", value: "Chhetri" },
+    { label: "Magar", value: "Magar" },
+    { label: "Rai", value: "Rai" },
+    { label: "Limbu", value: "Limbu" },
+    { label: "Newar", value: "Newar" },
+    { label: "Tharu", value: "Tharu" },
+    { label: "Tamang", value: "Tamang" },
+    { label: "Dalit", value: "Dalit" },
+    { label: "Other", value: "Other" },
 ];
-
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  if (file) {
+    form.transfer_certificate = file; // Assign the file to the form field
+    console.log('Selected file:', file);
+  }
+}
 </script>
 <template>
     <button @click="toggleModal" class="" v-if="isSelect" type="button">
         <component :is="Plus" />
     </button>
-    <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        v-else>Add Student</button>
+    <div v-else>
 
-    <Modal :show="openModal" maxWidth="3xl" :title="group?.id ? 'Edit Student' : 'Add Student'" @close="toggleModal"
-        :selectedData="group">
+        <button @click="toggleModal" type="button" class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5"
+            v-if="title">{{ title }}</button>
+        <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            v-else>Add Student</button>
+    </div>
+
+    <Modal :show="openModal" maxWidth="3xl" :title="student?.id ? 'Edit Student' : 'Add Student'" @close="toggleModal"
+        :selectedData="student">
 
         <form @submit.prevent="submit">
             <div class="grid grid-cols-12 gap-3">
@@ -147,12 +182,12 @@ const castOptions = [
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Registration Date *</label>
-                    <Datepicker v-model="form.registration_date"/>
+                    <Datepicker v-model="form.registration_date" />
                     <small class="text-red-600">{{ form.errors.registration_date }}</small>
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Birth Date</label>
-                    <Datepicker v-model="form.birth_date"/>
+                    <Datepicker v-model="form.birth_date" />
                     <small class="text-red-600">{{ form.errors.birth_date }}</small>
                 </div>
                 <div class="col-span-3">
@@ -205,17 +240,17 @@ const castOptions = [
                     <div class="flex gap-3">
                         <div class="w-full">
                             <label class="text-[14px]">Course *</label>
-                            <SelectCourse class="mt-[5px]" v-model="form.course_id"/>
+                            <SelectCourse class="mt-[5px]" v-model="form.course_id" />
                             <small class="text-red-600">{{ form.errors.course_id }}</small>
                         </div>
                         <div class="w-full">
                             <label class="text-[14px]">Section</label>
-                            <SelectSection class="mt-[5px]" v-model="form.section_id"/>
+                            <SelectSection class="mt-[5px]" v-model="form.section_id" />
                             <small class="text-red-600">{{ form.errors.section_id }}</small>
                         </div>
                         <div class="w-full">
                             <label class="text-[14px]">Group</label>
-                            <SelectGroup class="mt-[5px]" v-model="form.group_id"/>
+                            <SelectGroup class="mt-[5px]" v-model="form.group_id" />
                             <small class="text-red-600">{{ form.errors.group_id }}</small>
                         </div>
                     </div>
@@ -339,8 +374,9 @@ const castOptions = [
                         </div>
                         <div class="w-full">
                             <label class="text-[14px]">Transfer Certificate</label>
-                            <input type="text" v-model="form.transfer_certificate"
-                                class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            <input type="file"
+                            @change="handleFileChange"
+                                class="w-full border border-gray-300 rounded px-3 py-[5px] mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter student name" />
                             <small class="text-red-600">{{ form.errors.transfer_certificate }}</small>
                         </div>
@@ -350,7 +386,7 @@ const castOptions = [
 
             <div class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end">
                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
-                    {{ group?.id ? 'Update Student' : 'Save Student' }}
+                    {{ student?.id ? 'Update Student' : 'Save Student' }}
                 </button>
             </div>
         </form>

@@ -9,7 +9,45 @@ class Student extends Model
 {
     use HasFactory;
 
-     protected $guarded=['id'];
+    protected $guarded = ['id'];
+
+
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($student) {
+
+            if (request()->has('registration_date')) {
+                $student->registration_date = saveDate(request('registration_date'));
+            }
+            if (request()->has('birth_date')) {
+                $student->birth_date = saveDate(request('birth_date'));
+            }
+        });
+
+        static::updating(function ($student) {
+            if (request()->has('registration_date')) {
+                $student->registration_date = saveDate(request('registration_date'));
+            }
+            if (request()->has('birth_date')) {
+                $student->birth_date = saveDate(request('birth_date'));
+            }
+        });
+
+        // static::deleting(function ($advance) {
+        //     if ($advance->payment_method_id) {
+        //         $paymentMethod = PaymentMethod::find($advance->payment_method_id);
+
+        //         if ($paymentMethod && $paymentMethod->opening_balance == 1) {
+        //             $paymentMethod->balance += $advance->amount;
+        //             $paymentMethod->save();
+        //         }
+        //     }
+        // });
+    }
 
     public static function rules($id = null)
     {
@@ -25,7 +63,7 @@ class Student extends Model
             'email' => 'nullable',
             'national_id' => 'nullable',
             'course_id' => 'required',
-            'section_id' => 'required',
+            'section_id' => 'nullable',
             'group_id' => 'nullable',
             'father_name' => 'nullable',
             'father_phone' => 'nullable',

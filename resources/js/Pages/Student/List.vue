@@ -4,11 +4,11 @@ import Student from "@/Components/Menus/Student.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { computed, onMounted, ref } from "vue";
 import Table from "@/Components/Table.vue";
-import Academic from "@/Components/Menus/Academic.vue";
 import AddStudent from "@/Components/AddForm/AddStudent.vue";
 
 const props = defineProps({
     students: Object,
+    student: Object,
 });
 
 const columns = [
@@ -35,19 +35,19 @@ const tableData = computed(() =>
 <template>
     <AppLayout>
         <template #sidebar>
-            <Academic />
+            <Student />
         </template>
 
         <template #content>
             <div class="flex items-center justify-between mb-3">
                 <Breadcrumb :breadcrumbs="[{ label: 'Student Management' },{label:'Student List'}]" />
-                <AddStudent :group="group" />
+                <AddStudent :student="student" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">
                     
                     <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
-                        :status="'group.update.status'" :edit="'group.edit'" :deleteUrl="'group.delete'">
+                        :status="'group.update.status'" :edit="'student.edit'" :deleteUrl="'student.delete'">
 
                     </Table>
                 </div>
