@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('course_id')->constrained();
+            $table->string('name');
+            $table->string('code')->nullable();
+            $table->string('author')->nullable();
+            $table->string('edition')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('credits')->default(3);
+            $table->string('position')->default(0);
+            $table->string('qty')->default(0);
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

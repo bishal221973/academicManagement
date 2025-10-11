@@ -7,6 +7,8 @@ use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard',[
@@ -42,7 +44,7 @@ Route::prefix('section-management')->group(function () {
     Route::delete('/delete/{id}', [SectionController::class,'destroy'])->name('section.delete');
 });
 
-Route::prefix('grroup-management')->group(function () {
+Route::prefix('group-management')->group(function () {
     Route::get('/',[GroupController::class,'index'])->name('group.index');
     Route::post('/store', [GroupController::class,'store'])->name('group.store');
     Route::put('/status/{group}', [GroupController::class,'updateStatus'])->name('group.update.status');
@@ -51,6 +53,20 @@ Route::prefix('grroup-management')->group(function () {
     Route::delete('/delete/{id}', [GroupController::class,'destroy'])->name('group.delete');
 });
 
-Route::get('student',function(){
-    return "Student Management";
-})->name('student.index');
+Route::prefix('subject-management')->group(function () {
+    Route::get('/',[SubjectController::class,'index'])->name('subject.index');
+    Route::post('/store', [SubjectController::class,'store'])->name('subject.store');
+    Route::put('/status/{subject}', [SubjectController::class,'updateStatus'])->name('subject.update.status');
+    Route::get('/edit/{subject}', [SubjectController::class,'edit'])->name('subject.edit');
+    Route::put('/update/{subject}', [SubjectController::class,'update'])->name('subject.update');
+    Route::delete('/delete/{id}', [SubjectController::class,'destroy'])->name('subject.delete');
+});
+
+Route::prefix('student-management')->group(function () {
+    Route::get('/',[StudentController::class,'index'])->name('student.index');
+    Route::post('/store', [StudentController::class,'store'])->name('student.store');
+    Route::put('/status/{student}', [StudentController::class,'updateStatus'])->name('student.update.status');
+    Route::get('/edit/{student}', [StudentController::class,'edit'])->name('student.edit');
+    Route::put('/update/{student}', [StudentController::class,'update'])->name('student.update');
+    Route::delete('/delete/{id}', [StudentController::class,'destroy'])->name('student.delete');
+});
