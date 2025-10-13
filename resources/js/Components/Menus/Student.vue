@@ -11,7 +11,7 @@ import AddStudent from '../AddForm/AddStudent.vue';
       Student List
     </Link>
     <AddStudent :title="'Admin Student'"/>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+    <!-- <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Promotion' ? 'text-main/80' : ''" :href="route('student.promotion.index')">
       Student promotion
     </Link>
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
@@ -19,12 +19,12 @@ import AddStudent from '../AddForm/AddStudent.vue';
     </Link>
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
       Online Admission
-    </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+    </Link> -->
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'ICard' ? 'text-main/80' : ''" :href="route('student.icard.index')">
       Student ID Card
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+    <!-- <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
       Student Admition Card
-    </Link>
+    </Link> -->
   </div>
 </template>

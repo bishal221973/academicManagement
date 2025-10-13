@@ -6,9 +6,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\IcardController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use Database\Seeders\IcardSeeder;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard',[
@@ -24,7 +26,12 @@ Route::post('/configuration-update',[ConfigurationController::class, 'configurat
 Route::get('/sidebar-management', [ConfigurationController::class,'Sidebar'])->name('config.sidebar');
 Route::post('/sidebar-management-update', [ConfigurationController::class,'SidebarManagement'])->name('update.sidebar');
 
+Route::prefix('configuration')->group(function(){
 
+    Route::get('id-card',[IcardController::class,'index'])->name('icard.index');
+    Route::get('id-card-default',[IcardController::class,'default'])->name('icard.default');
+    Route::put('id-card-update/{id}',[IcardController::class,'update'])->name('icard.update');
+});
 Route::prefix('course-management')->group(function () {
     Route::get('/',[CourseController::class,'index'])->name('course.index');
     Route::get('/api/get-course',[CourseController::class,'getCourse'])->name('course.getCourse');
@@ -73,4 +80,11 @@ Route::prefix('student-management')->group(function () {
     Route::get('/edit/{student}', [StudentController::class,'edit'])->name('student.edit');
     Route::put('/update/{student}', [StudentController::class,'update'])->name('student.update');
     Route::delete('/delete/{id}', [StudentController::class,'destroy'])->name('student.delete');
+
+    Route::prefix('promotion')->group(function () {
+        Route::get('/',[StudentController::class,'promotion'])->name('student.promotion.index');
+    });
+    Route::prefix('id-card')->group(function () {
+        Route::get('/',[StudentController::class,'icard'])->name('student.icard.index');
+    });
 });

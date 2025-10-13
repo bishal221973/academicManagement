@@ -10,14 +10,14 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::with('course')
-    ->latest()
-    ->get()
-    ->map(function ($student) {
-        $student->registration_date = $student->registration_date ? formatDate($student->registration_date) : null;
-        $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
+            ->latest()
+            ->get()
+            ->map(function ($student) {
+                $student->registration_date = $student->registration_date ? formatDate($student->registration_date) : null;
+                $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
 
-        return $student;
-    });
+                return $student;
+            });
 
         return inertia('Student/List', [
             'menu' => 'Student',
@@ -31,11 +31,11 @@ class StudentController extends Controller
     {
         // return $request;
         $data = $request->validate(Student::rules());
-        if($request->hasFile('transfer_certificate')){
+        if ($request->hasFile('transfer_certificate')) {
             // $file=$request->file('transfer_certificate');
             // $fileName=time().'_'.$file->getClientOriginalName();
             // $filePath=$file->storeAs('students',$fileName,'public');
-            $data['transfer_certificate']=$request->file('transfer_certificate')->store('students','public');
+            $data['transfer_certificate'] = $request->file('transfer_certificate')->store('students', 'public');
         }
         try {
             Student::create($data);
@@ -45,7 +45,7 @@ class StudentController extends Controller
         }
     }
 
-     public function edit(Student $student)
+    public function edit(Student $student)
     {
         $students = Student::with('course')->latest()->get()->map(function ($item) {
             $item->registration_date = formatDate($item->registration_date);
@@ -81,4 +81,22 @@ class StudentController extends Controller
         return redirect()->route('student.index')->with('success', 'Student deleted successfully');
     }
 
+    public function icard()
+    {
+        $students=Student::with('course')->latest();
+
+        if(request('course_id')){
+            $students=$students->where('course_id',request('course_id'));
+        }
+        if(request('section_id')){
+            $students=$students->where('section_id',request('section_id'));
+        }
+        $students=$students->get();
+        
+        return inertia('Student/IDCard', [
+            'menu' => 'ICard',
+            'sidebar' => 'Students',
+            'students' => $students,
+        ]);
+    }
 }

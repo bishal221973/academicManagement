@@ -9,7 +9,8 @@ const dateOptions = [
 ];
 
 const props = defineProps({
-  modelValue: [String, Number] // the value coming from parent
+  modelValue: [String, Number], // the value coming from parent
+  course_id: [String, Number]
 });
 
 const emit = defineEmits(["update:modelValue"]);

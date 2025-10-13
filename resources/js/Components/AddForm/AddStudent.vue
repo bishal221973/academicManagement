@@ -171,7 +171,7 @@ function handleFileChange(event) {
                 </div>
                 <div class="col-span-3">
                     <label class="text-[14px]">Roll Number *</label>
-                    <input type="text" v-model="form.roll_number"
+                    <input type="number" v-model="form.roll_number"
                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Enter roll number" />
                     <small class="text-red-600">{{ form.errors.roll_number }}</small>
@@ -255,7 +255,7 @@ function handleFileChange(event) {
                         </div>
                         <div class="w-full">
                             <label class="text-[14px]">Section</label>
-                            <SelectSection class="mt-[5px]" v-model="form.section_id" />
+                            <SelectSection class="mt-[5px]" v-model="form.section_id" :course_id="form.course_id"/>
                             <small class="text-red-600">{{ form.errors.section_id }}</small>
                         </div>
                         <div class="w-full">
