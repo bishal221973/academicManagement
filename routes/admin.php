@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\HostelController;
 use App\Http\Controllers\IcardController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
@@ -87,4 +88,13 @@ Route::prefix('student-management')->group(function () {
     Route::prefix('id-card')->group(function () {
         Route::get('/',[StudentController::class,'icard'])->name('student.icard.index');
     });
+});
+
+Route::prefix('hostel-management')->group(function () {
+    Route::get('/',[HostelController::class,'index'])->name('hostel.index');
+    Route::post('/store', [HostelController::class,'store'])->name('hostel.store');
+    Route::put('/status/{hostel}', [HostelController::class,'updateStatus'])->name('hostel.update.status');
+    Route::get('/edit/{hostel}', [HostelController::class,'edit'])->name('hostel.edit');
+    Route::put('/update/{hostel}', [HostelController::class,'update'])->name('hostel.update');
+    Route::delete('/delete/{id}', [HostelController::class,'destroy'])->name('hostel.delete');
 });

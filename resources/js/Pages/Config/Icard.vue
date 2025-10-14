@@ -48,7 +48,10 @@ const student=ref({
         </template>
 
         <template #content>
-            <Breadcrumb :breadcrumbs="[{ label: 'Configuration' }, { label: 'ID Card Setup' }]" />
+             <div class="flex items-center justify-between mb-3">
+                <Breadcrumb :breadcrumbs="[{ label: 'Configuration' }, { label: 'ID Card Setup' }]" />
+                <AddCourse :course="course" />
+            </div>
                 <div class="flex gap-3 mt-1">
                     <div v-for="item in icards" :key="item.id" class="mt-3 w-[200px] h-[320px]">
                         

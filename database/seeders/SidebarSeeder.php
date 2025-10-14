@@ -20,7 +20,7 @@ class SidebarSeeder extends Seeder
             ['title' => 'Academic', 'icon' => 'BookOpen', 'position' => 3, 'url' => 'course.index'],
             // ['title' => 'Exam', 'icon' => 'FileCheck', 'position' => 5, 'url' => null],
             // ['title' => 'HR', 'icon' => 'UserCog', 'position' => 6, 'url' => null],
-            ['title' => 'Hostel', 'icon' => 'Bed', 'position' => 7, 'url' => null],
+            ['title' => 'Hostel', 'icon' => 'Bed', 'position' => 7, 'url' => 'hostel.index'],
             // ['title' => 'Shop', 'icon' => 'ShoppingCart', 'position' => 8, 'url' => null],
             // ['title' => 'Library', 'icon' => 'Library', 'position' => 9, 'url' => null],
             // ['title' => 'Account', 'icon' => 'Wallet', 'position' => 10, 'url' => null],
