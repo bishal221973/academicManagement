@@ -10,9 +10,10 @@ class Section extends Model
 {
     use HasFactory;
 
-    protected $guarded=['id'];
+    protected $guarded = ['id'];
 
-    public function course(){
+    public function course()
+    {
         return $this->belongsTo(Course::class);
     }
 
@@ -21,13 +22,12 @@ class Section extends Model
         parent::boot();
 
         static::creating(function ($section) {
-            $position=1;
-            $last=Section::latest()->first();
-            if($last){
-                $position=$last->position+1;
+            $position = 1;
+            $last = Section::latest()->first();
+            if ($last) {
+                $position = $last->position + 1;
             }
-             $section->position = $position;
-            
+            $section->position = $position;
         });
 
         // static::deleting(function ($advance) {
@@ -45,14 +45,14 @@ class Section extends Model
     public static function rules($id = null)
     {
         return [
-        'course_id' => 'required',
-        'name' => [
-            'required',
-            Rule::unique('sections')
-                ->where(fn ($query) => $query->where('course_id', request('course_id')))
-                ->ignore($id),
-        ],
-        'description' => 'nullable',
-    ];
+            'course_id' => 'required',
+            'name' => [
+                'required',
+                Rule::unique('sections')
+                    ->where(fn($query) => $query->where('course_id', request('course_id')))
+                    ->ignore($id),
+            ],
+            'description' => 'nullable',
+        ];
     }
 }

@@ -23,8 +23,30 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'ICard' ? 'text-main/80' : ''" :href="route('student.icard.index')">
       Student ID Card
     </Link>
-    <!-- <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
-      Student Admition Card
-    </Link> -->
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Admit Bulk Students
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Admition Request
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Admition Inquery
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Send SMS To Inqueries
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Admition Form
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Student Promotion
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Transfer Students
+    </Link>
+    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+      Student Certificate
+    </Link>
+    
   </div>
 </template>

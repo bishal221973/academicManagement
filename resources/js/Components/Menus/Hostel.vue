@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/vue3';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Hostel' ? 'text-main/80' : ''" :href="route('hostel.index')">
       Hostel List
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Sidebar' ? 'text-main/80' : ''" :href="route('config.sidebar')">
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Room' ? 'text-main/80' : ''" :href="route('room.index')">
       Room Management
     </Link>
     <!-- <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Icard' ? 'text-main/80' : ''" :href="route('icard.index')">

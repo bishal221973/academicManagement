@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\HostelEvent;
 use App\Models\Hostel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class HostelController extends Controller
 {
-    public function index(){
-        $hostels=Hostel::latest()->get();
-        return Inertia::render('Hostel/Hostel',[
-            'hostels'=>$hostels,
-            'hostel'=>new Hostel(),
+    public function index()
+    {
+        $hostels = Hostel::latest()->get();
+        return Inertia::render('Hostel/Hostel', [
+            'hostels' => $hostels,
+            'hostel' => new Hostel(),
             'menu' => 'Hostel',
             'sidebar' => 'Hostel',
         ]);
     }
 
-    public function store(Request $request){
-        $data=$request->validate(Hostel::rules());
+    public function all()
+    {
+        $hostels = Hostel::latest()->where('status', 1)->get();
+
+        return response()->json([
+            'hostels' => $hostels
+        ]);
+    }
+    public function store(Request $request)
+    {
+        $data = $request->validate(Hostel::rules());
 
         Hostel::create($data);
-
-        return redirect()->back()->with('success',"New hostel have been saved."); 
+        event(new HostelEvent());
+        return redirect()->back()->with('success', "New hostel have been saved.");
     }
 
     public function updateStatus(Hostel $hostel)
@@ -31,33 +42,41 @@ class HostelController extends Controller
         $hostel->update([
             'status' => !$hostel->status
         ]);
-        // event(new CourseEvent());
+        event(new HostelEvent());
+
         return response()->json([
             'message' => 'Status updated successfully'
         ]);
     }
 
-    public function edit(Hostel $hostel){
-        $hostels=Hostel::latest()->get();
-        return Inertia::render('Hostel/Hostel',[
-            'hostels'=>$hostels,
-            'hostel'=>$hostel,
+    public function edit(Hostel $hostel)
+    {
+        $hostels = Hostel::latest()->get();
+        return Inertia::render('Hostel/Hostel', [
+            'hostels' => $hostels,
+            'hostel' => $hostel,
             'menu' => 'Hostel',
             'sidebar' => 'Hostel',
         ]);
     }
 
-    public function update(Request $request, Hostel $hostel){
-        $data=$request->validate(Hostel::rules());
+    public function update(Request $request, Hostel $hostel)
+    {
+        $data = $request->validate(Hostel::rules());
 
         $hostel->update($data);
+        event(new HostelEvent());
 
-        return redirect()->route('hostel.index')->with('success',"Selected hostel have been updated."); 
+
+        return redirect()->route('hostel.index')->with('success', "Selected hostel have been updated.");
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         Hostel::find($id)->delete();
+        event(new HostelEvent());
 
-                return redirect()->route('hostel.index')->with('success',"Selected hostel have been removed."); 
+
+        return redirect()->route('hostel.index')->with('success', "Selected hostel have been removed.");
     }
 }

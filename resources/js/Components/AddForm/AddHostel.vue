@@ -4,7 +4,7 @@ import Modal from "../Modal.vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import { Plus } from "lucide-vue-next";
 import SelectComponent from "@/Components/SelectComponent.vue";
-
+import SelectHostel from "../Select/SelectHostel.vue";
 const props = defineProps({
     isSelect: {
         type: Boolean,
