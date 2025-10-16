@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\MySetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,10 +37,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $settings = MySetting::whereIn('key', ['academy_name', 'academy_email'])
+            ->pluck('value', 'key'); // returns collection: [key => value]
+
         return array_merge(parent::share($request), [
             'flash' => [
                 'success' => fn() => $request->session()->get('success'),
                 'error'   => fn() => $request->session()->get('error'),
+            ],
+            'academy' => [
+                'name' => $settings->get('academy_name'),
+                'academy_email' => $settings->get('academy_email'),
             ],
         ]);
     }

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\FormatExport;
+use App\Imports\StudentImport;
 
 class StudentController extends Controller
 {
@@ -99,4 +102,45 @@ class StudentController extends Controller
             'students' => $students,
         ]);
     }
+
+public function import(Request $request)
+    {
+        $students = Student::with('course')
+            ->latest()
+            ->get()
+            ->map(function ($student) {
+                $student->registration_date = $student->registration_date ? formatDate($student->registration_date) : null;
+                $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
+
+                return $student;
+            });
+
+        return inertia('Student/Import', [
+            'menu' => 'Import',
+            'sidebar' => 'Students',
+            'students' => $students,
+            'student' => new Student(),
+        ]);
+    }
+
+    public function importFormat(){
+        // return "Hello";
+        return Excel::download(
+            new FormatExport,       // 👈 Your Export class
+            'format.xlsx',          // 👈 Filename
+        );
+    }
+
+    public function importStudent(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
+            'course_id'=>'required',
+            'section_id'=>'nullable',
+        ]);
+
+        Excel::import(new StudentImport($request->course_id, $request->section_id), $request->file('file'));
+
+        return back()->with('success', 'Students imported successfully.');
+    }
+    
 }

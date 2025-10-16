@@ -66,6 +66,11 @@ Route::prefix('student-management')->group(function () {
         Route::prefix('id-card')->group(function () {
             Route::get('/', [StudentController::class, 'icard'])->name('student.icard.index');
         });
+        Route::prefix('import-students')->group(function () {
+            Route::get('/', [StudentController::class, 'import'])->name('student.import.index');
+            Route::get('/format', [StudentController::class, 'importFormat'])->name('student.import.format');
+            Route::post('/import', [StudentController::class, 'importStudent'])->name('student.import.student');
+        });
     });
 });
 

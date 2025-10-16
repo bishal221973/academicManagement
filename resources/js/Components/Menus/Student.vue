@@ -23,7 +23,7 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'ICard' ? 'text-main/80' : ''" :href="route('student.icard.index')">
       Student ID Card
     </Link>
-    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Import' ? 'text-main/80' : ''" :href="route('student.import.index')">
       Admit Bulk Students
     </Link>
     <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
