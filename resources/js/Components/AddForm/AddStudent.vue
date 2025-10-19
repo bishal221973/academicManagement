@@ -255,7 +255,7 @@ function handleFileChange(event) {
                         </div>
                         <div class="w-full">
                             <label class="text-[14px]">Section</label>
-                            <SelectSection class="mt-[5px]" v-model="form.section_id" :course_id="form.course_id"/>
+                            <SelectSection class="mt-[5px]" v-model="form.section_id" :courseId="form.course_id"/>
                             <small class="text-red-600">{{ form.errors.section_id }}</small>
                         </div>
                         <div class="w-full">

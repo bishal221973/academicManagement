@@ -83,7 +83,7 @@ const submitForm=()=>{
                                 <SelectCourse v-model="form.course_id"/>
                             </div>
                             <div class="col-span-4">
-                                <SelectSection v-model="form.section_id"/>
+                                <SelectSection v-model="form.section_id" :courseId="form.course_id"/>
                             </div>
                             
                         </div>

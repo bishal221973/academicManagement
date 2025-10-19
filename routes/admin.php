@@ -13,6 +13,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TransferController;
 use Database\Seeders\IcardSeeder;
 
 Route::get('/dashboard', function () {
@@ -54,6 +55,7 @@ Route::prefix('configuration')->group(function () {
 Route::prefix('student-management')->group(function () {
     Route::prefix('student')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('student.index');
+        Route::get('/all', [StudentController::class, 'all'])->name('student.all');
         Route::post('/store', [StudentController::class, 'store'])->name('student.store');
         Route::put('/status/{student}', [StudentController::class, 'updateStatus'])->name('student.update.status');
         Route::get('/edit/{student}', [StudentController::class, 'edit'])->name('student.edit');
@@ -71,6 +73,11 @@ Route::prefix('student-management')->group(function () {
             Route::get('/format', [StudentController::class, 'importFormat'])->name('student.import.format');
             Route::post('/import', [StudentController::class, 'importStudent'])->name('student.import.student');
         });
+        Route::prefix('student-transfer')->group(function () {
+            Route::get('/', [TransferController::class, 'index'])->name('student.transfer.index');
+            Route::post('/transfer', [TransferController::class, 'transfer'])->name('student.transfer.format');
+        });
+        
     });
 });
 

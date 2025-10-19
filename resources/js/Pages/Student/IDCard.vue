@@ -49,7 +49,7 @@ const filterStudent = () => {
                                 <SelectCourse v-model="filterForm.course_id" />
                             </div>
                             <div class="col-span-5">
-                                <SelectSection v-model="filterForm.section_id" />
+                                <SelectSection v-model="filterForm.section_id" :courseId="filterForm.course_id" />
                             </div>
                             <div class="col-span-2">
                                 <button @click="filterStudent"

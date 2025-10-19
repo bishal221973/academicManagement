@@ -5,21 +5,21 @@ use App\Models\MySetting;
 
 if (!function_exists('saveDate')) {
     function saveDate($date) {
-
         if (empty($date)) {
             return $date;
         }
         $settings = MySetting::where('key', 'date_type')->first();
         $type = 'ad';
-
+        
         if ($settings) {
             $type = $settings->value;
         }
-
-        if ($type === 'ad') {
+        
+        if ($type === 'bs') {
             return ad_to_bs($date);
         }
-
+        
+        // dd($date);
         return $date;
     }
 }

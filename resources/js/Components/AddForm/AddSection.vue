@@ -91,7 +91,7 @@ const updateData = () => {
             </div>
             <div class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end">
                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
-                    {{section?.id ? 'Update Course' : 'Save Course'}}
+                    {{section?.id ? 'Update Section' : 'Save Section'}}
                 </button>
             </div>
         </form>

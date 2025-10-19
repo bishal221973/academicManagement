@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code')->unique()->nullable();
+            $table->string('fees')->default(0);
             $table->text('description')->nullable();
             $table->integer('credits')->default(3);
             $table->string('position')->default(0);

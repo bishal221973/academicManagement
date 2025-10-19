@@ -26,6 +26,9 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Import' ? 'text-main/80' : ''" :href="route('student.import.index')">
       Admit Bulk Students
     </Link>
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Transfer' ? 'text-main/80' : ''" :href="route('student.transfer.index')">
+      Transfer Students
+    </Link>
     <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
       Admition Request
     </Link>
@@ -41,9 +44,7 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
       Student Promotion
     </Link>
-    <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
-      Transfer Students
-    </Link>
+    
     <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">
       Student Certificate
     </Link>

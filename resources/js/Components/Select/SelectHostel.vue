@@ -1,16 +1,10 @@
 <script setup>
 import SelectComponent from '../SelectComponent.vue';
-import AddSection from '../AddForm/AddSection.vue';
 import { computed, onMounted, ref } from 'vue';
 import AddHostel from '../AddForm/AddHostel.vue';
-const dateOptions = [
-    { label: "AD Date", value: "ad" },
-    { label: "BS Date", value: "bs" },
-    // Add as many options as needed
-];
 
 const props = defineProps({
-  modelValue: [String, Number], // the value coming from parent
+  modelValue: [String, Number],
   course_id: [String, Number]
 });
 
@@ -26,17 +20,17 @@ const fetchSection = async () => {
 onMounted(() => {
   fetchSection();
 
-  Pusher.logToConsole = true;
+  // Pusher.logToConsole = true;
 
-  var pusher = new Pusher('09a7a9ef059d4f63aa24', {
-      cluster: 'ap2'
-    });
+  // var pusher = new Pusher('09a7a9ef059d4f63aa24', {
+  //     cluster: 'ap2'
+  //   });
 
-  const channel = pusher.subscribe("my-channel");
+  // const channel = pusher.subscribe("my-channel");
 
-  channel.bind("hostel-event", () => {
-    fetchSection();
-  });
+  // channel.bind("hostel-event", () => {
+  //   fetchSection();
+  // });
 });
 
 const transformData = (data) => {

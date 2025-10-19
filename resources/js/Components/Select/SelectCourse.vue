@@ -5,11 +5,10 @@ import { computed, onMounted, ref } from 'vue';
 const dateOptions = [
     { label: "AD Date", value: "ad" },
     { label: "BS Date", value: "bs" },
-    // Add as many options as needed
 ];
 
 const props = defineProps({
-  modelValue: [String, Number] // the value coming from parent
+  modelValue: [String, Number]
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -24,17 +23,17 @@ const fetchCourse = async () => {
 onMounted(() => {
   fetchCourse();
 
-  Pusher.logToConsole = true;
+  // Pusher.logToConsole = true;
 
-  var pusher = new Pusher('09a7a9ef059d4f63aa24', {
-      cluster: 'ap2'
-    });
+  // var pusher = new Pusher('09a7a9ef059d4f63aa24', {
+  //     cluster: 'ap2'
+  //   });
 
-  const channel = pusher.subscribe("my-channel");
+  // const channel = pusher?.subscribe("my-channel");
 
-  channel.bind("course-event", () => {
-    fetchCourse();
-  });
+  // channel.bind("course-event", () => {
+  //   fetchCourse();
+  // });
 });
 
 const transformData = (data) => {

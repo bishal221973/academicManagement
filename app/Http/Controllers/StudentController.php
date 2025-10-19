@@ -30,6 +30,27 @@ class StudentController extends Controller
         ]);
     }
 
+    public function all(Request $request)
+    {
+        $students = Student::query()
+            ->latest()
+            ->where('status', 1)
+            ->where('is_transfered', 0);
+
+        if ($request->filled('section_id')) {
+            $students->where('section_id', $request->section_id);
+            $students = $students->get();
+        } else {
+            // If no section_id, return null directly
+            $students = null;
+        }
+
+        return response()->json([
+            'students' => $students,
+        ]);
+    }
+
+
     public function store(Request $request)
     {
         // return $request;
@@ -86,16 +107,16 @@ class StudentController extends Controller
 
     public function icard()
     {
-        $students=Student::with('course')->latest();
+        $students = Student::with('course')->latest();
 
-        if(request('course_id')){
-            $students=$students->where('course_id',request('course_id'));
+        if (request('course_id')) {
+            $students = $students->where('course_id', request('course_id'));
         }
-        if(request('section_id')){
-            $students=$students->where('section_id',request('section_id'));
+        if (request('section_id')) {
+            $students = $students->where('section_id', request('section_id'));
         }
-        $students=$students->get();
-        
+        $students = $students->get();
+
         return inertia('Student/IDCard', [
             'menu' => 'ICard',
             'sidebar' => 'Students',
@@ -103,7 +124,7 @@ class StudentController extends Controller
         ]);
     }
 
-public function import(Request $request)
+    public function import(Request $request)
     {
         $students = Student::with('course')
             ->latest()
@@ -123,7 +144,8 @@ public function import(Request $request)
         ]);
     }
 
-    public function importFormat(){
+    public function importFormat()
+    {
         // return "Hello";
         return Excel::download(
             new FormatExport,       // 👈 Your Export class
@@ -131,16 +153,16 @@ public function import(Request $request)
         );
     }
 
-    public function importStudent(Request $request){
+    public function importStudent(Request $request)
+    {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv',
-            'course_id'=>'required',
-            'section_id'=>'nullable',
+            'course_id' => 'required',
+            'section_id' => 'nullable',
         ]);
 
         Excel::import(new StudentImport($request->course_id, $request->section_id), $request->file('file'));
 
         return back()->with('success', 'Students imported successfully.');
     }
-    
 }

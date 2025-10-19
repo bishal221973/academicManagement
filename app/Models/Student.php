@@ -38,6 +38,7 @@ class Student extends Model
             if (request()->has('birth_date')) {
                 $student->birth_date = saveDate(request('birth_date'));
             }
+            // $student->save();
         });
 
         // static::deleting(function ($advance) {

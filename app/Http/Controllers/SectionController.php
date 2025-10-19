@@ -19,8 +19,13 @@ class SectionController extends Controller
         ]);
     }
     
-    public function all(){
-        $sections=Section::where('status',1)->get();
+    public function all(Request $request){
+        $sections=Section::where('status',1);
+
+        if($request->course_id){
+            $sections=$sections->where('course_id',$request->course_id);
+        }
+        $sections=$sections->get();
 
         return response()->json([
             'sections'=>$sections
