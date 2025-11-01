@@ -24,5 +24,6 @@ class DatabaseSeeder extends Seeder
         $this->call(IcardSeeder::class);
         $this->call(MySettingSeeder::class);
         $this->call(AdmissionSectionSeeder::class);
+        $this->call(AdmissionFieldSeeder::class);
     }
 }

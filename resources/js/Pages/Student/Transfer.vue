@@ -107,7 +107,7 @@ const tableData = computed(() =>
                 </div>
             </div>
 
-            <div class="flex w-full gap-3">
+            <div class="flex w-full gap-3 mt-3">
                 <div style="width: 100%;">
                     
                     <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"

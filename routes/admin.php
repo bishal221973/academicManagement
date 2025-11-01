@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\AcademySetupController;
+use App\Http\Controllers\AdmissionformController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -58,6 +60,12 @@ Route::prefix('configuration')->group(function () {
         Route::put('/update/{academicYear}', [AcademicYearController::class, 'update'])->name('academic.update');
         Route::delete('/delete/{academicYear}', [AcademicYearController::class, 'delete'])->name('academic.delete');
     });
+
+    Route::prefix('academic-setup')->group(function () {
+        Route::get('/', [AcademySetupController::class, 'index'])->name('academy-setup');
+        Route::post('/store', [AcademySetupController::class, 'store'])->name('academy-setup.store');
+        Route::get('/get-logo', [AcademySetupController::class, 'getLogo'])->name('academy-setup.getLogo');
+    });
 });
 
 
@@ -85,6 +93,11 @@ Route::prefix('student-management')->group(function () {
         Route::prefix('student-transfer')->group(function () {
             Route::get('/', [TransferController::class, 'index'])->name('student.transfer.index');
             Route::post('/transfer', [TransferController::class, 'transfer'])->name('student.transfer.format');
+        });
+
+        Route::prefix('admission-form')->group(function () {
+            Route::get('/', [AdmissionformController::class, 'index'])->name('admission-form.index');
+            Route::get('/resize/{id}', [AdmissionformController::class, 'resize'])->name('admission-form.resize');
         });
         
     });

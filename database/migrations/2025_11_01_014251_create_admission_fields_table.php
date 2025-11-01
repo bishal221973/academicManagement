@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('my_settings', function (Blueprint $table) {
+        Schema::create('admission_fields', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->string('value')->nullable();
+            $table->foreignId('admission_section_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('position');
+            $table->string('size')->default('col-span-3');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('my_settings');
+        Schema::dropIfExists('admission_fields');
     }
 };

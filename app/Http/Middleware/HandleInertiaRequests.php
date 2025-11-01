@@ -37,7 +37,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $settings = MySetting::whereIn('key', ['academy_name', 'academy_email'])
+        $settings = MySetting::whereIn('key', ['academy_name', 'academy_email','academy_contact_no','logo','address'])
             ->pluck('value', 'key'); // returns collection: [key => value]
 
         return array_merge(parent::share($request), [
@@ -48,6 +48,9 @@ class HandleInertiaRequests extends Middleware
             'academy' => [
                 'name' => $settings->get('academy_name'),
                 'academy_email' => $settings->get('academy_email'),
+                'phone' => $settings->get('academy_contact_no'),
+                'address' => $settings->get('address'),
+                'logo' => "/storage/".$settings->get('logo'),
             ],
         ]);
     }
