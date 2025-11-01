@@ -7,14 +7,20 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FormatExport;
 use App\Imports\StudentImport;
+use App\Models\AcademicYear;
 
 class StudentController extends Controller
 {
     public function index()
     {
+        $academyYear=AcademicYear::where('status',true)->first();
+        if(!$academyYear){
+            return redirect()->back()->with('error',"Please active an academy year");
+        }
         $students = Student::with('course')
             ->latest()
             ->get()
+            ->where('academic_year_id',$academyYear->id)
             ->map(function ($student) {
                 $student->registration_date = $student->registration_date ? formatDate($student->registration_date) : null;
                 $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
@@ -34,6 +40,7 @@ class StudentController extends Controller
     {
         $students = Student::query()
             ->latest()
+            ->where('academic_year_id',$academyYear->id)
             ->where('status', 1)
             ->where('is_transfered', 0);
 
@@ -53,8 +60,13 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+         $academyYear=AcademicYear::where('status',true)->first();
+        if(!$academyYear){
+            return redirect()->back()->with('error',"Please active an academy year");
+        }
         // return $request;
         $data = $request->validate(Student::rules());
+        $data['academic_year_id']=$academyYear->id;
         if ($request->hasFile('transfer_certificate')) {
             // $file=$request->file('transfer_certificate');
             // $fileName=time().'_'.$file->getClientOriginalName();
@@ -71,6 +83,10 @@ class StudentController extends Controller
 
     public function edit(Student $student)
     {
+         $academyYear=AcademicYear::where('status',true)->first();
+        if(!$academyYear){
+            return redirect()->back()->with('error',"Please active an academy year");
+        }
         $students = Student::with('course')->latest()->get()->map(function ($item) {
             $item->registration_date = formatDate($item->registration_date);
             $item->birth_date = formatDate($item->birth_date);
@@ -89,6 +105,10 @@ class StudentController extends Controller
 
     public function update(Request $request, Student $student)
     {
+         $academyYear=AcademicYear::where('status',true)->first();
+        if(!$academyYear){
+            return redirect()->back()->with('error',"Please active an academy year");
+        }
         $data = $request->validate(Student::rules());
 
         try {
@@ -101,13 +121,21 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
+         $academyYear=AcademicYear::where('status',true)->first();
+        if(!$academyYear){
+            return redirect()->back()->with('error',"Please active an academy year");
+        }
         Student::find($id)->delete();
         return redirect()->route('student.index')->with('success', 'Student deleted successfully');
     }
 
     public function icard()
     {
-        $students = Student::with('course')->latest();
+         $academyYear=AcademicYear::where('status',true)->first();
+        if(!$academyYear){
+            return redirect()->back()->with('error',"Please active an academy year");
+        }
+        $students = Student::where('academic_year_id',$academyYear->id)->with('course')->latest();
 
         if (request('course_id')) {
             $students = $students->where('course_id', request('course_id'));

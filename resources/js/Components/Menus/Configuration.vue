@@ -17,7 +17,7 @@ import { Link } from '@inertiajs/vue3';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Icard' ? 'text-main/80' : ''" :href="route('icard.index')">
       ID Card
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Icard' ? 'text-main/80' : ''" :href="route('academic.year')">
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'AcademicYear' ? 'text-main/80' : ''" :href="route('academic.year')">
       Academic Year
     </Link>
   </div>

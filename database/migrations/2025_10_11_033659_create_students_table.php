@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('national_id')->nullable();
 
             $table->foreignId('course_id')->constrained()->nullable();
+            $table->foreignId('academic_year_id')->constrained()->nullable();
             $table->unsignedBigInteger('section_id')->nullable();
             $table->foreign('section_id')->references('id')->on('sections');
 

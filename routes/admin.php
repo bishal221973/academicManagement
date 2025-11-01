@@ -60,6 +60,7 @@ Route::prefix('configuration')->group(function () {
         Route::get('/edit/{academicYear}', [AcademicYearController::class, 'edit'])->name('academic.edit');
         Route::put('/update/{academicYear}', [AcademicYearController::class, 'update'])->name('academic.update');
         Route::delete('/delete/{academicYear}', [AcademicYearController::class, 'delete'])->name('academic.delete');
+        Route::put('/change-status/{academicYear}', [AcademicYearController::class, 'status'])->name('academic.status');
     });
 
     Route::prefix('academic-setup')->group(function () {
