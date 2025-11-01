@@ -65,6 +65,7 @@ Route::prefix('configuration')->group(function () {
         Route::get('/', [AcademySetupController::class, 'index'])->name('academy-setup');
         Route::post('/store', [AcademySetupController::class, 'store'])->name('academy-setup.store');
         Route::get('/get-logo', [AcademySetupController::class, 'getLogo'])->name('academy-setup.getLogo');
+        Route::post('/get-reorder', [AcademySetupController::class, 'reOrder'])->name('admission-form.reorder');
     });
 });
 
