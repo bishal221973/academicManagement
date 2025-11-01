@@ -131,6 +131,7 @@ const resize = async (id) => {
   border: 1px solid transparent;
   transition: border 0.2s;
   position: relative;
+  cursor: move;
 }
 .dragable-border:hover {
   border: 1px solid rgba(0, 0, 255, 0.494);
@@ -143,5 +144,8 @@ const resize = async (id) => {
 .resize-handle:hover {
   background: rgba(255, 0, 0, 0.1);
   cursor: move;
+}
+input{
+    background-color: transparent !important;
 }
 </style>
