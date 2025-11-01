@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicYearController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -49,6 +50,14 @@ Route::prefix('configuration')->group(function () {
     Route::get('id-card', [IcardController::class, 'index'])->name('icard.index');
     Route::get('id-card-default', [IcardController::class, 'default'])->name('icard.default');
     Route::put('id-card-update/{id}', [IcardController::class, 'update'])->name('icard.update');
+
+    Route::prefix('academic-year')->group(function () {
+        Route::get('/', [AcademicYearController::class, 'index'])->name('academic.year');
+        Route::post('/store', [AcademicYearController::class, 'store'])->name('academic.store');
+        Route::get('/edit/{academicYear}', [AcademicYearController::class, 'edit'])->name('academic.edit');
+        Route::put('/update/{academicYear}', [AcademicYearController::class, 'update'])->name('academic.update');
+        Route::delete('/delete/{academicYear}', [AcademicYearController::class, 'delete'])->name('academic.delete');
+    });
 });
 
 

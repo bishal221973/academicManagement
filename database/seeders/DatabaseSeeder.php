@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SidebarSeeder::class);
         $this->call(IcardSeeder::class);
         $this->call(MySettingSeeder::class);
+        $this->call(AdmissionSectionSeeder::class);
     }
 }
