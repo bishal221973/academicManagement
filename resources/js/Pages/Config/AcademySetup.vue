@@ -10,6 +10,7 @@ import ImageUploader from "@/Components/ImageUploader.vue";
 // Extracting settings from props
 const props = defineProps({
   settings: Array,
+  
 });
 const selectedImages = ref([]);
 // Find date_type from the settings array and set it as initial form value

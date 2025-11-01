@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdmissionField;
+use App\Models\AdmissionSection;
 use App\Models\MySetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ class AcademySetupController extends Controller
     public function index()
     {
         $settings = MySetting::get();
+        
         return Inertia::render("Config/AcademySetup", [
             'sidebar' => 'Settings',
             'menu' => 'AcademySetup',

@@ -7,10 +7,13 @@ import { useForm, Link } from "@inertiajs/vue3";
 import axios from "axios";
 import Sortable from "sortablejs";
 import { Mail, Phone } from "lucide-vue-next";
-
+import ManageField from "@/Components/AddForm/ManageField.vue";
 const props = defineProps({
     admissionFields: Object,
     student: Object,
+
+    sections:Object,
+    fields1:Object,
 });
 
 const fields = reactive(JSON.parse(JSON.stringify(props.admissionFields)));
@@ -74,6 +77,8 @@ const resize = async (id) => {
         <template #content>
             <div class="flex items-center justify-between mb-3">
                 <Breadcrumb :breadcrumbs="[{ label: 'Student Management' }, { label: 'Admission Form' }]" />
+           
+                <!-- <ManageField :fields="fields1" :sections="sections"/> -->
             </div>
 
             <div class="flex w-full gap-3">

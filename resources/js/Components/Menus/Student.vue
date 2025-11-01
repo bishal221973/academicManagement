@@ -29,7 +29,7 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Transfer' ? 'text-main/80' : ''" :href="route('student.transfer.index')">
       Transfer Students
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('admission-form.index')">
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'AdmitionForm' ? 'text-main/80' : ''" :href="route('admission-form.index')">
       Admition Form
     </Link>
     <Link style="pointer-events:none"  class="text-gray-400 text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Group' ? 'text-main/80' : ''" :href="route('course.index')">

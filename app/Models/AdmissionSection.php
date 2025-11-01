@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AdmissionSection extends Model
 {
     use HasFactory;
+
+    protected $guarded=['id'];
 }

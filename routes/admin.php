@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\AcademySetupController;
 use App\Http\Controllers\AdmissionformController;
+use App\Http\Controllers\AdmissionSectionController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -66,6 +67,13 @@ Route::prefix('configuration')->group(function () {
         Route::post('/store', [AcademySetupController::class, 'store'])->name('academy-setup.store');
         Route::get('/get-logo', [AcademySetupController::class, 'getLogo'])->name('academy-setup.getLogo');
         Route::post('/get-reorder', [AcademySetupController::class, 'reOrder'])->name('admission-form.reorder');
+
+        Route::prefix('manage-section')->group(function () {
+            Route::post('/', [AdmissionSectionController::class, 'save'])->name('admission-section.save');
+            Route::put('/update/{id}', [AdmissionSectionController::class, 'update'])->name('admission-section.update');
+            Route::delete('delete/{id}', [AdmissionSectionController::class, 'destroy'])->name('admission-section.destroy');
+            Route::put('status/{id}', [AdmissionSectionController::class, 'status'])->name('admission-section.status');
+        });
     });
 });
 
@@ -100,7 +108,6 @@ Route::prefix('student-management')->group(function () {
             Route::get('/', [AdmissionformController::class, 'index'])->name('admission-form.index');
             Route::get('/resize/{id}', [AdmissionformController::class, 'resize'])->name('admission-form.resize');
         });
-        
     });
 });
 

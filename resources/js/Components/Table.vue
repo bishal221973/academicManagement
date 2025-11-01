@@ -113,7 +113,7 @@ const totalPages = computed(
 
 const paginatedData = computed(() => {
   const start = (currentPage.value - 1) * pageLength.value;
-  return sortedData.value.slice(start, start + pageLength.value);
+  return sortedData?.value.slice(start, start + pageLength.value);
 });
 
 const pagesArray = computed(() => {
