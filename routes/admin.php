@@ -13,6 +13,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HostelController;
 use App\Http\Controllers\IcardController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
@@ -171,4 +172,13 @@ Route::prefix('hostel-management')->group(function () {
         Route::put('/update/{room}', [RoomController::class, 'update'])->name('room.update');
         Route::delete('/delete/{id}', [RoomController::class, 'destroy'])->name('room.delete');
     });
+});
+
+Route::prefix('library-management')->group(function () {
+    Route::get('/', [LibraryController::class, 'index'])->name('library.index');
+    Route::post('/store', [LibraryController::class, 'store'])->name('library.store');
+    Route::put('/status/{library}', [LibraryController::class, 'updateStatus'])->name('library.update.status');
+    Route::get('/edit/{library}', [LibraryController::class, 'edit'])->name('library.edit');
+    Route::put('/update/{library}', [LibraryController::class, 'update'])->name('library.update');
+    Route::delete('/delete/{id}', [LibraryController::class, 'destroy'])->name('library.delete');
 });

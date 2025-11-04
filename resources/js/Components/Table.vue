@@ -28,6 +28,8 @@ const props = defineProps({
   showSearch:{type:Boolean,default:true},
   linkUrl:String,
   showUrl:String,
+  addBook:String,
+  addFunction:Function
 });
 
 const searchRef = ref("");
@@ -211,6 +213,10 @@ const toggleSort = (colKey) => {
 };
 
 const columnFilters = ref({});
+
+const addBtn=()=>{
+  props.addFunction();
+}
 </script>
 
 <template>
@@ -353,6 +359,14 @@ const columnFilters = ref({});
                     class="royal-delete-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-0 font-semibold text-white rounded-lg shadow-md transition-all duration-300"
                   >
                     <i class="fa fa-trash text-[10px]"></i>
+                  </button>
+
+                  <button
+                    v-if="addBook"
+                    @click="addBtn(row[col.key])"
+                    class="royal-delete-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-0 font-semibold text-white rounded-lg shadow-md transition-all duration-300"
+                  >
+                    <i class="fa fa-plus text-[10px]"></i>
                   </button>
                 </div>
               </div>

@@ -25,17 +25,17 @@ const fetchSection = async (courseId=null) => {
 onMounted(() => {
   fetchSection();
 
-  // Pusher.logToConsole = true;
+  Pusher.logToConsole = true;
 
-  // var pusher = new Pusher('09a7a9ef059d4f63aa24', {
-  //     cluster: 'ap2'
-  //   });
+  var pusher = new Pusher('09a7a9ef059d4f63aa24', {
+      cluster: 'ap2'
+    });
 
-  // const channel = pusher.subscribe("my-channel");
+  const channel = pusher.subscribe("my-channel");
 
-  // channel.bind("section-event", () => {
-  //   fetchSection();
-  // });
+  channel.bind("section-event", () => {
+    fetchSection();
+  });
 });
 
 const transformData = (data) => {

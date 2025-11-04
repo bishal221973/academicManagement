@@ -18,6 +18,7 @@ class SidebarSeeder extends Seeder
             ['title' => 'Dashboard', 'icon' => 'Home','position'=>1, 'url' => null],
             ['title' => 'Students', 'icon' => 'Users', 'position' => 2, 'url' => 'student.index'],
             ['title' => 'Academic', 'icon' => 'BookOpen', 'position' => 3, 'url' => 'course.index'],
+            ['title' => 'Library', 'icon' => 'BookCopy', 'position' => 4, 'url' => 'library.index'],
             // ['title' => 'Exam', 'icon' => 'FileCheck', 'position' => 5, 'url' => null],
             // ['title' => 'HR', 'icon' => 'UserCog', 'position' => 6, 'url' => null],
             ['title' => 'Hostel', 'icon' => 'Bed', 'position' => 7, 'url' => 'hostel.index'],

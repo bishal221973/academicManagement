@@ -14,6 +14,7 @@ import {
   Bus,
   BarChart3,
   Settings,
+  BookCopy,
 } from "lucide-vue-next";
 import axios from "axios";
 import { onMounted, ref } from "vue";
@@ -53,6 +54,7 @@ const iconMap = {
   Bus,
   BarChart3,
   Settings,
+  BookCopy
 };
 
 const fetchSidebar=async()=>{

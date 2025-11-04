@@ -19,17 +19,17 @@ const fetchGroup = async () => {
 onMounted(() => {
   fetchGroup();
 
-  // Pusher.logToConsole = true;
+  Pusher.logToConsole = true;
 
-  // var pusher = new Pusher('09a7a9ef059d4f63aa24', {
-  //     cluster: 'ap2'
-  //   });
+  var pusher = new Pusher('09a7a9ef059d4f63aa24', {
+      cluster: 'ap2'
+    });
 
-  // const channel = pusher?.subscribe("my-channel");
+  const channel = pusher?.subscribe("my-channel");
 
-  // channel.bind("group-event", () => {
-  //   fetchGroup();
-  // });
+  channel.bind("group-event", () => {
+    fetchGroup();
+  });
 });
 
 const transformData = (data) => {
