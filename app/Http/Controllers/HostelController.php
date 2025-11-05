@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\HostelEvent;
 use App\Models\Hostel;
+use App\Models\HostelStudent;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -36,7 +38,18 @@ class HostelController extends Controller
         event(new HostelEvent());
         return redirect()->back()->with('success', "New hostel have been saved.");
     }
-
+    public function show(Hostel $hostel, Request $request){
+        $hostel->load('rooms','students');
+        $room=Room::with('students')->find($request->room_id);
+        $hostelStudents = HostelStudent::with('student', 'hostel', 'room')->latest()->get();
+        return Inertia::render('Hostel/HostelShow', [
+            'hostel' => $hostel,
+            'menu' => 'Hostel',
+            'sidebar' => 'Hostel',
+            'room'=>$room,
+            'hostelStudents'=>$hostelStudents,
+        ]);
+    }
     public function updateStatus(Hostel $hostel)
     {
         $hostel->update([

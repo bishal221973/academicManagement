@@ -61,8 +61,8 @@ const filterStudent = () => {
                         </div>
                     </div>
                     <div class="flex flex-wrap gap-3">
-
                         <div v-for="item in students" :key="item.id" class="mt-3 w-[200px] h-[320px]">
+                            <!-- {{ item }} -->
                             <DefaultIcard :student="item"/>
                            
                         </div>

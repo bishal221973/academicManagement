@@ -14,6 +14,11 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    type: {
+        type: String,
+        default: 'type0'
+    },
+    hostelId:String
 });
 const openModal = ref(false);
 
@@ -22,7 +27,7 @@ const toggleModal = () => {
 };
 
 const form = useForm({
-    hostel_id: '',
+    hostel_id: props?.hostelId ?? '',
     name: '',
     type: '',
     no_of_bed: '',
@@ -32,9 +37,9 @@ const form = useForm({
 
 
 const submit = () => {
-    if(props.room?.id){
+    if (props.room?.id) {
         updateData();
-    }else{
+    } else {
         saveData();
     }
 }
@@ -77,17 +82,23 @@ const roomOptions = [
     <button @click="toggleModal" class="" v-if="isSelect" type="button">
         <component :is="Plus" />
     </button>
-    <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" v-else>Add Room</button>
-    
-    <Modal :show="openModal" maxWidth="sm" :title="room?.id ? 'Edit Room' : 'Add Room'" @close="toggleModal" :selectedData="hostel">
-    
+    <button v-else-if="type == 'type1'" @click="toggleModal"
+        class="w-full text-[12px] px-3 py-3 border-gray-300 mb-1 rounded btn-border text-left flex justify-center border border-dashed">
+        <i class="fa fa-plus text-gray-500"></i>
+    </button>
+    <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        v-else>Add Room</button>
+
+    <Modal :show="openModal" maxWidth="sm" :title="room?.id ? 'Edit Room' : 'Add Room'" @close="toggleModal"
+        :selectedData="hostel">
+
         <form @submit.prevent="submit">
             <div class="mb-3">
                 <label class="text-[14px]">Hostel Name *</label>
-                <SelectHostel v-model="form.hostel_id"/>
-                    <small class="text-red-600">{{ form.errors.hostel_id }}</small>
+                <SelectHostel v-model="form.hostel_id"     :class="hostelId ? 'pointer-events-none opacity-50' : ''"/>
+                <small class="text-red-600">{{ form.errors.hostel_id }}</small>
             </div>
-            
+
             <div class="mb-3">
                 <label class="text-[14px]">Room Name</label>
                 <input type="text" v-model="form.name"
@@ -97,12 +108,8 @@ const roomOptions = [
             </div>
             <div class="mb-3">
                 <label class="text-[14px]">Room Type</label>
-                <SelectComponent
-                            v-model="form.type"
-                            :options="roomOptions"
-                            label="Date Format *"
-                            placeholder="Select room type"
-                        />
+                <SelectComponent v-model="form.type" :options="roomOptions" label="Date Format *"
+                    placeholder="Select room type" />
                 <small class="text-red-600">{{ form.errors.type }}</small>
             </div>
             <div class="mb-3">
@@ -127,7 +134,7 @@ const roomOptions = [
             </div>
             <div class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end">
                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
-                    {{room?.id ? 'Update Room' : 'Save Room'}}
+                    {{ room?.id ? 'Update Room' : 'Save Room' }}
                 </button>
             </div>
         </form>

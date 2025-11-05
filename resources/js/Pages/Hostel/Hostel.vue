@@ -27,11 +27,10 @@ const tableData = computed(() =>
     props.hostels.map((student, index) => ({
         sn: index + 1,
         view: student?.name,
-        url: route('hostel.show',student.id),
-        address: student?.address,
+        url: route('hostel.show', student.id) + "?room_id=" + (student?.rooms?.length ? student.rooms[0].id : ''), address: student?.address,
         type: student?.type,
-        rooms: (student?.rooms?.length || 0)+" Rooms",
-        students: (student?.students?.length || 0)+" Students",
+        rooms: (student?.rooms?.length || 0) + " Rooms",
+        students: (student?.students?.length || 0) + " Students",
         status: student?.status,
 
         actions: student.id,
@@ -47,7 +46,7 @@ const tableData = computed(() =>
 
         <template #content>
             <div class="flex items-center justify-between mb-3">
-                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' },{ label: 'Hostel' }]" />
+                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Hostel' }]" />
                 <AddHostel :hostel="hostel" />
             </div>
             <div class="flex w-full gap-3">

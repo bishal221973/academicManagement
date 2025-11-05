@@ -12,7 +12,7 @@ import { Link } from '@inertiajs/vue3';
       Room Management
     </Link>
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'AddStudent' ? 'text-main/80' : ''" :href="route('hostelStudent.index')">
-      Add Students
+      Booking Management
     </Link>
   </div>
 </template>

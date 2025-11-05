@@ -20,6 +20,7 @@ class HostelStudent extends Model
             'check_out_date' => 'nullable|date|after_or_equal:check_in_date',
             'remarks' => 'nullable|string',
             'price' => 'nullable|string',
+            'bed_no' => 'nullable|string',
         ];
     }
 

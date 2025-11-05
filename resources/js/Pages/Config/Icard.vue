@@ -53,6 +53,7 @@ const student=ref({
                 <AddCourse :course="course" />
             </div>
                 <div class="flex gap-3 mt-1">
+                    <!-- {{ icards }} -->
                     <div v-for="item in icards" :key="item.id" class="mt-3 w-[200px] h-[320px]">
                         
                         <component :student="student" :is="themeMap[item.name]" :data="item" @click="selectTheme(item.id)" :class="item.is_active ? 'border-[1px] border-red-500' : ''"/>

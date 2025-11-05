@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('check_in_date')->nullable();
             $table->string('check_out_date')->nullable();
             $table->string('price')->nullable();
+            $table->string('bed_no')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
         });

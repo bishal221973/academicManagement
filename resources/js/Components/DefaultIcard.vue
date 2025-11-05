@@ -31,6 +31,7 @@ onMounted(fetchIcard);
 <template>
   <div class="mt-3 w-[200px] h-[320px]">
     <!-- {{ student }} -->
+      <!-- {{ student }} -->
     <Theme1 v-if="icard?.name == 'Theme1'" :student="student"/>
     <Theme2 v-if="icard?.name == 'Theme2'" :student="student"/>
   </div>

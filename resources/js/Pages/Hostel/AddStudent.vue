@@ -29,6 +29,7 @@ const columns = [
     { label: "Student", key: "student" },
     { label: "Checkin Date", key: "checkin" },
     { label: "Price", key: "price" },
+    { label: "Bed No.", key: "bed_no" },
 
     { label: "Actions", key: "actions" },
 ];
@@ -41,6 +42,7 @@ const tableData = computed(() =>
         student: item.student?.name,
         checkin: item.check_in_date,
         price: "Rs."+ item.price,
+        bed_no: item.bed_no ? "Bed No. " + item.bed_no : '',
 
         actions: item.id,
     }))
@@ -102,12 +104,12 @@ const updateData = async () => {
 
         <template #content>
             <div class="flex items-center justify-between mb-3">
-                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Add Students' }]" />
+                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Booking Management' }]" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">
                     <div class="grid grid-cols-12 gap-3">
-                        <div class="col-span-4">
+                        <!-- <div class="col-span-4">
                             <form @submit.prevent="submit">
                                 <div class="rounded-lg shadow p-3 bg-white">
                                     <div class="mb-1">
@@ -150,9 +152,9 @@ const updateData = async () => {
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
 
-                        <div class="col-span-8">
+                        <div class="col-span-12">
 
                             <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
                                  :edit="'hostelStudent.edit'" :deleteUrl="'hostelStudent.delete'">
