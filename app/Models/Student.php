@@ -22,7 +22,7 @@ class Student extends Model
         parent::boot();
 
         static::creating(function ($student) {
-
+            
             if (request()->has('registration_date')) {
                 $student->registration_date = saveDate(request('registration_date'));
             }
@@ -85,4 +85,8 @@ class Student extends Model
             'transfer_certificate' => 'nullable',
         ];
     }
+
+    public function hostelStudent()
+    {
+        return $this->hasOne(HostelStudent::class, 'student_id');    }
 }

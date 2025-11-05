@@ -19,6 +19,7 @@ const columns = [
     { label: "No. of Bed", key: "no_of_bed" },
     { label: "Type", key: "type" },
     { label: "Price", key: "price" },
+    { label: "Total Students", key: "students" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
@@ -31,7 +32,8 @@ const tableData = computed(() =>
         name: item?.name,
         no_of_bed: item?.no_of_bed,
         type: item?.type,
-        price: "Rs. "+item?.price,
+        price: "Rs. " + item?.price,
+        students: (item?.students?.length || 0) + " Students",
         status: item?.status,
 
         actions: item.id,
@@ -47,7 +49,7 @@ const tableData = computed(() =>
 
         <template #content>
             <div class="flex items-center justify-between mb-3">
-                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' },{ label: 'Rooms' }]" />
+                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Rooms' }]" />
                 <AddRoom :room="room" />
             </div>
             <div class="flex w-full gap-3">

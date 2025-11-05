@@ -12,7 +12,7 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = Room::latest()->with('hostel')->get();
+        $rooms = Room::latest()->with('hostel','students')->get();
         return Inertia::render('Hostel/Room', [
             'menu' => 'Room',
             'sidebar' => 'Hostel',
@@ -21,6 +21,23 @@ class RoomController extends Controller
         ]);
     }
 
+    public function all(Request $request)
+    {
+        
+        $rooms = Room::query()
+            ->latest();
+            
+        if ($request->hostel_id) {
+            $rooms=$rooms->where('hostel_id', $request->hostel_id);
+            $rooms = $rooms->get();
+        } else{
+            $rooms = null;
+        }
+
+        return response()->json([
+            'rooms' => $rooms,
+        ]);
+    }
     public function store(Request $request)
     {
 
@@ -48,12 +65,20 @@ class RoomController extends Controller
 
     public function edit(Room $room)
     {
-        $rooms = Room::latest()->with('hostel')->get();
+        $rooms = Room::latest()->with('hostel','students')->get();
         return Inertia::render('Hostel/Room', [
             'menu' => 'Room',
             'sidebar' => 'Hostel',
             'rooms' => $rooms,
             'room' => $room
+        ]);
+    }
+
+    public function show($roomId)
+    {
+        $room = Room::with('hostel')->findOrFail($roomId);
+        return response()->json([
+            'room' => $room,
         ]);
     }
 

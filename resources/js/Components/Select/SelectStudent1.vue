@@ -1,20 +1,28 @@
 <script setup>
 import SelectComponent from '../SelectComponent.vue';
-import { computed, onMounted, ref } from 'vue';
-import AddHostel from '../AddForm/AddHostel.vue';
+import AddSection from '../AddForm/AddSection.vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import AddStudent from '../AddForm/AddStudent.vue';
+const dateOptions = [
+    { label: "AD Date", value: "ad" },
+    { label: "BS Date", value: "bs" },
+    // Add as many options as needed
+];
 
 const props = defineProps({
-  modelValue: [String, Number],
-  course_id: [String, Number]
+  modelValue: [String, Number], // the value coming from parent
+  courseId: [String, Number]
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 const courseList = ref([]);
 
-const fetchSection = async () => {
-  const response = await axios.get(route("hostel.all"));
-  courseList.value = response.data.hostels;
+const fetchSection = async (courseId=null) => {
+  const response = await axios.get(route("student.all.hostel"), {
+    params: { course_id: courseId || '' }
+  });
+  courseList.value = response.data.students;
 };
 
 onMounted(() => {
@@ -28,13 +36,13 @@ onMounted(() => {
 
   const channel = pusher.subscribe("my-channel");
 
-  channel.bind("hostel-event", () => {
+  channel.bind("section-event", () => {
     fetchSection();
   });
 });
 
 const transformData = (data) => {
-  if (data) {
+  if (data && data.length > 0) {
     return data.map((item) => ({
       label: item?.name,
       value: item.id,
@@ -42,16 +50,22 @@ const transformData = (data) => {
   }
   return [];
 };
+
 const formattedServiceData = computed(() => transformData(courseList.value));
+
+watch(() => props.courseId, (newVal) => {
+  fetchSection(newVal)
+});
 </script>
 <template>
     <div class="w-full border-[1px] border-gray-300 rounded-md flex px-3">
+  
         <SelectComponent :options="formattedServiceData" 
         label="Date Format *"
-         placeholder="Select hostel"
+         placeholder="Select student"
           :isForm="true"
           @update:modelValue="val => emit('update:modelValue', val)"
           :modelValue="modelValue" />
-        <AddHostel :isSelect="true"/>
+        <AddStudent :isSelect="true"/>
     </div>
 </template>

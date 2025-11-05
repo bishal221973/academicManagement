@@ -11,7 +11,7 @@ class HostelController extends Controller
 {
     public function index()
     {
-        $hostels = Hostel::latest()->get();
+        $hostels = Hostel::with('rooms','students')->latest()->get();
         return Inertia::render('Hostel/Hostel', [
             'hostels' => $hostels,
             'hostel' => new Hostel(),
@@ -51,7 +51,7 @@ class HostelController extends Controller
 
     public function edit(Hostel $hostel)
     {
-        $hostels = Hostel::latest()->get();
+        $hostels = Hostel::with('rooms','students')->latest()->get();
         return Inertia::render('Hostel/Hostel', [
             'hostels' => $hostels,
             'hostel' => $hostel,

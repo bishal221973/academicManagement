@@ -34,4 +34,11 @@ class Room extends Model
             'remarks' => 'nullable',
         ];
     }
+
+     public function students()
+    {
+        return $this->hasMany(HostelStudent::class);
+    }
+
+    
 }

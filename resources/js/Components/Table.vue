@@ -316,6 +316,11 @@ const addBtn=()=>{
                 <span class="block">{{ row["link"] }}</span>
               </Link>
             </template>
+             <template v-else-if="col.key === 'view'">
+              <Link :href="row['url']"  class="text-blue-800">
+                <span class="block">{{ row["view"] }}</span>
+              </Link>
+            </template>
             <template v-else-if="col.key === 'show'">
               <Link :href="route(showUrl,row['actions'])" class="text-blue-800">
                 <span class="block">{{ row["show"] }}</span>

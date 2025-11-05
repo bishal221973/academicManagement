@@ -20,4 +20,14 @@ class Hostel extends Model
             'remarks' => 'nullable',
         ];
     }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
+    public function students()
+    {
+        return $this->hasMany(HostelStudent::class);
+    }
 }

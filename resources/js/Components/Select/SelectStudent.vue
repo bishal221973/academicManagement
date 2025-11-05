@@ -2,6 +2,7 @@
 import SelectComponent from '../SelectComponent.vue';
 import AddSection from '../AddForm/AddSection.vue';
 import { computed, onMounted, ref, watch } from 'vue';
+import AddStudent from '../AddForm/AddStudent.vue';
 const dateOptions = [
     { label: "AD Date", value: "ad" },
     { label: "BS Date", value: "bs" },
@@ -65,6 +66,6 @@ watch(() => props.sectionId, (newVal) => {
           :isForm="true"
           @update:modelValue="val => emit('update:modelValue', val)"
           :modelValue="modelValue" />
-        <AddSection :isSelect="true"/>
+        <AddStudent :isSelect="true"/>
     </div>
 </template>

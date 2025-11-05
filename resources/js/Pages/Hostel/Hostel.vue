@@ -13,9 +13,11 @@ const props = defineProps({
 
 const columns = [
     { label: "S.N.", key: "sn" },
-    { label: "Hostel Name", key: "name" },
+    { label: "Hostel Name", key: "view" },
     { label: "Address", key: "address" },
     { label: "Type", key: "type" },
+    { label: "Total Rooms", key: "rooms" },
+    { label: "Total Students", key: "students" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
@@ -24,9 +26,12 @@ const columns = [
 const tableData = computed(() =>
     props.hostels.map((student, index) => ({
         sn: index + 1,
-        name: student?.name,
+        view: student?.name,
+        url: route('hostel.show',student.id),
         address: student?.address,
         type: student?.type,
+        rooms: (student?.rooms?.length || 0)+" Rooms",
+        students: (student?.students?.length || 0)+" Students",
         status: student?.status,
 
         actions: student.id,
