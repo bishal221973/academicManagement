@@ -6,6 +6,7 @@ use App\Events\HostelEvent;
 use App\Models\Hostel;
 use App\Models\HostelStudent;
 use App\Models\Room;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -41,13 +42,20 @@ class HostelController extends Controller
     public function show(Hostel $hostel, Request $request){
         $hostel->load('rooms','students');
         $room=Room::with('students')->find($request->room_id);
-        $hostelStudents = HostelStudent::with('student', 'hostel', 'room')->latest()->get();
+        $studentsInRoom=HostelStudent::latest()
+        ->where('hostel_id',$hostel->id)
+        ->where('room_id',$request->room_id)
+        ->whereDate('check_out_date', '>', Carbon::today())
+        ->get();
+        $hostelStudents = HostelStudent::with('student', 'hostel', 'room')
+         ->whereDate('check_out_date', '>', Carbon::today())->latest()->get();
         return Inertia::render('Hostel/HostelShow', [
             'hostel' => $hostel,
             'menu' => 'Hostel',
             'sidebar' => 'Hostel',
             'room'=>$room,
             'hostelStudents'=>$hostelStudents,
+            'studentsInRoom'=>$studentsInRoom,
         ]);
     }
     public function updateStatus(Hostel $hostel)

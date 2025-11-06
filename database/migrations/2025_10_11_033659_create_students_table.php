@@ -51,9 +51,13 @@ return new class extends Migration
             $table->string('transfer_certificate')->nullable();
 
             $table->string('profile')->nullable();
-
+            
             $table->boolean('status')->default(true);
             $table->boolean('is_transfered')->default(false);
+
+
+            $table->string('hostel_id_number')->nullable();
+            $table->string('library_id_number')->nullable();
             $table->timestamps();
         });
     }

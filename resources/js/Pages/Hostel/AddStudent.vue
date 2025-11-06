@@ -24,10 +24,12 @@ const props = defineProps({
 
 const columns = [
     { label: "S.N.", key: "sn" },
+    { label: "Hostel Card No.", key: "hostelCard" },
     { label: "Hostel", key: "hostel" },
     { label: "Room", key: "room" },
     { label: "Student", key: "student" },
-    { label: "Checkin Date", key: "checkin" },
+    { label: "Checkin", key: "checkin" },
+    { label: "Checkout", key: "checkout" },
     { label: "Price", key: "price" },
     { label: "Bed No.", key: "bed_no" },
 
@@ -37,10 +39,12 @@ const columns = [
 const tableData = computed(() =>
     props.hostelStudents.map((item, index) => ({
         sn: index + 1,
+        hostelCard: item?.student?.hostel_id_number,
         hostel: item?.hostel?.name,
         room:item.room?.name,
         student: item.student?.name,
         checkin: item.check_in_date,
+        checkout: item.check_out_date,
         price: "Rs."+ item.price,
         bed_no: item.bed_no ? "Bed No. " + item.bed_no : '',
 
@@ -55,6 +59,7 @@ const form = useForm({
     room_id: "",
     price: "0",
     check_in_date: "",
+   
 })
 
 onMounted(() => {

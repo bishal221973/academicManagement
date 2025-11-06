@@ -3,7 +3,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import Hostel from "@/Components/Menus/Hostel.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import AddRoom from "@/Components/AddForm/AddRoom.vue";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { Link, useForm } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
 import SelectCourse from "@/Components/Select/SelectCourse.vue";
@@ -13,6 +13,7 @@ const props = defineProps({
     hostel: Object,
     room: Object,
     hostelStudents:Object,
+    studentsInRoom:Object,
 });
 
 const courseList = ref(props?.hostel?.rooms);
@@ -61,6 +62,7 @@ const form = useForm({
     price: props?.room?.price ?? "0",
     check_in_date: "",
     bed_no: "",
+     stay_month: "1",
 })
 
 const submit=()=>{
@@ -86,6 +88,12 @@ const bookedBeds = computed(() => {
             return Number(student.bed_no.replace('Bed No. ', ''));
         });
 });
+
+watch(()=>form.stay_month,(newVal)=>{
+    if(newVal >= 1){
+        form.price = props?.room?.price*newVal;
+    }
+})
 </script>
 
 <template>
@@ -114,7 +122,7 @@ const bookedBeds = computed(() => {
                             <span>|</span>
                             <span>{{ hostel?.rooms?.length }} Rooms</span>
                             <span>|</span>
-                            <span>{{ hostel?.students?.length }} Students</span>
+                            <span>{{ studentsInRoom?.length }} Students</span>
                         </div>
                     </div>
 
@@ -160,14 +168,14 @@ const bookedBeds = computed(() => {
                                 <small>
                                     <span class="font-bold">No. of Students : </span>
                                     <span class="text-gray-500">
-                                        {{ room?.students?.length }}
+                                        {{ studentsInRoom?.length }}
                                     </span>
                                 </small>
                                 <span class="relative -mt-[3px]">|</span>
                                 <small>
                                     <span class="font-bold">No. of Free Bed : </span>
                                     <span class="text-gray-500">
-                                        {{ room?.no_of_bed - room?.students?.length }}
+                                        {{ room?.no_of_bed - studentsInRoom?.length }}
                                     </span>
                                 </small>
                                 <span class="relative -mt-[3px]">|</span>
@@ -235,6 +243,13 @@ const bookedBeds = computed(() => {
                 class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Enter price" />
             <small class="text-red-600">{{ form.errors.bed_no }}</small>
+        </div>
+        <div class="mb-1">
+            <label class="text-[14px]">Stay Month *</label>
+            <input type="number" step="1" :min="1" v-model="form.stay_month"
+                class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter price" />
+            <small class="text-red-600">{{ form.errors.stay_month }}</small>
         </div>
         <div class=" flex justify-end">
             <button class="bg-blue-600  text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">

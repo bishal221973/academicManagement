@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FormatExport;
 use App\Imports\StudentImport;
 use App\Models\AcademicYear;
+use Carbon\Carbon;
 
 class StudentController extends Controller
 {
@@ -52,50 +53,57 @@ class StudentController extends Controller
             $students = $students->where('section_id', $request->section_id);
             // $students = $students->get();
         } elseif ($request->filled('course_id')) {
-             $students =$students->where('course_id', $request->course_id);
+            $students = $students->where('course_id', $request->course_id);
             // $students = $students->get();
         } elseif ($request->is_for_hostel_room) {
-            $students =$students->whereDoesntHave('hostelStudent');
+            $students = $students->whereDoesntHave('hostelStudent');
         } else {
             // If no section_id, return null directly
             $students = null;
             return response()->json([
-            'students' => $students,
-        ]);
+                'students' => $students,
+            ]);
         }
-        
+
         $students = $students->get();
         return response()->json([
             'students' => $students,
         ]);
     }
-     public function hostelAll(Request $request)
+    public function hostelAll(Request $request)
     {
         $academyYear = AcademicYear::where('status', true)->first();
         if (!$academyYear) {
             return redirect()->back()->with('error', "Please active an academy year");
         }
         $students = Student::query()
-            ->latest()
-            ->where('academic_year_id', $academyYear->id)
-            ->where('status', 1)
-            ->where('is_transfered', 0);
-
-            $students =$students->whereDoesntHave('hostelStudent');
+    ->latest()
+    ->where(function ($query) use ($academyYear) {
+        $query->where('academic_year_id', $academyYear->id)
+              ->where('status', 1)
+              ->where('is_transfered', 0);
+    })
+    ->where(function ($query) {
+        $query->whereDoesntHave('hostelStudents') // no hostel record
+              ->orWhereHas('hostelStudents', function ($subQuery) {
+                  $subQuery->whereDate('check_out_date', '<', Carbon::today());
+              }); // or checkout before today
+    });
+        // $students =$students->whereDoesntHave('hostelStudent');
         if ($request->filled('section_id')) {
             $students = $students->where('section_id', $request->section_id);
             // $students = $students->get();
         } elseif ($request->filled('course_id')) {
-             $students =$students->where('course_id', $request->course_id);
+            $students = $students->where('course_id', $request->course_id);
             // $students = $students->get();
         } else {
             // If no section_id, return null directly
             $students = null;
             return response()->json([
-            'students' => $students,
-        ]);
+                'students' => $students,
+            ]);
         }
-        
+
         $students = $students->get();
         return response()->json([
             'students' => $students,

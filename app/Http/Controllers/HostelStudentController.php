@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\HostelStudent;
 use App\Models\Room;
+use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -31,7 +33,20 @@ class HostelStudentController extends Controller
         $data = $request->validate(HostelStudent::rules());
         $number = preg_replace('/Bed No\. /', '', $request->bed_no);
         $data['bed_no'] = $number;
+        
+        $data['check_out_date'] = Carbon::parse($request->check_in_date)->addMonths($request->stay_month)->format('Y-m-d');
         HostelStudent::create($data);
+        // return $request;
+        $course=Course::find($request->course_id);
+        $student=Student::find($request->student_id);
+
+        if(!$student->hostel_id_number){
+            $student->update([
+                'hostel_id_number'=>$course->code.'-'.str_pad($student->id,4,'0',STR_PAD_LEFT),
+            ]);
+        }
+
+
 
         return redirect()->back()->with('success', "New Student have been added in hostel");
     }

@@ -88,5 +88,11 @@ class Student extends Model
 
     public function hostelStudent()
     {
-        return $this->hasOne(HostelStudent::class, 'student_id');    }
+        return $this->hasOne(HostelStudent::class, 'student_id');  
+    }
+
+    public function hostelStudents()
+    {
+        return $this->hasMany(HostelStudent::class, 'student_id');  
+    }
 }

@@ -17,7 +17,7 @@ const columns = [
     { label: "Address", key: "address" },
     { label: "Type", key: "type" },
     { label: "Total Rooms", key: "rooms" },
-    { label: "Total Students", key: "students" },
+    // { label: "Total Students", key: "students" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
@@ -30,7 +30,7 @@ const tableData = computed(() =>
         url: route('hostel.show', student.id) + "?room_id=" + (student?.rooms?.length ? student.rooms[0].id : ''), address: student?.address,
         type: student?.type,
         rooms: (student?.rooms?.length || 0) + " Rooms",
-        students: (student?.students?.length || 0) + " Students",
+        // students: (student?.students?.length || 0) + " Students",
         status: student?.status,
 
         actions: student.id,

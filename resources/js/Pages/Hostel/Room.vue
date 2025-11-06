@@ -19,7 +19,7 @@ const columns = [
     { label: "No. of Bed", key: "no_of_bed" },
     { label: "Type", key: "type" },
     { label: "Price", key: "price" },
-    { label: "Total Students", key: "students" },
+    // { label: "Total Students", key: "students" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
@@ -33,7 +33,7 @@ const tableData = computed(() =>
         no_of_bed: item?.no_of_bed,
         type: item?.type,
         price: "Rs. " + item?.price,
-        students: (item?.students?.length || 0) + " Students",
+        // students: (item?.students?.length || 0) + " Students",
         status: item?.status,
 
         actions: item.id,
