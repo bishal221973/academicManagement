@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/vue3';
 import AddStudent from '../AddForm/AddStudent.vue';
 </script>
 <template>
-  <div class="bg-white w-[200px] px-5 print:hidden">
+  <div class="bg-white w-[175px] px-5 print:hidden">
     <span class="uppercase block py-3">Students</span>
     <hr class="mb-5" />
     

@@ -68,7 +68,7 @@ const fetchSidebar=async()=>{
 </script>
 
 <template>
-  <div class="w-[60px] h-screen flex print:hidden">
+  <div class="w-[40px] h-screen flex print:hidden">
     <div class="w-full bg-white h-full border-r py-5 flex flex-col shadow shadow-main/60">
       <div class=" flex-1 flex flex-col items-center">
         <div

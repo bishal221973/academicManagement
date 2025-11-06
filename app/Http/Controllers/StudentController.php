@@ -134,6 +134,28 @@ class StudentController extends Controller
         }
     }
 
+    public function show($studentId)
+    {
+        $academyYear = AcademicYear::where('status', true)->first();
+        if (!$academyYear) {
+            return redirect()->back()->with('error', "Please active an academy year");
+        }
+        $student = Student::with('course')->where('id', $studentId)
+            ->where('academic_year_id', $academyYear->id)
+            ->first();
+
+        if ($student) {
+            $student->registration_date = $student->registration_date ? formatDate($student->registration_date) : null;
+            $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
+        }
+
+        return inertia('Student/Show', [
+            'menu' => 'Student',
+            'sidebar' => 'Students',
+            'student' => $student->load('section','group'),
+        ]);
+    }
+
     public function edit(Student $student)
     {
         $academyYear = AcademicYear::where('status', true)->first();

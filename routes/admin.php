@@ -89,6 +89,7 @@ Route::prefix('student-management')->group(function () {
         Route::post('/store', [StudentController::class, 'store'])->name('student.store');
         Route::put('/status/{student}', [StudentController::class, 'updateStatus'])->name('student.update.status');
         Route::get('/edit/{student}', [StudentController::class, 'edit'])->name('student.edit');
+        Route::get('/show/{studentId}', [StudentController::class, 'show'])->name('student.show');
         Route::put('/update/{student}', [StudentController::class, 'update'])->name('student.update');
         Route::delete('/delete/{id}', [StudentController::class, 'destroy'])->name('student.delete');
 
@@ -178,11 +179,12 @@ Route::prefix('hostel-management')->group(function () {
         Route::delete('/delete/{id}', [RoomController::class, 'destroy'])->name('room.delete');
     });
 
-    Route::prefix('add-students')->group(function () {
+    Route::prefix('booking-management')->group(function () {
         Route::get('/', [HostelStudentController::class, 'index'])->name('hostelStudent.index');
         Route::post('/store', [HostelStudentController::class, 'store'])->name('hostelStudent.store');
         Route::put('/status/{hostelStudent}', [HostelStudentController::class, 'updateStatus'])->name('hostelStudent.update.status');
         Route::get('/edit/{hostelStudent}', [HostelStudentController::class, 'edit'])->name('hostelStudent.edit');
+        Route::get('/show/{hostelStudent}', [HostelStudentController::class, 'show'])->name('hostelStudent.show');
         Route::put('/update/{hostelStudent}', [HostelStudentController::class, 'update'])->name('hostelStudent.update');
         Route::delete('/delete/{id}', [HostelStudentController::class, 'destroy'])->name('hostelStudent.delete');
     });

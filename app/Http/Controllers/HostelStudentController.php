@@ -67,6 +67,16 @@ class HostelStudentController extends Controller
         ]);
     }
 
+    public function show(HostelStudent $hostelStudent)
+    {
+        $hostelStudent->load('student.course', 'hostel', 'room');
+        return Inertia::render('Hostel/Show', [
+            'menu' => 'AddStudent',
+            'sidebar' => 'Hostel',
+            'hostelStudent' => $hostelStudent,
+        ]);
+    }
+
     public function update(Request $request, HostelStudent $hostelStudent)
     {
         $data = $request->validate(HostelStudent::rules());

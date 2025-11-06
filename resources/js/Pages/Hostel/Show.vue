@@ -40,7 +40,7 @@ const tableData = computed(() =>
     props.hostelStudents.map((item, index) => ({
         sn: index + 1,
         view: item?.student?.hostel_id_number,
-        url: route('student.show', item.student_id),
+        url: route('hostelStudent.show', item.id),
         hostel: item?.hostel?.name,
         room:item.room?.name,
         student: item.student?.name,
