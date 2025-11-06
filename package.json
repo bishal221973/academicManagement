@@ -40,6 +40,7 @@
         "lucide": "^0.545.0",
         "lucide-vue-next": "^0.544.0",
         "pdfmake": "^0.2.20",
+        "qrcode.vue": "^3.6.0",
         "sortablejs": "^1.15.6",
         "sweetalert2": "^11.25.0",
         "vue3-nepali-date-picker": "^1.4.2",

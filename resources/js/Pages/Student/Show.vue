@@ -6,6 +6,7 @@ import { computed, onMounted, ref } from "vue";
 import Table from "@/Components/Table.vue";
 import AddStudent from "@/Components/AddForm/AddStudent.vue";
 import { Printer, Pen, DollarSign,Key,ThumbsDown } from "lucide-vue-next";
+import QrCode from "@/Components/QrCode.vue";
 const props = defineProps({
     students: Object,
     student: Object,
@@ -61,6 +62,7 @@ const columns = [
                                     <label class="block text-[10px]">Roll no.: {{ student?.roll_number }}</label>
                                 </div>
                             </div>
+                            
 
                             <div class="bg-white rounded-lg shadow px-3 py-2 w-full flex mb-1 gap-3 items-center justify-between">
                                 <button title="Print" class="w-full border-r hover:text-red-500"><component :is="Printer" class="h-[13px]"/></button>
@@ -92,12 +94,13 @@ const columns = [
                                 <hr class="my-2 border-gray-100"/>
                                 <div class="flex justify-between w-full">
                                     <span class="text-[12px] font-bold">Barcode</span>
-                                    <span class="text-[12px]">{{ student?.course?.name }}</span>
+                                    
+                                    <!-- <span class="text-[12px]">{{ student?.course?.name }}</span> -->
                                 </div>
                                 <hr class="my-2 border-gray-100"/>
                                 <div class="flex justify-between w-full">
                                     <span class="text-[12px] font-bold">Qr code</span>
-                                    <span class="text-[12px]">{{ student?.course?.name }}</span>
+                                    <QrCode :value="student?.registration_number" class="h-[50px]" :src="'/student.png'"/>
                                 </div>
                                 <hr class="my-2 border-gray-100"/>
                                 
