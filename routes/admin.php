@@ -19,6 +19,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransferController;
 use Database\Seeders\IcardSeeder;
 
@@ -63,6 +64,16 @@ Route::prefix('configuration')->group(function () {
         Route::put('/update/{academicYear}', [AcademicYearController::class, 'update'])->name('academic.update');
         Route::delete('/delete/{academicYear}', [AcademicYearController::class, 'delete'])->name('academic.delete');
         Route::put('/change-status/{academicYear}', [AcademicYearController::class, 'status'])->name('academic.status');
+    });
+
+     Route::prefix('taxes')->group(function () {
+        Route::get('/', [TaxController::class, 'index'])->name('tax.index');
+        Route::post('/store', [TaxController::class, 'store'])->name('tax.store');
+        Route::get('/edit/{tax}', [TaxController::class, 'edit'])->name('tax.edit');
+        Route::put('/update/{tax}', [TaxController::class, 'update'])->name('tax.update');
+        Route::put('/status/{tax}', [TaxController::class, 'status'])->name('tax.status');
+        Route::delete('/delete/{tax}', [TaxController::class, 'delete'])->name('tax.delete');
+        Route::put('/change-status/{tax}', [TaxController::class, 'status'])->name('tax.status');
     });
 
     Route::prefix('academic-setup')->group(function () {

@@ -20,5 +20,8 @@ import { Link } from '@inertiajs/vue3';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'AcademicYear' ? 'text-main/80' : ''" :href="route('academic.year')">
       Academic Year
     </Link>
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Tax' ? 'text-main/80' : ''" :href="route('tax.index')">
+      Taxes
+    </Link>
   </div>
 </template>

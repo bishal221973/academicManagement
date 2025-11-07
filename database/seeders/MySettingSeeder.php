@@ -22,7 +22,8 @@ class MySettingSeeder extends Seeder
             ['key' => 'academy_contact_no', 'value' => '9814668499'],
             ['key' => 'logo', 'value' => ''],
             ['key' => 'vat_pan', 'value' => '998877'],
-            ['key' => 'date_type', 'value' => 'bs'],
+            ['key' => 'date_type', 'value' => 'ad'],
+            ['key' => 'admission_fees', 'value' => '25000'],
         ]);
     }
 }

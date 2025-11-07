@@ -6,6 +6,7 @@ import Configuration from "@/Components/Menus/Configuration.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { onMounted, ref } from "vue";
 import SelectComponent from "@/Components/SelectComponent.vue";
+import Datepicker from "@/Components/Datepicker.vue";
 // Extracting settings from props
 const props = defineProps({
     settings: Array,
@@ -14,9 +15,11 @@ const props = defineProps({
 // Find date_type from the settings array and set it as initial form value
 const dateType = props.settings.find((setting) => setting.key === "date_type");
 const dateFormat = props.settings.find((setting) => setting.key === "date_format");
+const admissionFees = props.settings.find((setting) => setting.key === "admission_fees");
 const form = useForm({
     date_type: dateType ? dateType.value : "",
-    date_format: dateFormat ? dateFormat.value : "",
+    // date_format: dateFormat ? dateFormat.value : "",
+    admission_fees: admissionFees ? admissionFees.value : "",
 });
 
 onMounted(() => {
@@ -56,17 +59,16 @@ const dateFormats = [
                             v-model="form.date_type"
                             :options="dateOptions"
                             label="Date Format *"
-                            placeholder="Search Date Format"
+                            class="mt-[6px]"
+                            placeholder="Search Date Format "
                         />
                     </div>
                     <div class="col-span-3">
-                        <label class="text-[14px]">Date Format *</label>
-                        <SelectComponent
-                            v-model="form.date_format"
-                            :options="dateFormats"
-                            label="Date Format *"
-                            placeholder="Search Date Format"
-                        />
+                        <label class="text-[14px]">Admission Fees *</label>
+                        <input type="number" v-model="form.admission_fees"
+                        class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter admission fees" />
+                        <!-- <Datepicker v-model="form.admission_fees" /> -->
                     </div>
                     <div
                         class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end"

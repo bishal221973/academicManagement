@@ -58,6 +58,8 @@ return new class extends Migration
 
             $table->string('hostel_id_number')->nullable();
             $table->string('library_id_number')->nullable();
+            $table->string('nationality_card_front')->nullable();
+            $table->string('nationality_card_back')->nullable();
             $table->timestamps();
         });
     }

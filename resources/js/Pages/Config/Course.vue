@@ -16,6 +16,7 @@ const columns = [
     { label: "S.N.", key: "sn" },
     { label: "Course", key: "course" },
     { label: "Code", key: "code" },
+    { label: "Monthly Fees", key: "fees" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
@@ -26,6 +27,7 @@ const tableData = computed(() =>
         sn: index + 1,
         course: student?.name,
         code: student?.code,
+        fees: 'Rs. '+student?.fees,
         status: student?.status,
 
         actions: student.id,
