@@ -10,6 +10,7 @@ import QrCode from "@/Components/QrCode.vue";
 import { Link } from "@inertiajs/vue3";
 import Profile from "@/Components/StudentProfile/Profile.vue";
 import Fees from "@/Components/StudentProfile/Fees.vue";
+import Document from "@/Components/StudentProfile/Document.vue";
 const props = defineProps({
     students: Object,
     student: Object,
@@ -166,6 +167,7 @@ onMounted(() => {
                             <hr class="my-2">
                             <Profile :student="student" v-if="type == 'profile'"/>
                             <Fees :student="student" v-if="type == 'fees'"/>
+                            <Document :student="student" v-if="type == 'documents'"/>
                             <!-- {{ student?.bills }} -->
                         </div>
                     </div>

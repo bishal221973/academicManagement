@@ -4,6 +4,7 @@ import { Image } from "lucide-vue-next";
 
 const props = defineProps({
   modelValue: [File, String, null], // Accept File, String (existing URL), or null
+  title:String,
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -68,7 +69,7 @@ function onFileChange(e) {
   <div>
     <div
       class="main-panel rounded-md p-3 cursor-pointer hover:border-blue-500 transition flex items-center justify-center"
-      style="min-height: 200px;"
+      style="height: 200px;"
       @drop="handleDrop"
       @dragover="handleDragOver"
       @click="$refs.fileInput.click()"
@@ -87,7 +88,7 @@ function onFileChange(e) {
         <div class="flex justify-center mb-3">
           <component :is="Image" />
         </div>
-        <p>Drag & Drop an image here or click to browse</p>
+        <p> {{title ?? 'Drag & Drop an image here or click to browse'}}</p>
       </div>
 
       <input
@@ -112,7 +113,9 @@ function onFileChange(e) {
 
 img {
   border-radius: 0.5rem;
-  height: 200px;
+  height: 170px;
+  position: relative;
+  top: 12px;
   /* width: 150px; */
 }
 button{

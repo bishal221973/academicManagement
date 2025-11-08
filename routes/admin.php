@@ -104,6 +104,7 @@ Route::prefix('student-management')->group(function () {
         Route::get('/show/{studentId}', [StudentController::class, 'show'])->name('student.show');
         Route::put('/update/{student}', [StudentController::class, 'update'])->name('student.update');
         Route::delete('/delete/{id}', [StudentController::class, 'destroy'])->name('student.delete');
+        Route::post('/upload-citizenship-card/{id}', [StudentController::class, 'uploadCitizenship'])->name('student.upload.citizenship');
 
         Route::prefix('promotion')->group(function () {
             Route::get('/', [StudentController::class, 'promotion'])->name('student.promotion.index');

@@ -288,4 +288,21 @@ class StudentController extends Controller
 
         return back()->with('success', 'Students imported successfully.');
     }
+
+    public function uploadCitizenship(Request $request, $id){
+        $student=Student::find($id);
+
+        if($request->hasFile('front')){
+            $data['nationality_card_front']=$request->file('front')->store('citizenship','public');
+        }
+        if($request->hasFile('back')){
+            $data['nationality_card_back']=$request->file('back')->store('citizenship','public');
+        }
+
+        // return $data;
+
+        $student->update($data);
+
+        return redirect()->back()->with('success',"File Uploaded");
+    }
 }
