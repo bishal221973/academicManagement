@@ -15,7 +15,7 @@ const props = defineProps({
 const columns = [
     { label: "S.N.", key: "sn" },
     { label: "Roll No.", key: "roll_no" },
-    { label: "Student", key: "student" },
+    { label: "Student", key: "view" },
     { label: "Registration No.", key: "reg_number" },
     { label: "Reg. Date", key: "reg_date" },
     { label: "Course", key: "course" },
@@ -27,7 +27,8 @@ const tableData = computed(() =>
     props.students.map((item, index) => ({
         sn: index + 1,
         roll_no: item?.roll_number,
-        student: item?.name,
+        url: route('student.show', item.id)+'?type=profile',
+        view: item?.name,
         reg_number: item?.registration_number,
         reg_date: item?.registration_date,
         course: item?.course?.name ?? 'N/A',

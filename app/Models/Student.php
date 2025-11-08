@@ -24,6 +24,10 @@ class Student extends Model
         return $this->belongsTo(Group::class);
     }
 
+    public function bills(){
+        return $this->hasMany(Bill::class);
+    }
+
 
     protected static function boot()
     {

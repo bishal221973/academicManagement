@@ -8,6 +8,8 @@ import AddStudent from "@/Components/AddForm/AddStudent.vue";
 import { Printer, Pen, DollarSign, Key, ThumbsDown } from "lucide-vue-next";
 import QrCode from "@/Components/QrCode.vue";
 import { Link } from "@inertiajs/vue3";
+import Profile from "@/Components/StudentProfile/Profile.vue";
+import Fees from "@/Components/StudentProfile/Fees.vue";
 const props = defineProps({
     students: Object,
     student: Object,
@@ -162,78 +164,9 @@ onMounted(() => {
                             </div>
 
                             <hr class="my-2">
-
-                            <div class="card mb-2">
-                                <small class="mb-2 bg-gray-100 block px-3 py-1 rounded text-gray-400">General Information</small>
-
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Registration Date : </small>
-                                    <small>{{ student?.registration_date }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Phone : </small>
-                                    <small>{{ student?.phone }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Email : </small>
-                                    <small>{{ student?.email }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">National ID : </small>
-                                    <small>{{ student?.national_id }} </small>
-                                </div>
-                            </div>
-                            <div class="card mb-2">
-                                <small class="mb-2 bg-gray-100 block px-3 py-1 rounded text-gray-400">Parent Information</small>
-
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Father Name : </small>
-                                    <small>{{ student?.registration_date }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Father Phone : </small>
-                                    <small>{{ student?.phone }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Father Education : </small>
-                                    <small>{{ student?.email }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Father Profession : </small>
-                                    <small>{{ student?.national_id }} </small>
-                                </div>
-
-                                <hr class="my-3">
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Mother Name : </small>
-                                    <small>{{ student?.registration_date }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Mother Phone : </small>
-                                    <small>{{ student?.phone }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Mother Education : </small>
-                                    <small>{{ student?.email }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Mother Profession : </small>
-                                    <small>{{ student?.national_id }} </small>
-                                </div>
-                            </div>
-
-                            <div class="card mb-2">
-                                <small class="mb-2 bg-gray-100 block px-3 py-1 rounded text-gray-400">Address Information</small>
-
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Current Address : </small>
-                                    <small>{{ student?.present_address }} </small>
-                                </div>
-                                <div class="flex mb-1 px-3">
-                                    <small class="w-[200px]">Permanent Address : </small>
-                                    <small>{{ student?.permanent_address }} </small>
-                                </div>
-                            </div>
+                            <Profile :student="student" v-if="type == 'profile'"/>
+                            <Fees :student="student" v-if="type == 'fees'"/>
+                            <!-- {{ student?.bills }} -->
                         </div>
                     </div>
                 </div>
