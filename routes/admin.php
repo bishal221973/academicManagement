@@ -68,6 +68,7 @@ Route::prefix('configuration')->group(function () {
 
      Route::prefix('taxes')->group(function () {
         Route::get('/', [TaxController::class, 'index'])->name('tax.index');
+        Route::get('/all', [TaxController::class, 'all'])->name('tax.all');
         Route::post('/store', [TaxController::class, 'store'])->name('tax.store');
         Route::get('/edit/{tax}', [TaxController::class, 'edit'])->name('tax.edit');
         Route::put('/update/{tax}', [TaxController::class, 'update'])->name('tax.update');
@@ -131,6 +132,7 @@ Route::prefix('academic-management')->group(function () {
 
     Route::prefix('course-management')->group(function () {
         Route::get('/', [CourseController::class, 'index'])->name('course.index');
+        Route::get('/find/{id}', [CourseController::class, 'findCourse'])->name('course.find');
         Route::get('/api/get-course', [CourseController::class, 'getCourse'])->name('course.getCourse');
         Route::post('/store', [CourseController::class, 'store'])->name('course.store');
         Route::put('/status/{course}', [CourseController::class, 'updateStatus'])->name('course.update.status');

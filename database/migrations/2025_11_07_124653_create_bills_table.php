@@ -16,9 +16,12 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('students');
             $table->foreignId('academic_year_id')->constrained('academic_years');
             $table->string('bill_no');
-            $table->string('amount');
-            $table->string('paid_amount')->default(0);
-            $table->string('status')->default('unpaid');
+            $table->string('sub_total')->default(0);
+            $table->string('net_total')->default(0);
+            $table->string('total_tax')->default(0);
+            $table->string('total_amount')->default(0);
+            $table->string('discount')->default(0);
+            $table->string('status')->default('Unpaid');
             $table->timestamps();
         });
     }

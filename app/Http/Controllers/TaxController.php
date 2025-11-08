@@ -19,6 +19,14 @@ class TaxController extends Controller
         ]);
     }
 
+    public function all()
+    {
+        $taxes = Tax::where('status',true)->get();
+        return response()->json([
+            'taxes'=>$taxes
+        ]);
+    }
+
     public function store(Request $request){
         $data=$request->validate(Tax::rules());
         Tax::create($data);

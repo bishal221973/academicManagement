@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('students');
             $table->foreignId('academic_year_id')->constrained('academic_years');
             $table->foreignId('bill_id')->constrained('bills');
+            $table->string('title');
             $table->string('amount');
             $table->string('discount')->default(0);
             // $table->string('amount')->default(0);

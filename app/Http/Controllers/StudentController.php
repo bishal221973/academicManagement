@@ -117,14 +117,13 @@ class StudentController extends Controller
         if (!$academyYear) {
             return redirect()->back()->with('error', "Please active an academy year");
         }
-        // return $request;
         $data = $request->validate(Student::rules());
         $data['academic_year_id'] = $academyYear->id;
         if ($request->hasFile('transfer_certificate')) {
-            // $file=$request->file('transfer_certificate');
-            // $fileName=time().'_'.$file->getClientOriginalName();
-            // $filePath=$file->storeAs('students',$fileName,'public');
             $data['transfer_certificate'] = $request->file('transfer_certificate')->store('students', 'public');
+        }
+        if($request->hasFile('profile')){
+            $data['profile']=$request->file('profile')->store('studentProfile','public');
         }
         try {
             Student::create($data);

@@ -30,7 +30,7 @@ class Student extends Model
         parent::boot();
 
         static::creating(function ($student) {
-            
+
             if (request()->has('registration_date')) {
                 $student->registration_date = saveDate(request('registration_date'));
             }
@@ -49,6 +49,54 @@ class Student extends Model
             // $student->save();
         });
 
+        static::created(function ($student) {
+            $request = request();
+
+            if ($request instanceof \Illuminate\Http\Request) {
+                $sub_total = $request->input('sub_total', 0);
+                $net_total = $request->input('net_total', 0);
+                $total_amount = $request->input('total_amount', 0);
+                $discount = $request->input('discount', 0);
+                $admission_fees = $request->input('admition_fees', 0);
+                $tution_fees=$request->input('tution_fees',0);
+            } else {
+                $sub_total = rand(500, 1000);
+                $net_total = $sub_total - rand(0, 100);
+                $total_amount = $net_total;
+                $discount = rand(0, 50);
+                $admission_fees = rand(00000,999999);
+                $tution_fees=0;
+            }
+
+            $billing=$student->billings()->create([
+                'student_id' => $student->id,
+                'academic_year_id' => $student->academic_year_id,
+                'bill_no' => rand(0000000, 999999) . $student->id,
+                'sub_total' => $sub_total ?? 0,
+                'net_total' => $net_total,
+                'total_tax' => 0,
+                'total_amount' => $total_amount,
+                'discount' => $discount,
+            ]);
+
+            BillItem::create([
+                'student_id' => $student->id,
+                'academic_year_id' => $student->academic_year_id,
+                'bill_id' =>$billing->id,
+                'title'=>'Admisstion Fees',
+                'amount'=>$admission_fees ?? 0,
+            ]);
+
+            if($tution_fees > 0){
+                BillItem::create([
+                'student_id' => $student->id,
+                'academic_year_id' => $student->academic_year_id,
+                'bill_id' =>$billing->id,
+                'title'=>'Tution Fees',
+                'amount'=>$tution_fees ?? 0,
+            ]);
+            }
+        });
         // static::deleting(function ($advance) {
         //     if ($advance->payment_method_id) {
         //         $paymentMethod = PaymentMethod::find($advance->payment_method_id);
@@ -61,10 +109,15 @@ class Student extends Model
         // });
     }
 
+    public function billings()
+    {
+        return $this->hasMany(Bill::class);
+    }
+
     public static function rules($id = null)
     {
         return [
-            'roll_number'=>'required',
+            'roll_number' => 'required',
             'name' => 'required',
             'registration_number' => 'required',
             'registration_date' => 'required',
@@ -96,11 +149,11 @@ class Student extends Model
 
     public function hostelStudent()
     {
-        return $this->hasOne(HostelStudent::class, 'student_id');  
+        return $this->hasOne(HostelStudent::class, 'student_id');
     }
 
     public function hostelStudents()
     {
-        return $this->hasMany(HostelStudent::class, 'student_id');  
+        return $this->hasMany(HostelStudent::class, 'student_id');
     }
 }

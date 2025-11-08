@@ -77,4 +77,11 @@ class CourseController extends Controller
             'courses' => Course::where('status', 1)->latest()->get()
         ]);
     }
+
+    public function findCourse($id){
+        $course=Course::find($id);
+        return response()->json([
+            'course' => $course
+        ]);
+    }
 }
