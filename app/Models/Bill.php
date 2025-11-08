@@ -10,4 +10,8 @@ class Bill extends Model
     use HasFactory;
 
     protected $guarded=['id'];
+
+    public function items(){
+        return $this->hasMany(BillItem::class);
+    }
 }

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import Table from '../Table.vue';
+import TableMultiLevel from '../TableMultiLevel.vue';
 const props = defineProps({
     student: Object,
 });
@@ -22,18 +23,19 @@ const tableData = computed(() =>
         sn: index + 1,
         bill_no: item?.bill_no,
         status1: item?.status,
-        sub_total: 'Rs. '+item?.sub_total,
-        discount: 'Rs. '+item?.discount,
-        tax: 'Rs. '+item?.total_tax,
-        total: 'Rs. '+item?.total_amount,
-        paid:'Rs. '+0,
-        balance:'Rs. '+item?.total_amount,
+        sub_total: 'Rs. ' + item?.sub_total,
+        discount: 'Rs. ' + item?.discount,
+        tax: 'Rs. ' + item?.total_tax,
+        total: 'Rs. ' + item?.total_amount,
+        paid: 'Rs. ' + 0,
+        balance: 'Rs. ' + item?.total_amount,
+        multiLevels:item?.items,
     }))
 );
 </script>
 <template>
-    <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
-                       :edit="'student.edit'" :deleteUrl="'student.delete'">
+    <TableMultiLevel :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
+        :edit="'student.edit'" :deleteUrl="'student.delete'">
 
-                    </Table>
+    </TableMultiLevel>
 </template>
