@@ -58,17 +58,20 @@ class Student extends Model
                 $total_amount = $request->input('total_amount', 0);
                 $discount = $request->input('discount', 0);
                 $admission_fees = $request->input('admition_fees', 0);
-                $tution_fees=$request->input('tution_fees',0);
+                $tution_fees = $request->input('tution_fees', 0);
+
+                $taxes = $request->input('taxes', []);
             } else {
                 $sub_total = rand(500, 1000);
                 $net_total = $sub_total - rand(0, 100);
                 $total_amount = $net_total;
                 $discount = rand(0, 50);
-                $admission_fees = rand(00000,999999);
-                $tution_fees=0;
+                $admission_fees = rand(00000, 999999);
+                $tution_fees = 0;
+                $taxes = [];
             }
 
-            $billing=$student->billings()->create([
+            $billing = $student->billings()->create([
                 'student_id' => $student->id,
                 'academic_year_id' => $student->academic_year_id,
                 'bill_no' => rand(0000000, 999999) . $student->id,
@@ -79,22 +82,32 @@ class Student extends Model
                 'discount' => $discount,
             ]);
 
-            BillItem::create([
+            $bill = BillItem::create([
                 'student_id' => $student->id,
                 'academic_year_id' => $student->academic_year_id,
-                'bill_id' =>$billing->id,
-                'title'=>'Admisstion Fees',
-                'amount'=>$admission_fees ?? 0,
+                'bill_id' => $billing->id,
+                'title' => 'Admisstion Fees',
+                'amount' => $admission_fees ?? 0,
             ]);
 
-            if($tution_fees > 0){
+            if ($tution_fees > 0) {
                 BillItem::create([
-                'student_id' => $student->id,
-                'academic_year_id' => $student->academic_year_id,
-                'bill_id' =>$billing->id,
-                'title'=>'Tution Fees',
-                'amount'=>$tution_fees ?? 0,
-            ]);
+                    'student_id' => $student->id,
+                    'academic_year_id' => $student->academic_year_id,
+                    'bill_id' => $billing->id,
+                    'title' => 'Tution Fees',
+                    'amount' => $tution_fees ?? 0,
+                ]);
+            }
+
+            foreach ($taxes as $tax) {
+                BillTax::create([
+                    'student_id' => $student->id,
+                    'academic_year_id' => $student->academic_year_id,
+                    'bill_id' => $billing->id,
+                    'percentage' => $tax['percentage'],
+                    'amount' => $total_amount * $tax['percentage'] / 100,
+                ]);
             }
         });
         // static::deleting(function ($advance) {
@@ -144,6 +157,7 @@ class Student extends Model
             'prev_school' => 'nullable',
             'prev_class' => 'nullable',
             'transfer_certificate' => 'nullable',
+            'admition_fees' => 'nullable',
         ];
     }
 
@@ -155,5 +169,10 @@ class Student extends Model
     public function hostelStudents()
     {
         return $this->hasMany(HostelStudent::class, 'student_id');
+    }
+
+    public function studentTuitionFees()
+    {
+        return $this->hasMany(StudentTutionFee::class);
     }
 }

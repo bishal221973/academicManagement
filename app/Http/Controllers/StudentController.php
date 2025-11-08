@@ -8,6 +8,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FormatExport;
 use App\Imports\StudentImport;
 use App\Models\AcademicYear;
+use App\Models\Bill;
+use App\Models\Course;
+use App\Models\StudentTutionFee;
 use Carbon\Carbon;
 
 class StudentController extends Controller
@@ -113,6 +116,7 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         $academyYear = AcademicYear::where('status', true)->first();
         if (!$academyYear) {
             return redirect()->back()->with('error', "Please active an academy year");
@@ -125,10 +129,24 @@ class StudentController extends Controller
         if($request->hasFile('profile')){
             $data['profile']=$request->file('profile')->store('studentProfile','public');
         }
+        $data['admission_fee']=$request->admition_fees ?? 0;
         try {
-            Student::create($data);
+            $student=Student::create($data);
+
+            if($request->months){
+                $course=Course::find($request->course_id);
+                foreach($request->months as $month){
+                    StudentTutionFee::create([
+                        'student_id'=>$student->id,
+                        'academic_year_id'=>$student->academic_year_id,
+                        'month'=>$month,
+                        'amount'=>$course->fees,
+                    ]);
+                }
+            }
             return redirect()->back()->with('success', 'New student saved successfully');
         } catch (\Throwable $th) {
+            return $th->getMessage();
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
@@ -157,6 +175,7 @@ class StudentController extends Controller
 
     public function edit(Student $student)
     {
+        
         $academyYear = AcademicYear::where('status', true)->first();
         if (!$academyYear) {
             return redirect()->back()->with('error', "Please active an academy year");
@@ -169,11 +188,13 @@ class StudentController extends Controller
         });
         $student->registration_date = formatDate($student->registration_date);
         $student->birth_date = formatDate($student->birth_date);
+        $bill=Bill::orderBy('id','asc')->where('student_id',$student->id)->first();
         return inertia('Student/List', [
             'menu' => 'Student',
             'sidebar' => 'Students',
             'students' => $students,
-            'student' => $student,
+            'student' => $student->load('studentTuitionFees'),
+            'bill'=>$bill,
         ]);
     }
 

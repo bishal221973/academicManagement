@@ -59,6 +59,7 @@ class StudentFactory extends Factory
             'profile' => $this->faker->imageUrl(200, 200, 'people'),
             'status' => $this->faker->boolean(90), // 90% active
             'is_transfered' => $this->faker->boolean(10), // 10% transferred
+            'admission_fee'=>rand(11111,99999)
 
         ];
     }

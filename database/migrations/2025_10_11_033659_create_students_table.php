@@ -60,6 +60,7 @@ return new class extends Migration
             $table->string('library_id_number')->nullable();
             $table->string('nationality_card_front')->nullable();
             $table->string('nationality_card_back')->nullable();
+            $table->string('admission_fee')->nullable();
             $table->timestamps();
         });
     }

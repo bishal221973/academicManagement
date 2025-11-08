@@ -9,6 +9,7 @@ import AddStudent from "@/Components/AddForm/AddStudent.vue";
 const props = defineProps({
     students: Object,
     student: Object,
+    bill:Object,
 });
 
 const columns = [
@@ -45,7 +46,7 @@ const tableData = computed(() =>
         <template #content>
             <div class="flex items-center justify-between mb-3">
                 <Breadcrumb :breadcrumbs="[{ label: 'Student Management' },{label:'Student List'}]" />
-                <AddStudent :student="student" />
+                <AddStudent :student="student" :bill="bill" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">

@@ -24,6 +24,7 @@ const props = defineProps({
         default: null,
     },
     title: String,
+    bill:Object,
 });
 const openModal = ref(false);
 
@@ -134,8 +135,11 @@ onMounted(() => {
         form.prev_class = props.student.prev_class;
         form.transfer_certificate = props.student.transfer_certificate;
 
+        form.admition_fees = props.bill?.total_amount ?? usePage()?.props?.academy?.admission_fees;
+        form.discount=props?.bill?.discount ?? 0;
+            form.months = props.student.student_tuition_fees.map(fee => Number(fee.month))
     }
-    form.admition_fees = usePage()?.props?.academy?.admission_fees;
+    form.admition_fees = props.student?.admission_fee ?? usePage()?.props?.academy?.admission_fees;
     computeSubTotal(usePage()?.props?.academy?.admission_fees)
 });
 
@@ -308,12 +312,15 @@ const computePercentageAmount=(netAmt,percent)=>{
             v-if="title">{{ title }}</button>
         <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             v-else>Add Student</button>
+            
     </div>
 
     <Modal :show="openModal" maxWidth="4xl" :title="student?.id ? 'Edit Student' : 'Add Student'" @close="toggleModal"
         :selectedData="student">
 
         <form @submit.prevent="submit">
+            <!-- {{ bill }} -->
+            <!-- {{ student?.student_tuition_fees }} -->
             <div class="flex gap-3">
                 <div class="w-full">
                     <div class="grid grid-cols-12 gap-3">
@@ -550,7 +557,7 @@ const computePercentageAmount=(netAmt,percent)=>{
                         </div>
                     </div>
                 </div>
-                <div class="w-[400px]">
+                <div class="w-[400px]" v-if="!student?.id">
                     <div class="bg-gray-100 py-2 px-3 rounded mb-2">
                         <span class="text-[14px]">Profile Information :</span>
                     </div>
@@ -567,7 +574,7 @@ const computePercentageAmount=(netAmt,percent)=>{
                             <span class="checkmark"></span>
                             Admission Fees
                         </label>
-                        <input type="number" v-model="form.admition_fees" step="0.01"
+                        <input type="number" :class="student?.id ? 'pointer-events-none bg-gray-100' : ''" v-model="form.admition_fees" step="0.01"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter admission fees" />
                     </div>
@@ -578,7 +585,7 @@ const computePercentageAmount=(netAmt,percent)=>{
                             <span class="checkmark"></span>
                             Tution Fees
                         </label>
-                        <MultiMonthSelect v-model="form.months"/>
+                        <MultiMonthSelect :class="student?.id ? 'pointer-events-none ' : ''" v-model="form.months"/>
                     </div>
 
                     <div class="block mt-3 hidden">
@@ -604,7 +611,7 @@ const computePercentageAmount=(netAmt,percent)=>{
                                 <small class="block pl-3" style="padding-left: 25px;">%</small>
                             </div>
                         </div>
-                        <input type="text" v-model="form.discount"
+                        <input type="text" v-model="form.discount" :class="student?.id ? 'pointer-events-none bg-gray-100' : ''"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Discounts" />
                             <!-- {{ form.discount }} -->
