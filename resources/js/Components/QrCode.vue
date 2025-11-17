@@ -41,7 +41,7 @@ const props=defineProps({
   const margin = ref(0)
   
   const imageSettings = ref<ImageSettings>({
-    src: 'https://github.com/scopewu.png',
+    src: props.src,
     width: 30,
     height: 30,
     // x: 10,

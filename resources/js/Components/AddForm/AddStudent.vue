@@ -70,7 +70,7 @@ const form = useForm({
     sub_total:0,
     net_total:0,
     total_amount:0,
-    taxes: []
+    taxes: [],
 });
 
 const addTax = () => {

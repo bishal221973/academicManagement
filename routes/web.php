@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SidebarController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('root');
+
+// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/admin-login', [LoginController::class, 'adminLogin'])->name('admin.login');
 
 Route::middleware([
     'auth:sanctum',
