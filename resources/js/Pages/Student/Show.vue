@@ -7,7 +7,7 @@ import Table from "@/Components/Table.vue";
 import AddStudent from "@/Components/AddForm/AddStudent.vue";
 import { Printer, Pen, DollarSign, Key, ThumbsDown } from "lucide-vue-next";
 import QrCode from "@/Components/QrCode.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import Profile from "@/Components/StudentProfile/Profile.vue";
 import Fees from "@/Components/StudentProfile/Fees.vue";
 import Document from "@/Components/StudentProfile/Document.vue";
@@ -45,6 +45,10 @@ onMounted(() => {
 //         actions: item.id,
 //     }))
 // );
+
+const changeStatus=()=>{
+    useForm({}).put(route('student.update.status',props?.student?.id));
+}
 </script>
 
 <template>
@@ -79,17 +83,17 @@ onMounted(() => {
                                 class="bg-white rounded-lg shadow px-3 py-2 w-full flex mb-1 gap-3 items-center justify-between">
                                 <Print :student="student"/>
                                
-                                <button title="Edit" class="w-full border-r hover:text-red-500">
+                                <Link :href="route('student.edit',student)" title="Edit" class="w-full border-r hover:text-red-500">
                                     <component :is="Pen" class="h-[13px]" />
-                                </button>
-                                <button title="Collect Fees" class="w-full border-r hover:text-red-500">
+                                </Link>
+                                <Link :href="route('student.show', student.id) + '?type=fees'"  title="Collect Fees" class="w-full border-r hover:text-red-500">
                                     <component :is="DollarSign" class="h-[13px]" />
-                                </button>
-                                <button title="Login Details" class="w-full border-r hover:text-red-500">
+                                </Link>
+                                <!-- <button title="Login Details" class="w-full border-r hover:text-red-500">
                                     <component :is="Key" class="h-[13px]" />
-                                </button>
-                                <button title="Disable" class="w-full hover:text-red-500">
-                                    <component :is="ThumbsDown" class="h-[13px]" />
+                                </button> -->
+                                <button @click="changeStatus" title="Disable" class="w-full hover:text-red-500">
+                                    <component :is="ThumbsDown" :class="student?.status ? '' : 'text-gray-400'" class="h-[13px]" />
                                 </button>
                             </div>
                             <div class="bg-white rounded-lg shadow p-3 w-full gap-3">

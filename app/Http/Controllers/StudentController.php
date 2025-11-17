@@ -305,4 +305,12 @@ class StudentController extends Controller
 
         return redirect()->back()->with('success',"File Uploaded");
     }
+
+    public function updateStatus(Student $student){
+        $student->update([
+            'status'=>!$student->status
+        ]);
+
+        return redirect()->back()->with('success',"Student status have been changed");
+    }
 }

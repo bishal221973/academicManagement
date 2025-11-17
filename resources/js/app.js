@@ -7,7 +7,8 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
-
+import vue3ToPdf from 'vue3-to-pdf'
+// Vue.use(vue3ToPdf)
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
@@ -20,7 +21,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) });
 
-        app.use(plugin).use(ZiggyVue).mount(el);
+        app.use(plugin).use(ZiggyVue).use(vue3ToPdf).mount(el);
 
         // ✅ Global SweetAlert flash handler
         app.config.globalProperties.$inertia.on("finish", (event) => {

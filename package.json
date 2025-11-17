@@ -44,6 +44,7 @@
         "sortablejs": "^1.15.6",
         "sweetalert2": "^11.25.0",
         "vue3-nepali-date-picker": "^1.4.2",
+        "vue3-to-pdf": "^1.0.8",
         "xlsx": "^0.18.5"
     }
 }
