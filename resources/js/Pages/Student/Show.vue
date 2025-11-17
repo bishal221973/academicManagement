@@ -12,6 +12,7 @@ import Profile from "@/Components/StudentProfile/Profile.vue";
 import Fees from "@/Components/StudentProfile/Fees.vue";
 import Document from "@/Components/StudentProfile/Document.vue";
 import Hostel from "@/Components/StudentProfile/Hostel.vue";
+import Print from "./Print.vue";
 const props = defineProps({
     students: Object,
     student: Object,
@@ -76,9 +77,8 @@ onMounted(() => {
 
                             <div
                                 class="bg-white rounded-lg shadow px-3 py-2 w-full flex mb-1 gap-3 items-center justify-between">
-                                <button title="Print" class="w-full border-r hover:text-red-500">
-                                    <component :is="Printer" class="h-[13px]" />
-                                </button>
+                                <Print :student="student"/>
+                               
                                 <button title="Edit" class="w-full border-r hover:text-red-500">
                                     <component :is="Pen" class="h-[13px]" />
                                 </button>
