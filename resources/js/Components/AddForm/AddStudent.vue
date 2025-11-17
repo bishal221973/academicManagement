@@ -639,7 +639,7 @@ const computePercentageAmount=(netAmt,percent)=>{
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="block mt-3 bg-gray-100 p-3 rounded">
                         <div class="flex justify-between">
                             <small>

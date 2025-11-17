@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class HostelStudentController extends Controller
@@ -30,23 +31,31 @@ class HostelStudentController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         $data = $request->validate(HostelStudent::rules());
         $number = preg_replace('/Bed No\. /', '', $request->bed_no);
         $data['bed_no'] = $number;
-        
+
         $data['check_out_date'] = Carbon::parse($request->check_in_date)->addMonths($request->stay_month)->format('Y-m-d');
-        HostelStudent::create($data);
-        // return $request;
-        $course=Course::find($request->course_id);
-        $student=Student::find($request->student_id);
+        // DB::beginTransaction();
 
-        if(!$student->hostel_id_number){
-            $student->update([
-                'hostel_id_number'=>$course->code.'-'.str_pad($student->id,4,'0',STR_PAD_LEFT),
-            ]);
-        }
-
-
+        // try {
+            HostelStudent::create($data);
+            $course = Course::find($request->course_id);
+            $student = Student::find($request->student_id);
+            
+            if (!$student->hostel_id_number) {
+                $student->update([
+                    'hostel_id_number' => $course->code . '-' . str_pad($student->id, 4, '0', STR_PAD_LEFT),
+                ]);
+            }
+            // return $request;
+            createBill($request->student_id, $request->price, $request->discount, $request->net_total, $request->total_amount, $request->taxes,"Hostel Fees");
+        // } catch (\Exception $e) {
+        //     DB::rollBack(); // undo all changes
+        //     return $e->getMessage();
+        //     return redirect()->back()->with('error', "Failed: " . $e->getMessage());
+        // }
 
         return redirect()->back()->with('success', "New Student have been added in hostel");
     }

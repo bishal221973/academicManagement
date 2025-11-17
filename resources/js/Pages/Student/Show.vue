@@ -11,6 +11,7 @@ import { Link } from "@inertiajs/vue3";
 import Profile from "@/Components/StudentProfile/Profile.vue";
 import Fees from "@/Components/StudentProfile/Fees.vue";
 import Document from "@/Components/StudentProfile/Document.vue";
+import Hostel from "@/Components/StudentProfile/Hostel.vue";
 const props = defineProps({
     students: Object,
     student: Object,
@@ -149,9 +150,9 @@ onMounted(() => {
                                 <Link :href="route('student.show', student.id) + '?type=documents'" class="text-[14px] rounded-md"
                                     :class="type == 'documents' ? 'text-red-400 font-bold border-b-[2px] border-red-200' : ''">
                                 Documents</Link>
-                                <Link :href="route('student.show', student.id) + '?type=timeline'" class="text-[14px] rounded-md"
+                                <!-- <Link :href="route('student.show', student.id) + '?type=timeline'" class="text-[14px] rounded-md"
                                     :class="type == 'timeline' ? 'text-red-400 font-bold border-b-[2px] border-red-200' : ''">
-                                Timeline</Link>
+                                Timeline</Link> -->
                                 <Link :href="route('student.show', student.id) + '?type=hostel'" class="text-[14px] rounded-md"
                                     :class="type == 'hostel' ? 'text-red-400 font-bold border-b-[2px] border-red-200' : ''">
                                 Hostel
@@ -168,6 +169,7 @@ onMounted(() => {
                             <Profile :student="student" v-if="type == 'profile'"/>
                             <Fees :student="student" v-if="type == 'fees'"/>
                             <Document :student="student" v-if="type == 'documents'"/>
+                            <Hostel :student="student" v-if="type == 'hostel'"/>
                             <!-- {{ student?.bills }} -->
                         </div>
                     </div>

@@ -169,7 +169,7 @@ class StudentController extends Controller
         return inertia('Student/Show', [
             'menu' => 'Student',
             'sidebar' => 'Students',
-            'student' => $student->load('section','group','bills.items'),
+            'student' => $student->load('section','group','bills.items','hostels.hostel','hostels.room'),
         ]);
     }
 

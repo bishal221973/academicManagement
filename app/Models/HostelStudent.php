@@ -22,6 +22,8 @@ class HostelStudent extends Model
             'price' => 'nullable',
             'bed_no' => 'nullable|string',
             'stay_month' => 'nullable',
+            'total_amount'=>'nullable',
+            'discount'=>'nullable',
         ];
     }
 

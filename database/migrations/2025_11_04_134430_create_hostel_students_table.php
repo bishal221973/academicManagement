@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('check_in_date')->nullable();
             $table->string('check_out_date')->nullable();
             $table->string('price')->nullable();
+            $table->string('discount')->nullable();
+            $table->string('tax')->nullable();
+            $table->string('total_amount')->nullable();
             $table->string('bed_no')->nullable();
             $table->string('stay_month')->nullable();
             $table->text('remarks')->nullable();

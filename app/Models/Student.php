@@ -28,6 +28,10 @@ class Student extends Model
         return $this->hasMany(Bill::class);
     }
 
+    public function hostels(){
+        return $this->hasMany(HostelStudent::class);
+    }
+
 
     protected static function boot()
     {
