@@ -22,6 +22,7 @@ use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UnitController;
@@ -254,5 +255,13 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('/update/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
+    });
+    Route::prefix('supplier')->group(function () {
+        Route::get('/', [SupplierController::class, 'index'])->name('supplier.index');
+        Route::post('/supplier', [SupplierController::class, 'store'])->name('supplier.store');
+        Route::put('/status/{supplier}', [SupplierController::class, 'updateStatus'])->name('supplier.update.status');
+        Route::get('/edit/{supplier}', [SupplierController::class, 'edit'])->name('supplier.edit');
+        Route::put('/update/{supplier}', [SupplierController::class, 'update'])->name('supplier.update');
+        Route::delete('/delete/{id}', [SupplierController::class, 'destroy'])->name('supplier.delete');
     });
 });
