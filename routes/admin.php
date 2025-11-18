@@ -16,6 +16,7 @@ use App\Http\Controllers\HostelStudentController;
 use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StoreController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransferController;
+use App\Http\Controllers\UnitController;
 use Database\Seeders\IcardSeeder;
 
 Route::get('/dashboard', function () {
@@ -232,5 +234,23 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{productCategory}', [ProductCategoryController::class, 'edit'])->name('productCategory.edit');
         Route::put('/update/{productCategory}', [ProductCategoryController::class, 'update'])->name('productCategory.update');
         Route::delete('/delete/{id}', [ProductCategoryController::class, 'destroy'])->name('productCategory.delete');
+    });
+
+     Route::prefix('unit')->group(function () {
+        Route::get('/', [UnitController::class, 'index'])->name('unit.index');
+        Route::post('/unit', [UnitController::class, 'store'])->name('unit.store');
+        Route::put('/status/{unit}', [UnitController::class, 'updateStatus'])->name('unit.update.status');
+        Route::get('/edit/{unit}', [UnitController::class, 'edit'])->name('unit.edit');
+        Route::put('/update/{unit}', [UnitController::class, 'update'])->name('unit.update');
+        Route::delete('/delete/{id}', [UnitController::class, 'destroy'])->name('unit.delete');
+    });
+
+    Route::prefix('product')->group(function () {
+        Route::get('/', [ProductController::class, 'index'])->name('product.index');
+        Route::post('/product', [ProductController::class, 'store'])->name('product.store');
+        Route::put('/status/{product}', [ProductController::class, 'updateStatus'])->name('product.update.status');
+        Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('/update/{product}', [ProductController::class, 'update'])->name('product.update');
+        Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
     });
 });

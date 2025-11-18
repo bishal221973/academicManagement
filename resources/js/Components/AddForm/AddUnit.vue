@@ -9,7 +9,7 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
-    productCategory: {
+    unit: {
         type: Object,
         default: null,
     },
@@ -23,13 +23,13 @@ const toggleModal = () => {
 };
 
 const form = useForm({
-    name: props.productCategory?.name ?? '',
-    description: props.productCategory?.description ?? '',
+    name: props.unit?.name ?? '',
+    description: props.unit?.description ?? '',
     
 });
 
 const submit = () => {
-    if (props.productCategory?.id) {
+    if (props.unit?.id) {
         updateData();
     } else {
         saveData();
@@ -38,7 +38,7 @@ const submit = () => {
 
 
 const saveData = () => {
-    form.post(route('productCategory.store'), {
+    form.post(route('unit.store'), {
         onSuccess: () => {
             form.reset();
             toggleModal();
@@ -47,7 +47,7 @@ const saveData = () => {
 }
 
 const updateData = () => {
-    form.put(route('productCategory.update', props.productCategory), {
+    form.put(route('unit.update', props.unit), {
         onSuccess: () => {
             form.reset();
             toggleModal();
@@ -59,7 +59,7 @@ const taxes = ref([]);
 
 onMounted(() => {
     fetchTaxes();
-    if(props.productCategory?.id){
+    if(props.unit?.id){
         toggleModal();
     }
 
@@ -80,19 +80,19 @@ const fetchTaxes = async () => {
         <button @click="toggleModal" type="button" class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5"
             v-if="title">{{ title }}</button>
         <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            v-else>Add Category</button>
+            v-else>Add Unit</button>
 
     </div>
 
-    <Modal :show="openModal" maxWidth="sm" :title="productCategory?.id ? 'Edit Product Category' : 'Add Product Category'" @close="toggleModal"
-        :selectedData="productCategory">
+    <Modal :show="openModal" maxWidth="sm" :title="unit?.id ? 'Edit Unit' : 'Add Unit'" @close="toggleModal"
+        :selectedData="unit">
 
         <form @submit.prevent="submit">
             <div class="col-span-3">
-                <label class="text-[14px]">Category Name *</label>
+                <label class="text-[14px]">Unit *</label>
                 <input type="text" v-model="form.name"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Category Name" />
+                    placeholder="Unit Name" />
                 <small class="text-red-600">{{ form.errors.name }}</small>
             </div>
             <div class="col-span-3">
@@ -105,7 +105,7 @@ const fetchTaxes = async () => {
 
             <div class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end">
                 <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
-                    {{ productCategory?.id ? 'Update Category' : 'Save Category' }}
+                    {{ unit?.id ? 'Update Category' : 'Save Category' }}
                 </button>
             </div>
         </form>
