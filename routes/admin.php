@@ -17,6 +17,7 @@ use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaxController;
@@ -66,7 +67,7 @@ Route::prefix('configuration')->group(function () {
         Route::put('/change-status/{academicYear}', [AcademicYearController::class, 'status'])->name('academic.status');
     });
 
-     Route::prefix('taxes')->group(function () {
+    Route::prefix('taxes')->group(function () {
         Route::get('/', [TaxController::class, 'index'])->name('tax.index');
         Route::get('/all', [TaxController::class, 'all'])->name('tax.all');
         Route::post('/store', [TaxController::class, 'store'])->name('tax.store');
@@ -211,7 +212,15 @@ Route::prefix('library-management')->group(function () {
     Route::get('/edit/{library}', [LibraryController::class, 'edit'])->name('library.edit');
     Route::put('/update/{library}', [LibraryController::class, 'update'])->name('library.update');
     Route::delete('/delete/{id}', [LibraryController::class, 'destroy'])->name('library.delete');
+});
 
-
-    
+Route::prefix('inventory-management')->group(function () {
+    Route::prefix('store')->group(function () {
+        Route::get('/', [StoreController::class, 'index'])->name('store.index');
+        Route::post('/store', [StoreController::class, 'store'])->name('store.store');
+        Route::put('/status/{store}', [StoreController::class, 'updateStatus'])->name('store.update.status');
+        Route::get('/edit/{store}', [StoreController::class, 'edit'])->name('store.edit');
+        Route::put('/update/{store}', [StoreController::class, 'update'])->name('store.update');
+        Route::delete('/delete/{id}', [StoreController::class, 'destroy'])->name('store.delete');
+    });
 });

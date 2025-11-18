@@ -21,13 +21,13 @@ class SidebarSeeder extends Seeder
             ['title' => 'Library', 'icon' => 'BookCopy', 'position' => 4, 'url' => 'library.index'],
             // ['title' => 'Exam', 'icon' => 'FileCheck', 'position' => 5, 'url' => null],
             // ['title' => 'HR', 'icon' => 'UserCog', 'position' => 6, 'url' => null],
-            ['title' => 'Hostel', 'icon' => 'Bed', 'position' => 7, 'url' => 'hostel.index'],
+            ['title' => 'Hostel', 'icon' => 'Bed', 'position' => 5, 'url' => 'hostel.index'],
             // ['title' => 'Shop', 'icon' => 'ShoppingCart', 'position' => 8, 'url' => null],
-            // ['title' => 'Library', 'icon' => 'Library', 'position' => 9, 'url' => null],
+            ['title' => 'Inventory', 'icon' => 'ShoppingCart', 'position' => 6, 'url' => 'store.index'],
             // ['title' => 'Account', 'icon' => 'Wallet', 'position' => 10, 'url' => null],
             // ['title' => 'Vehicle', 'icon' => 'Bus', 'position' => 11, 'url' => null],
             // ['title' => 'Reports', 'icon' => 'BarChart3', 'position' => 11,'url'=>null],
-            ['title' => 'Settings', 'icon' => 'Settings', 'position' => 12,'url'=>'configuration'],
+            ['title' => 'Settings', 'icon' => 'Settings', 'position' => 7,'url'=>'configuration'],
             
             
             // ['title' => 'Students', 'icon' => 'GraduationCap', 'position' => 4, 'url' => null],
