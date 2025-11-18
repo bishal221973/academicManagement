@@ -17,7 +17,7 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Unit' ? 'text-main/80' : ''" :href="route('unit.index')">
       Unit
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Import' ? 'text-main/80' : ''" :href="route('product.index')">
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Product' ? 'text-main/80' : ''" :href="route('product.index')">
       Product
     </Link>
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Transfer' ? 'text-main/80' : ''" :href="route('student.transfer.index')">
