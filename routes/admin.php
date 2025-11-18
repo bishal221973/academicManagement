@@ -15,6 +15,7 @@ use App\Http\Controllers\HostelController;
 use App\Http\Controllers\HostelStudentController;
 use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StoreController;
@@ -222,5 +223,14 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{store}', [StoreController::class, 'edit'])->name('store.edit');
         Route::put('/update/{store}', [StoreController::class, 'update'])->name('store.update');
         Route::delete('/delete/{id}', [StoreController::class, 'destroy'])->name('store.delete');
+    });
+
+    Route::prefix('product-category')->group(function () {
+        Route::get('/', [ProductCategoryController::class, 'index'])->name('productCategory.index');
+        Route::post('/productCategory', [ProductCategoryController::class, 'store'])->name('productCategory.store');
+        Route::put('/status/{productCategory}', [ProductCategoryController::class, 'updateStatus'])->name('productCategory.update.status');
+        Route::get('/edit/{productCategory}', [ProductCategoryController::class, 'edit'])->name('productCategory.edit');
+        Route::put('/update/{productCategory}', [ProductCategoryController::class, 'update'])->name('productCategory.update');
+        Route::delete('/delete/{id}', [ProductCategoryController::class, 'destroy'])->name('productCategory.delete');
     });
 });

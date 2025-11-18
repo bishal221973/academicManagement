@@ -7,28 +7,27 @@ import Table from "@/Components/Table.vue";
 import AddStudent from "@/Components/AddForm/AddStudent.vue";
 import Inventory from "@/Components/Menus/Inventory.vue";
 import AddStore from "@/Components/AddForm/AddProductCategory.vue";
+import AddProductCategory from "@/Components/AddForm/AddProductCategory.vue";
 const props = defineProps({
-    stores: Object,
-    store: Object,
+    productCategories: Object,
+    productCategory: Object,
     bill:Object,
 });
 
 const columns = [
     { label: "S.N.", key: "sn" },
-    { label: "Store ID", key: "store_id" },
-    { label: "Store", key: "store" },
-    { label: "Address.", key: "address" },
+    { label: "Category", key: "category" },
+    { label: "Description.", key: "description" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
 ];
 
 const tableData = computed(() =>
-    props.stores.map((item, index) => ({
+    props.productCategories.map((item, index) => ({
         sn: index + 1,
-        store_id: item?.store_id,
-        store: item?.name,
-        address: item?.address,
+        category: item?.name,
+        description: item?.description ?? null,
         status: item?.status,
         actions: item.id,
     }))
@@ -43,14 +42,14 @@ const tableData = computed(() =>
 
         <template #content>
             <div class="flex items-center justify-between mb-3">
-                <Breadcrumb :breadcrumbs="[{ label: 'Store Management' },{label:'Store'}]" />
-                <AddStore :store="store" :bill="bill" />
+                <Breadcrumb :breadcrumbs="[{ label: 'Store Management' },{label:'Category'}]" />
+                <AddProductCategory :productCategory="productCategory" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">
                     
                     <Table :columns="columns" :data="tableData" exportTitle="Student List" :filters="filters"
-                        :status="'store.update.status'" :edit="'store.edit'" :deleteUrl="'store.delete'">
+                        :status="'productCategory.update.status'" :edit="'productCategory.edit'" :deleteUrl="'productCategory.delete'">
 
                     </Table>
                 </div>

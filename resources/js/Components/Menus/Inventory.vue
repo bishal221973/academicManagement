@@ -10,10 +10,9 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Store' ? 'text-main/80' : ''" :href="route('store.index')">
       Store
     </Link>
-    <AddStudent :title="'Admin Student'"/>
    
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'ICard' ? 'text-main/80' : ''" :href="route('student.icard.index')">
-      Product Category
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'ProductCategory' ? 'text-main/80' : ''" :href="route('productCategory.index')">
+      Category
     </Link>
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Import' ? 'text-main/80' : ''" :href="route('student.import.index')">
       Product
