@@ -17,6 +17,7 @@ class Product extends Model
             'product'=>'required|unique:products,product,'.$id,
             'product_category_id'=>'required',
             'unit_id'=>'required',
+            'rate'=>'required',
         ];
     }
 

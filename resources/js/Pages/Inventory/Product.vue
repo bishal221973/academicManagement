@@ -21,6 +21,7 @@ const columns = [
     { label: "Product.", key: "product" },
     { label: "Product Category", key: "category" },
     { label: "Unit", key: "unit" },
+    { label: "Sales Rate", key: "salesRate" },
     { label: "Status", key: "status" },
 
     { label: "Actions", key: "actions" },
@@ -33,6 +34,7 @@ const tableData = computed(() =>
         product: item?.product ?? null,
         category: item?.category?.name ?? null,
         unit:item?.unit?.name,
+        salesRate:"Rs. "+item?.rate,
         status: item?.status,
         actions: item.id,
     }))

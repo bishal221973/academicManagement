@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('product_category_id')->constrained('product_categories');
             $table->foreignId('unit_id')->constrained('units');
             $table->string('qty');
+            $table->string('rate')->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

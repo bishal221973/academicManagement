@@ -29,7 +29,7 @@ const form = useForm({
     product: props.product?.product ?? '',
     product_category_id: props.product?.product_category_id ?? '',
     unit_id: props.product?.unit_id ?? '',
-    
+    rate:props?.rate ?? '',
 });
 
 const submit = () => {
@@ -116,6 +116,13 @@ const fetchTaxes = async () => {
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Product" />
                 <small class="text-red-600">{{ form.errors.product }}</small>
+            </div>
+            <div class="col-span-3">
+                <label class="text-[14px]">Sales Rate *</label>
+                <input type="number" step="0.01" v-model="form.rate"
+                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Rate" />
+                <small class="text-red-600">{{ form.errors.rate }}</small>
             </div>
             
 
