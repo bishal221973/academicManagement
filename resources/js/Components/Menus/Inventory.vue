@@ -7,9 +7,9 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <span class="uppercase block py-3">Inventory Management</span>
     <hr class="mb-5" />
     
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Store' ? 'text-main/80' : ''" :href="route('store.index')">
+    <!-- <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Store' ? 'text-main/80' : ''" :href="route('store.index')">
       Store
-    </Link>
+    </Link> -->
    
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'ProductCategory' ? 'text-main/80' : ''" :href="route('productCategory.index')">
       Category
@@ -26,7 +26,7 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Purchase' ? 'text-main/80' : ''" :href="route('productPurchase.index')">
       Purchase
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Transfer' ? 'text-main/80' : ''" :href="route('student.transfer.index')">
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Stock' ? 'text-main/80' : ''" :href="route('stock.manager')">
       Stock Management
     </Link>
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'AdmitionForm' ? 'text-main/80' : ''" :href="route('admission-form.index')">

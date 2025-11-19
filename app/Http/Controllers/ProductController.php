@@ -71,4 +71,14 @@ class ProductController extends Controller
             ]);
         }
     }
+
+    public function stockManager(){
+        $products=Product::with('category','unit')->latest()->get();
+        return Inertia::render("Inventory/Stock",[
+            'menu'=>'Stock',
+            'sidebar' => 'Inventory',
+            'products'=>$products,
+            'product'=>new Product(),
+        ]);
+    }
 }

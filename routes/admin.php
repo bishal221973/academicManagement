@@ -276,4 +276,5 @@ Route::prefix('inventory-management')->group(function () {
         Route::put('/update/{productPurchase}', [ProductPurchaseController::class, 'update'])->name('productPurchase.update');
         Route::delete('/delete/{id}', [ProductPurchaseController::class, 'destroy'])->name('productPurchase.delete');
     });
+    Route::get('/stock-manager', [ProductController::class, 'stockManager'])->name('stock.manager');
 });
