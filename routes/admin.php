@@ -20,6 +20,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPurchaseController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\SellController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
@@ -277,4 +278,13 @@ Route::prefix('inventory-management')->group(function () {
         Route::delete('/delete/{id}', [ProductPurchaseController::class, 'destroy'])->name('productPurchase.delete');
     });
     Route::get('/stock-manager', [ProductController::class, 'stockManager'])->name('stock.manager');
+
+     Route::prefix('sell')->group(function () {
+        Route::get('/', [SellController::class, 'index'])->name('sell.index');
+        Route::post('/sell', [SellController::class, 'store'])->name('sell.store');
+        Route::put('/status/{sell}', [SellController::class, 'updateStatus'])->name('sell.update.status');
+        Route::get('/edit/{sell}', [SellController::class, 'edit'])->name('sell.edit');
+        Route::put('/update/{sell}', [SellController::class, 'update'])->name('sell.update');
+        Route::delete('/delete/{id}', [SellController::class, 'destroy'])->name('sell.delete');
+    });
 });

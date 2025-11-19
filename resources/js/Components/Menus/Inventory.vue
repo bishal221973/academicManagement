@@ -29,8 +29,8 @@ import AddStudent from '../AddForm/AddStudent.vue';
     <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Stock' ? 'text-main/80' : ''" :href="route('stock.manager')">
       Stock Management
     </Link>
-    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'AdmitionForm' ? 'text-main/80' : ''" :href="route('admission-form.index')">
-      Sell Product
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5" :class="$page?.props?.menu == 'Sell' ? 'text-main/80' : ''" :href="route('sell.index')">
+      Sells
     </Link>
     
   </div>
