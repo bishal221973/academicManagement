@@ -14,7 +14,7 @@ class ProductCategory extends Model
     public static function rules($id = null)
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:product_categories,name,'.$id,
             'description' => 'nullable',
         ];
     }

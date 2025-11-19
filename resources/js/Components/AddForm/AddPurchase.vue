@@ -4,12 +4,16 @@ import Modal from "../Modal.vue";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { Plus } from "lucide-vue-next";
 import axios from "axios";
+import SelectProduct from "../Select/SelectProduct.vue";
+import SelectProductCategory from "../Select/SelectProductCategory.vue";
+import Datepicker from "../Datepicker.vue";
+import SelectSupplier from "../Select/SelectSupplier.vue";
 const props = defineProps({
     isSelect: {
         type: Boolean,
         default: false,
     },
-    supplier: {
+    productPurchase: {
         type: Object,
         default: null,
     },
@@ -23,17 +27,16 @@ const toggleModal = () => {
 };
 
 const form = useForm({
-    name: props.supplier?.name ?? '',
-    email: props.supplier?.email ?? '',
-    phone: props.supplier?.phone ?? '',
-    vat_no: props.supplier?.vat_no ?? '',
-    address: props.supplier?.address ?? '',
-    description: props.supplier?.description ?? '',
-    
+    product_category_id: "",
+    product_id: props.productPurchase?.product_id ?? '',
+    supplier_id: props.productPurchase?.supplier_id ?? '',
+    purchase_date: props.productPurchase?.purchase_date ?? '',
+    purchase_qty: props.productPurchase?.purchase_qty ?? '',
+
 });
 
 const submit = () => {
-    if (props.supplier?.id) {
+    if (props.productPurchase?.id) {
         updateData();
     } else {
         saveData();
@@ -42,7 +45,7 @@ const submit = () => {
 
 
 const saveData = () => {
-    form.post(route('supplier.store'), {
+    form.post(route('productPurchase.store'), {
         onSuccess: () => {
             form.reset();
             toggleModal();
@@ -51,7 +54,7 @@ const saveData = () => {
 }
 
 const updateData = () => {
-    form.put(route('supplier.update', props.supplier), {
+    form.put(route('productPurchase.update', props.productPurchase), {
         onSuccess: () => {
             form.reset();
             toggleModal();
@@ -63,7 +66,7 @@ const taxes = ref([]);
 
 onMounted(() => {
     fetchTaxes();
-    if(props.supplier?.id){
+    if (props.productPurchase?.id) {
         toggleModal();
     }
 
@@ -84,55 +87,39 @@ const fetchTaxes = async () => {
         <button @click="toggleModal" type="button" class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5"
             v-if="title">{{ title }}</button>
         <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            v-else>Add Supplier</button>
-
+            v-else>Add Purchase</button>
     </div>
 
-    <Modal :show="openModal" maxWidth="sm" :title="supplier?.id ? 'Edit Supplier' : 'Add Supplier'" @close="toggleModal"
-        :selectedData="supplier">
+    <Modal :show="openModal" maxWidth="sm" :title="productPurchase?.id ? 'Edit Purchase' : 'Add Purchase'" @close="toggleModal"
+        :selectedData="productPurchase">
 
         <form @submit.prevent="submit">
             <div class="col-span-3">
-                <label class="text-[14px]">Name *</label>
-                <input type="text" v-model="form.name"
-                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Supplier Name" />
+                <label class="text-[14px]">Category *</label>
+                <SelectProductCategory v-model="form.product_category_id" />
+                <small class="text-red-600">{{ form.errors.product_category_id }}</small>
+            </div>
+            <div class="col-span-3">
+                <label class="text-[14px]">Product *</label>
+                <SelectProduct v-model="form.product_id" :categoryId="form.product_category_id"/>
                 <small class="text-red-600">{{ form.errors.name }}</small>
             </div>
             <div class="col-span-3">
-                <label class="text-[14px]">Email</label>
-                <input type="text" v-model="form.email"
-                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Email" />
+                <label class="text-[14px]">Supplier *</label>
+                <SelectSupplier v-model="form.supplier_id" :categoryId="form.product_category_id"/>
+                <small class="text-red-600">{{ form.errors.supplier_id }}</small>
+            </div>
+            <div class="col-span-3">
+                <label class="text-[14px]">Purchase Date</label>
+                <Datepicker v-model="form.purchase_date"/>
                 <small class="text-red-600">{{ form.errors.email }}</small>
             </div>
             <div class="col-span-3">
-                <label class="text-[14px]">Phone</label>
-                <input type="text" v-model="form.phone"
+                <label class="text-[14px]">Quantity</label>
+                <input type="number" step="0.01" v-model="form.purchase_qty"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Phone" />
-                <small class="text-red-600">{{ form.errors.phone }}</small>
-            </div>
-            <div class="col-span-3">
-                <label class="text-[14px]">VAT/PAN</label>
-                <input type="text" v-model="form.vat_no"
-                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="VAT/PAN Number" />
-                <small class="text-red-600">{{ form.errors.vat_no }}</small>
-            </div>
-             <div class="col-span-3">
-                <label class="text-[14px]">Address</label>
-                <input type="text" v-model="form.address"
-                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Address" />
-                <small class="text-red-600">{{ form.errors.address }}</small>
-            </div>
-            <div class="col-span-3">
-                <label class="text-[14px]">Description</label>
-                <textarea type="text" v-model="form.description"
-                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Description" ></textarea>
-                <small class="text-red-600">{{ form.errors.description }}</small>
+                    placeholder="Purchase Qty" />
+                <small class="text-red-600">{{ form.errors.purchase_qty }}</small>
             </div>
 
             <div class="col-span-12 mt-4 bg-gray-100 p-3 rounded flex justify-end">

@@ -57,4 +57,18 @@ class ProductController extends Controller
         Product::find($id)->delete();
         return redirect()->route('product.index')->with('success',"New product have been saved.");
     }
+
+    public function getProduct(Request $request)
+    {
+        if($request->category_id){
+
+            return response()->json([
+                'products' => Product::where('product_category_id',$request->category_id)->where('status', 1)->latest()->get()
+            ]);
+        }else{
+            return response()->json([
+                'products' => Product::where('status', 1)->latest()->get()
+            ]);
+        }
+    }
 }

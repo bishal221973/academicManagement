@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SupplierEvent implements ShouldBroadcastNow
+class ProductEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,12 +31,12 @@ class SupplierEvent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            'my-channel',
+            "my-channel",
         ];
     }
 
-    public function broadcastAs()
+     public function broadcastAs()
     {
-        return "supplier-event";
+        return "product-event";
     }
 }

@@ -1,11 +1,16 @@
 <script setup>
 import SelectComponent from '../SelectComponent.vue';
 import AddCourse from '../AddForm/AddCourse.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import AddProduct from '../AddForm/AddProduct.vue';
+const dateOptions = [
+    { label: "AD Date", value: "ad" },
+    { label: "BS Date", value: "bs" },
+];
 
-import AddProductCategory from '../AddForm/AddProductCategory.vue';
 const props = defineProps({
-  modelValue: [String, Number]
+  modelValue: [String, Number],
+  categoryId:String,
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -13,9 +18,13 @@ const emit = defineEmits(["update:modelValue"]);
 const courseList = ref([]);
 
 const fetchData = async () => {
-  const response = await axios.get(route("product.category.get.all"));
-  courseList.value = response.data.categories;
+  const response = await axios.get(route("product.get.all")+'?category_id='+props?.categoryId);
+  courseList.value = response.data.products;
 };
+
+watch(()=>(props?.categoryId),()=>{
+  fetchData();
+});
 
 onMounted(() => {
   fetchData();
@@ -28,7 +37,7 @@ onMounted(() => {
 
   const channel = pusher?.subscribe("my-channel");
 
-  channel.bind("product-category-event", () => {
+  channel.bind("product-event", () => {
     fetchData();
   });
 });
@@ -36,7 +45,7 @@ onMounted(() => {
 const transformData = (data) => {
   if (data) {
     return data.map((item) => ({
-      label: item?.name,
+      label: item?.name ?? item?.product,
       value: item.id,
     }));
   }
@@ -48,10 +57,10 @@ const formattedServiceData = computed(() => transformData(courseList.value));
     <div class="w-full border-[1px] border-gray-300 rounded-md flex px-3">
         <SelectComponent :options="formattedServiceData" 
         label="Date Format *"
-         placeholder="Select category"
+         placeholder="Select Product"
           :isForm="true"
           @update:modelValue="val => emit('update:modelValue', val)"
           :modelValue="modelValue" />
-        <AddProductCategory :isSelect="true"/>
+        <AddProduct :isSelect="true"/>
     </div>
 </template>

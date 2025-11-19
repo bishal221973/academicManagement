@@ -17,6 +17,7 @@ use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductPurchaseController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\StoreController;
@@ -235,7 +236,7 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{productCategory}', [ProductCategoryController::class, 'edit'])->name('productCategory.edit');
         Route::put('/update/{productCategory}', [ProductCategoryController::class, 'update'])->name('productCategory.update');
         Route::delete('/delete/{id}', [ProductCategoryController::class, 'destroy'])->name('productCategory.delete');
-        Route::get('/api/get-product-category', [ProductCategoryController::class, 'getCategory'])->name('product.get.all');
+        Route::get('/api/get-product-category', [ProductCategoryController::class, 'getCategory'])->name('product.category.get.all');
     });
     
     Route::prefix('unit')->group(function () {
@@ -245,9 +246,9 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{unit}', [UnitController::class, 'edit'])->name('unit.edit');
         Route::put('/update/{unit}', [UnitController::class, 'update'])->name('unit.update');
         Route::delete('/delete/{id}', [UnitController::class, 'destroy'])->name('unit.delete');
-        Route::get('/api/get-unit', [UnitController::class, 'getUnit'])->name('unit.get.all');
+        Route::get('/api/get-product', [UnitController::class, 'getUnit'])->name('unit.get.all');
     });
-
+    
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('product.index');
         Route::post('/product', [ProductController::class, 'store'])->name('product.store');
@@ -255,6 +256,7 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{product}', [ProductController::class, 'edit'])->name('product.edit');
         Route::put('/update/{product}', [ProductController::class, 'update'])->name('product.update');
         Route::delete('/delete/{id}', [ProductController::class, 'destroy'])->name('product.delete');
+        Route::get('/api/get-product', [ProductController::class, 'getProduct'])->name('product.get.all');
     });
     Route::prefix('supplier')->group(function () {
         Route::get('/', [SupplierController::class, 'index'])->name('supplier.index');
@@ -263,5 +265,15 @@ Route::prefix('inventory-management')->group(function () {
         Route::get('/edit/{supplier}', [SupplierController::class, 'edit'])->name('supplier.edit');
         Route::put('/update/{supplier}', [SupplierController::class, 'update'])->name('supplier.update');
         Route::delete('/delete/{id}', [SupplierController::class, 'destroy'])->name('supplier.delete');
+        Route::get('/api/get-supplier', [SupplierController::class, 'getSupplier'])->name('supplier.get.all');
+    });
+
+    Route::prefix('purchase')->group(function () {
+        Route::get('/', [ProductPurchaseController::class, 'index'])->name('productPurchase.index');
+        Route::post('/productPurchase', [ProductPurchaseController::class, 'store'])->name('productPurchase.store');
+        Route::put('/status/{productPurchase}', [ProductPurchaseController::class, 'updateStatus'])->name('productPurchase.update.status');
+        Route::get('/edit/{productPurchase}', [ProductPurchaseController::class, 'edit'])->name('productPurchase.edit');
+        Route::put('/update/{productPurchase}', [ProductPurchaseController::class, 'update'])->name('productPurchase.update');
+        Route::delete('/delete/{id}', [ProductPurchaseController::class, 'destroy'])->name('productPurchase.delete');
     });
 });

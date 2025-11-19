@@ -53,7 +53,7 @@ class ProductCategoryController extends Controller
 
     public function update(Request $request, ProductCategory $productCategory)
     {
-        $data = $request->validate(ProductCategory::rules());
+        $data = $request->validate(ProductCategory::rules($productCategory->id));
         $productCategory->update($data);
         event(new ProductCategoryEvent);
         return redirect()->route('productCategory.index')->with('success', "New category have been saved.");

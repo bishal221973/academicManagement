@@ -75,4 +75,5 @@ class SupplierController extends Controller
             'suppliers' => Supplier::where('status', 1)->latest()->get()
         ]);
     }
+
 }
