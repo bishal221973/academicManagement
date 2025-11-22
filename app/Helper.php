@@ -134,5 +134,6 @@ if (!function_exists('createBill')) {
                 'amount' => $totalAmt * $tax['percentage'] / 100,
             ]);
         }
+        return $billing->id;
     }
 }

@@ -48,5 +48,6 @@ class DatabaseSeeder extends Seeder
         $this->call(HostelSeeder::class);
         $this->call(ProductCategorySeeder::class);
         $this->call(UnitSeeder::class);
+        $this->call(MailFormatSeeder::class);
     }
 }

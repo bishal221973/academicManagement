@@ -40,23 +40,23 @@ class HostelStudentController extends Controller
         // DB::beginTransaction();
 
         // try {
-            HostelStudent::create($data);
-            $course = Course::find($request->course_id);
-            $student = Student::find($request->student_id);
-            
-            if (!$student->hostel_id_number) {
-                $student->update([
-                    'hostel_id_number' => $course->code . '-' . str_pad($student->id, 4, '0', STR_PAD_LEFT),
-                ]);
-            }
-            // return $request;
-            createBill($request->student_id, $request->price, $request->discount, $request->net_total, $request->total_amount, $request->taxes,"Hostel Fees");
+        $hostelStudent=HostelStudent::create($data);
+        $course = Course::find($request->course_id);
+        $student = Student::find($request->student_id);
+
+        if (!$student->hostel_id_number) {
+            $student->update([
+                'hostel_id_number' => $course->code . '-' . str_pad($student->id, 4, '0', STR_PAD_LEFT),
+            ]);
+        }
+        // return $request;
+        $billingId=createBill($request->student_id, $request->price, $request->discount, $request->net_total, $request->total_amount, $request->taxes, "Hostel Fees");
         // } catch (\Exception $e) {
         //     DB::rollBack(); // undo all changes
         //     return $e->getMessage();
         //     return redirect()->back()->with('error', "Failed: " . $e->getMessage());
         // }
-
+        hostelBookedMail($hostelStudent->id,$billingId);
         return redirect()->back()->with('success', "New Student have been added in hostel");
     }
 

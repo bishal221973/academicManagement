@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('mail_formats', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('subject');
             $table->text('format')->nullable();
             $table->timestamps();
         });

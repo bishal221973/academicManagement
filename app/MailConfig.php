@@ -1,6 +1,10 @@
 <?php
 
+use App\Jobs\HostelBookedMailJob;
+use App\Jobs\WelcomeMailJob;
+use App\Models\MailFormat;
 use App\Models\MailSetting;
+use Illuminate\Support\Facades\Log;
 
 function applyMailSettings()
 {
@@ -21,3 +25,33 @@ function applyMailSettings()
         ]);
     }
 }
+
+function notifyMail($mail, $studentId,$billId, $title)
+{
+    if (auth()?->id()) {
+        $mailTemplate = MailFormat::where('title', $title)->first();
+
+        if ($mail && $mailTemplate?->format) {
+            WelcomeMailJob::dispatch($mail, $studentId, $billId, $mailTemplate->format,$mailTemplate->subject);
+        }
+
+       
+    }
+}
+
+function hostelBookedMail($hostelStudent,$billId)
+{
+    Log::info('HostelStudentID at step-1 is:'.$hostelStudent);
+    Log::info('bill at step-1 is:'.$billId);
+    if (auth()?->id()) {
+        $mailTemplate = MailFormat::where('title', 'Hostel Booked Mail')->first();
+
+        if ($mailTemplate?->format) {
+            HostelBookedMailJob::dispatch($hostelStudent, $billId, $mailTemplate->format,$mailTemplate->subject);
+        }
+
+       
+    }
+}
+
+

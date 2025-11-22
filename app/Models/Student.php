@@ -117,6 +117,9 @@ class Student extends Model
                     'amount' => $total_amount * $tax['percentage'] / 100,
                 ]);
             }
+
+            notifyMail($student->email,$student->id,$billing->id,'Admission Mail');
+            // notifyMail($student->email,$student->id,'Bill Generated Mail');
         });
         // static::deleting(function ($advance) {
         //     if ($advance->payment_method_id) {

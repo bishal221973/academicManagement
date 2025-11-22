@@ -9,25 +9,28 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMail extends Mailable
+class HostelBookedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public $studentId;
+   public $studentId;
     public $billId;
     public $template;
     public $subject;
-    public function __construct($studentId,$billId, $template, $subject)
+    public $hostel_id;
+    public $hostelStudentID;
+    public function __construct($studentId,$hostel_id,$hostelStudentID,$billId, $template, $subject)
     {
         $this->studentId=$studentId;
         $this->billId=$billId;
         $this->template = $template;
         $this->subject=$subject;
+        $this->hostel_id=$hostel_id;
+        $this->hostelStudentID=$hostelStudentID;
     }
-
 
     /**
      * Get the message envelope.
@@ -35,7 +38,7 @@ class WelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: $this->subject ?? 'Thankyou for choosing us!',
+            subject: $this->subject ?? 'Hostel Booked Mail',
         );
     }
 
@@ -45,11 +48,13 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.welcome',
+            view: 'emails.hostelBooked',
             with: [
                 'studentId' => $this->studentId,
                 'template' => $this->template,
-                'billId'=>$this->billId
+                'billId'=>$this->billId,
+                'hostel_id'=>$this->hostel_id,
+                'hostelStudentID'=>$this->hostelStudentID
             ]
         );
     }
