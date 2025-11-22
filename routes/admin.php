@@ -15,6 +15,7 @@ use App\Http\Controllers\HostelController;
 use App\Http\Controllers\HostelStudentController;
 use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\MailSettingController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPurchaseController;
@@ -96,6 +97,10 @@ Route::prefix('configuration')->group(function () {
             Route::delete('delete/{id}', [AdmissionSectionController::class, 'destroy'])->name('admission-section.destroy');
             Route::put('status/{id}', [AdmissionSectionController::class, 'status'])->name('admission-section.status');
         });
+    });
+    Route::prefix('tax-setup')->group(function(){
+        Route::get('/',[MailSettingController::class,'index'])->name('mail.setup.index');
+        Route::post('/store',[MailSettingController::class,'store'])->name('mail.setup.store');
     });
 });
 

@@ -59,7 +59,6 @@ const filteredProducts = computed(() => {
     if (selectedCategory.value === 'All') {
         return props.products;
     }
-    // alert(selectedCategoryID.value)
     return props.products.filter(
         p => p.product_category_id == selectedCategoryID.value
     );
@@ -77,7 +76,6 @@ const filteredProducts = computed(() => {
                 <div class="flex mt-3">
                     <div class="w-full flex gap-3 ">
                         <div class="grid grid-cols-12 gap-4" style="width: 100%;">
-                            <!-- {{ products[0] }} -->
                             <div v-for="(item, index) in filteredProducts" :key="item.id"
                                 class="bg-white rounded col-span-3 relative shadow">
                                 <Item :data="item" :qty="qty" :increase="increase" />
@@ -88,8 +86,6 @@ const filteredProducts = computed(() => {
                 </div>
 
             </div>
-
-            <!-- CURRENT ORDER PANEL -->
             <Bill :student="student" :orderList="orderList" :increase="increase" :decrease="decrease" :clearOrder="clearOrder" />
         </div>
     </div>
