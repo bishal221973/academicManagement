@@ -6,7 +6,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <div style="overflow: scroll;">
+    <div style="overflow-x: auto;">
         <div class="w-full py-1 rounded flex gap-3">
             <button @click="selectCategory('All')"
                 :class="selectedCategory == 'All' ? 'bg-red-500 text-white' : 'bg-white'" class=" px-5 pb-1 rounded-xl">

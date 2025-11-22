@@ -60,7 +60,12 @@ class StudentController extends Controller
             // $students = $students->get();
         } elseif ($request->is_for_hostel_room) {
             $students = $students->whereDoesntHave('hostelStudent');
-        } else {
+        } elseif($request->isAllStudent){
+            $students=$students->get();
+            return response()->json([
+            'students' => $students,
+        ]);
+        }else {
             // If no section_id, return null directly
             $students = null;
             return response()->json([
@@ -90,17 +95,13 @@ class StudentController extends Controller
         $query->whereDoesntHave('hostelStudents') // no hostel record
               ->orWhereHas('hostelStudents', function ($subQuery) {
                   $subQuery->whereDate('check_out_date', '<', Carbon::today());
-              }); // or checkout before today
+              });
     });
-        // $students =$students->whereDoesntHave('hostelStudent');
         if ($request->filled('section_id')) {
             $students = $students->where('section_id', $request->section_id);
-            // $students = $students->get();
         } elseif ($request->filled('course_id')) {
             $students = $students->where('course_id', $request->course_id);
-            // $students = $students->get();
         } else {
-            // If no section_id, return null directly
             $students = null;
             return response()->json([
                 'students' => $students,
@@ -169,7 +170,7 @@ class StudentController extends Controller
         return inertia('Student/Show', [
             'menu' => 'Student',
             'sidebar' => 'Students',
-            'student' => $student->load('section','group','bills.items','hostels.hostel','hostels.room'),
+            'student' => $student->load('section','group','bills.items.product.unit','hostels.hostel','hostels.room'),
         ]);
     }
 

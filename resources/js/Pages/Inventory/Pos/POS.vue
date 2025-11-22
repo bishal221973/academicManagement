@@ -48,6 +48,10 @@ const orderList = computed(() => {
             qty1: p.qty,
         }));
 });
+
+const clearOrder = () => {
+    qty.value = {};        // reset qty object
+};
 </script>
 <template>
     <div class=" w-full gap-3">
@@ -73,7 +77,7 @@ const orderList = computed(() => {
             </div>
 
             <!-- CURRENT ORDER PANEL -->
-            <Bill :student="student" :orderList="orderList" :increase="increase" :decrease="decrease" />
+            <Bill :student="student" :orderList="orderList" :increase="increase" :decrease="decrease" :clearOrder="clearOrder" />
         </div>
     </div>
 </template>

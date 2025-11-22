@@ -312,10 +312,16 @@ const addBtn=()=>{
     >
     <td colspan="1"></td>
       <!-- empty first column to indent -->
-      <td class="text-gray-400" colspan="4">
+      <td class="text-gray-400" colspan="5" v-if="child?.product_id">
+        {{ child?.product?.product }}
+      </td>
+      <td class="text-gray-400" colspan="5" v-else>
         {{ child?.title }}
       </td>
-      <td colspan="4" class=" pr-4">
+      <td colspan="4" class=" pr-4" v-if="child?.product_id">
+        Rs. {{ child.amount*child?.qty }} ({{child?.qty}} {{ child?.product?.unit?.name }}@Rs. {{child?.amount}})
+      </td>
+      <td colspan="4" class=" pr-4" v-else>
         Rs. {{ child.amount }}
       </td>
     </tr>
