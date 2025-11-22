@@ -98,9 +98,10 @@ Route::prefix('configuration')->group(function () {
             Route::put('status/{id}', [AdmissionSectionController::class, 'status'])->name('admission-section.status');
         });
     });
-    Route::prefix('tax-setup')->group(function(){
+    Route::prefix('mail-setup')->group(function(){
         Route::get('/',[MailSettingController::class,'index'])->name('mail.setup.index');
         Route::post('/store',[MailSettingController::class,'store'])->name('mail.setup.store');
+        Route::post('/send-test-mail',[MailSettingController::class,'sendTestMail'])->name('mail.setup.sendTestMail');
     });
 });
 

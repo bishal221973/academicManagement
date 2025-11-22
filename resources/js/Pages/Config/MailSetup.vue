@@ -59,6 +59,19 @@ const updateData = async () => {
         }
     });
 }
+
+const mailForm=useForm({
+    email:"",
+    message:"",
+    subject:"",
+})
+const sendMail=()=>{
+    mailForm.post(route('mail.setup.sendTestMail'),{
+        onSuccess:()=>{
+            mailForm.reset();
+        }
+    })
+}
 </script>
 
 <template>
@@ -66,7 +79,7 @@ const updateData = async () => {
         <template #sidebar>
             <Configuration />
         </template>
-        
+
         <template #content>
             <!-- {{ mailSetup }} -->
             <div class="flex items-center justify-between mb-3">
@@ -82,56 +95,56 @@ const updateData = async () => {
                                     <label class="text-[14px]">Mailer *</label>
                                     <input type="text" v-model="form.mailer"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter mailer" />
+                                        placeholder="smtp" />
                                     <small class="text-red-600">{{ form.errors.mailer }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">host *</label>
                                     <input type="text" v-model="form.host"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter host" />
+                                        placeholder="smtp.gmail.com" />
                                     <small class="text-red-600">{{ form.errors.host }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">Port *</label>
                                     <input type="text" v-model="form.port"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter port" />
+                                        placeholder="587" />
                                     <small class="text-red-600">{{ form.errors.port }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">User Name *</label>
                                     <input type="text" v-model="form.username"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter username" />
+                                        placeholder="test@gmail.com" />
                                     <small class="text-red-600">{{ form.errors.username }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">Password *</label>
                                     <input type="text" v-model="form.password"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter password" />
+                                        placeholder="password" />
                                     <small class="text-red-600">{{ form.errors.password }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">Encryption*</label>
                                     <input type="text" v-model="form.encryption"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter encryption" />
+                                        placeholder="tls" />
                                     <small class="text-red-600">{{ form.errors.encryption }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">From Address *</label>
                                     <input type="text" v-model="form.from_address"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter from address" />
+                                        placeholder="test@gmail.com"/>
                                     <small class="text-red-600">{{ form.errors.from_address }}</small>
                                 </div>
                                 <div class="mb-1 col-span-3">
                                     <label class="text-[14px]">From Name *</label>
                                     <input type="text" v-model="form.from_name"
                                         class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        placeholder="Enter from name" />
+                                        placeholder="from name" />
                                     <small class="text-red-600">{{ form.errors.from_name }}</small>
                                 </div>
                             </div>
@@ -145,6 +158,27 @@ const updateData = async () => {
                             </div>
                         </div>
                     </form>
+
+                    <div class="bg-white mt-3 rounded-xl shadow p-3">
+                        <div class="flex justify-between items-center">
+                            <small><b>Send Test Mail</b></small>
+
+                        </div>
+                        <hr class="my-1">
+
+                        <form @submit.prevent="sendMail">
+                            <div class="flex gap-3">
+                                <input v-model="mailForm.subject" type="text" placeholder="Subject" class="border-gray-300 w-full rounded"></input>
+                                <input v-model="mailForm.email" type="text" placeholder="Mail to" class="border-gray-300 w-full rounded"></input>
+                            </div>
+                            <textarea v-model="mailForm.message" class="w-full rounded border-gray-300 mt-3" placeholder="Message"
+                                id=""></textarea>
+                            <div class="flex justify-end">
+
+                                <button class="bg-green-400 px-3 py-1 text-white rounded">Send</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
 
