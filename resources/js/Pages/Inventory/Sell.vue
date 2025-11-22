@@ -11,7 +11,7 @@ import AddProductCategory from "@/Components/AddForm/AddProductCategory.vue";
 import AddUnit from "@/Components/AddForm/AddUnit.vue";
 import AddSupplier from "@/Components/AddForm/AddSupplier.vue";
 import AddPurchase from "@/Components/AddForm/AddPurchase.vue";
-import POS from "./POS.vue";
+import POS from "./Pos/POS.vue";
 const props = defineProps({
     categories: Object,
     products:Object,

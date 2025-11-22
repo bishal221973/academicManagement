@@ -13,7 +13,7 @@ class SellController extends Controller
      public function index()
     {
         $categories = ProductCategory::latest()->get();
-        $products = Product::latest()->get();
+        $products = Product::with('category','unit')->latest()->get();
         return Inertia::render("Inventory/Sell", [
             'menu' => 'Sell',
             'sidebar' => 'Inventory',
