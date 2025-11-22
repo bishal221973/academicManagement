@@ -15,6 +15,7 @@ use App\Http\Controllers\HostelController;
 use App\Http\Controllers\HostelStudentController;
 use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
+use App\Http\Controllers\MailFormatController;
 use App\Http\Controllers\MailSettingController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -102,6 +103,12 @@ Route::prefix('configuration')->group(function () {
         Route::get('/',[MailSettingController::class,'index'])->name('mail.setup.index');
         Route::post('/store',[MailSettingController::class,'store'])->name('mail.setup.store');
         Route::post('/send-test-mail',[MailSettingController::class,'sendTestMail'])->name('mail.setup.sendTestMail');
+    });
+
+    Route::prefix('mail-format')->group(function(){
+        Route::get('/',[MailFormatController::class,'index'])->name('mail.format.index');
+        Route::post('/store',[MailFormatController::class,'store'])->name('mail.format.store');
+        Route::post('/send-test-mail',[MailFormatController::class,'sendTestMail'])->name('mail.format.sendTestMail');
     });
 });
 
