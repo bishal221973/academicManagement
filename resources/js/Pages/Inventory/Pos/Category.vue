@@ -13,7 +13,7 @@ const props = defineProps({
                 <small>All</small>
             </button>
 
-            <button v-for="(item, index) in categories" :key="index" @click="selectCategory(item.name)"
+            <button v-for="(item, index) in categories" :key="index" @click="selectCategory(item.name,item.id)"
                 :class="selectedCategory == item?.name ? 'bg-red-500 text-white' : 'bg-white'"
                 class=" px-5 pb-1 rounded-xl">
                 <small>{{ item?.name }}</small>

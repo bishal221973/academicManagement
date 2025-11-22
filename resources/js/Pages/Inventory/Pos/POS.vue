@@ -12,8 +12,10 @@ const props = defineProps({
 
 // selected category
 const selectedCategory = ref('All');
-const selectCategory = (category) => {
+const selectedCategoryID = ref();
+const selectCategory = (category,id) => {
     selectedCategory.value = category;
+    selectedCategoryID.value=id;
 };
 
 // store qty for each product by id
@@ -52,6 +54,17 @@ const orderList = computed(() => {
 const clearOrder = () => {
     qty.value = {};        // reset qty object
 };
+
+const filteredProducts = computed(() => {
+    if (selectedCategory.value === 'All') {
+        return props.products;
+    }
+    // alert(selectedCategoryID.value)
+    return props.products.filter(
+        p => p.product_category_id == selectedCategoryID.value
+    );
+});
+
 </script>
 <template>
     <div class=" w-full gap-3">
@@ -65,7 +78,7 @@ const clearOrder = () => {
                     <div class="w-full flex gap-3 ">
                         <div class="grid grid-cols-12 gap-4" style="width: 100%;">
                             <!-- {{ products[0] }} -->
-                            <div v-for="(item, index) in products" :key="item.id"
+                            <div v-for="(item, index) in filteredProducts" :key="item.id"
                                 class="bg-white rounded col-span-3 relative shadow">
                                 <Item :data="item" :qty="qty" :increase="increase" />
                             </div>
