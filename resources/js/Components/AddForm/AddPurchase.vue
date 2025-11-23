@@ -102,7 +102,7 @@ const fetchTaxes = async () => {
             <div class="col-span-3">
                 <label class="text-[14px]">Product *</label>
                 <SelectProduct v-model="form.product_id" :categoryId="form.product_category_id"/>
-                <small class="text-red-600">{{ form.errors.name }}</small>
+                <small class="text-red-600">{{ form.errors.product_id }}</small>
             </div>
             <div class="col-span-3">
                 <label class="text-[14px]">Supplier *</label>
@@ -115,7 +115,7 @@ const fetchTaxes = async () => {
                 <small class="text-red-600">{{ form.errors.email }}</small>
             </div>
             <div class="col-span-3">
-                <label class="text-[14px]">Quantity</label>
+                <label class="text-[14px]">Quantity*</label>
                 <input type="number" step="0.01" v-model="form.purchase_qty"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Purchase Qty" />

@@ -31,12 +31,13 @@ const form = useForm({
 
 const setTitle = (title) => {
     form.title = title;
+    console.log(title);
 
     const data = props.mailFormats.find((format) => {
         return format.title === title;   // <-- FIXED
     });
     form.format = data?.format ?? "";
-    console.log(data?.format)
+    console.log(data)
 };
 
 const submit = () => {
@@ -96,7 +97,7 @@ const sendMail = () => {
 
                         <form @submit.prevent="submit">
                             <div style="height: calc(100vh - 240px);" class="overflow-auto">
-
+                           
                                 <TextEditor v-model="form.format" />
 
                             </div>

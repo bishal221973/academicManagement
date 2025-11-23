@@ -100,7 +100,7 @@ const roomOptions = [
             </div>
 
             <div class="mb-3">
-                <label class="text-[14px]">Room Name</label>
+                <label class="text-[14px]">Room Name *</label>
                 <input type="text" v-model="form.name"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter room name" />
@@ -113,14 +113,14 @@ const roomOptions = [
                 <small class="text-red-600">{{ form.errors.type }}</small>
             </div>
             <div class="mb-3">
-                <label class="text-[14px]">Number Of Bed</label>
+                <label class="text-[14px]">Number Of Bed *</label>
                 <input type="number" v-model="form.no_of_bed"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter no. of bed" />
                 <small class="text-red-600">{{ form.errors.no_of_bed }}</small>
             </div>
             <div class="mb-3">
-                <label class="text-[14px]">Price Per Bed</label>
+                <label class="text-[14px]">Price Per Bed *</label>
                 <input type="number" v-model="form.price" step="0.01"
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter price" />

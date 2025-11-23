@@ -23,7 +23,7 @@ class SidebarSeeder extends Seeder
             // ['title' => 'HR', 'icon' => 'UserCog', 'position' => 6, 'url' => null],
             ['title' => 'Hostel', 'icon' => 'Bed', 'position' => 5, 'url' => 'hostel.index'],
             // ['title' => 'Shop', 'icon' => 'ShoppingCart', 'position' => 8, 'url' => null],
-            ['title' => 'Inventory', 'icon' => 'ShoppingCart', 'position' => 6, 'url' => 'store.index'],
+            ['title' => 'Inventory', 'icon' => 'ShoppingCart', 'position' => 6, 'url' => 'sell.index'],
             // ['title' => 'Account', 'icon' => 'Wallet', 'position' => 10, 'url' => null],
             // ['title' => 'Vehicle', 'icon' => 'Bus', 'position' => 11, 'url' => null],
             // ['title' => 'Reports', 'icon' => 'BarChart3', 'position' => 11,'url'=>null],
