@@ -80,7 +80,7 @@ const sendMail = () => {
         <template #content>
             <!-- {{ mailSetup }} -->
             <div class="flex items-center justify-between mb-3">
-                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Mail Format' }]" />
+                <Breadcrumb :breadcrumbs="[{ label: 'Configuration' }, { label: 'Mail Format' }]" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">

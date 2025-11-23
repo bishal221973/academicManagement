@@ -45,7 +45,7 @@ onMounted(() => {
     </template>
 
     <template #content>
-      <Breadcrumb :breadcrumbs="[{ label: 'System Setup' }]" />
+      <Breadcrumb :breadcrumbs="[{ label: 'Configuration' },{ label: 'Academy Setup' }]" />
       <div class="bg-white p-3 rounded w-full shadow mt-3">
         <form @submit.prevent="form.post(route('academy-setup.store'))">
           <div class="grid grid-cols-12 gap-3">

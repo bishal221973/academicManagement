@@ -84,7 +84,7 @@ const updateData = async () => {
 
         <template #content>
             <div class="flex items-center justify-between mb-3">
-                <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Booking Management' }]" />
+                <Breadcrumb :breadcrumbs="[{ label: 'Configuration' }, { label: 'Taxes' }]" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">
