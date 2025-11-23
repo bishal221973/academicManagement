@@ -36,5 +36,9 @@ import { Link } from '@inertiajs/vue3';
       :class="$page?.props?.menu == 'mailFormats' ? 'text-main/80' : ''" :href="route('mail.format.index')">
     Mail Format
     </Link>
+    <Link class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5"
+      :class="$page?.props?.menu == 'PaymentMode' ? 'text-main/80' : ''" :href="route('paymentMode.index')">
+    Payment Mode
+    </Link>
   </div>
 </template>

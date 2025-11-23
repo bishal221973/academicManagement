@@ -17,6 +17,7 @@ use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MailFormatController;
 use App\Http\Controllers\MailSettingController;
+use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPurchaseController;
@@ -109,6 +110,16 @@ Route::prefix('configuration')->group(function () {
         Route::get('/',[MailFormatController::class,'index'])->name('mail.format.index');
         Route::post('/store',[MailFormatController::class,'store'])->name('mail.format.store');
         Route::post('/send-test-mail',[MailFormatController::class,'sendTestMail'])->name('mail.format.sendTestMail');
+    });
+
+    Route::prefix('payment-mode')->group(function () {
+        Route::get('/', [PaymentModeController::class, 'index'])->name('paymentMode.index');
+        Route::get('/all', [PaymentModeController::class, 'all'])->name('paymentMode.all');
+        Route::post('/store', [PaymentModeController::class, 'store'])->name('paymentMode.store');
+        Route::get('/edit/{paymentMode}', [PaymentModeController::class, 'edit'])->name('paymentMode.edit');
+        Route::put('/update/{paymentMode}', [PaymentModeController::class, 'update'])->name('paymentMode.update');
+        Route::put('/status/{paymentMode}', [PaymentModeController::class, 'status'])->name('paymentMode.status');
+        Route::delete('/delete/{paymentMode}', [PaymentModeController::class, 'delete'])->name('paymentMode.delete');
     });
 });
 
