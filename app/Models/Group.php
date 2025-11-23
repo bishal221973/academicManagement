@@ -14,7 +14,7 @@ class Group extends Model
     public static function rules($id = null)
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:groups,name,' . $id,
             'description' => 'nullable',
         ];
     }

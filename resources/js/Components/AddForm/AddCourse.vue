@@ -22,6 +22,7 @@ const toggleModal = () => {
 const form = useForm({
     name: '',
     code: '',
+    fees: '',
     description: '',
 });
 
@@ -38,6 +39,7 @@ onMounted(() => {
         toggleModal();
         form.name = props.course.name;
         form.code = props.course.code;
+        form.fees = props.course.fees;
         form.description = props.course.description;
     }
 });
@@ -82,6 +84,13 @@ const updateData = () => {
                     class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter course code" />
                 <small class="text-red-600">{{ form.errors.code }}</small>
+            </div>
+            <div class="mb-3">
+                <label class="text-[14px]">Monthly Fees *</label>
+                <input type="text" v-model="form.fees"
+                    class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter monthly fees" />
+                <small class="text-red-600">{{ form.errors.fees }}</small>
             </div>
             <div class="mb-3">
                 <label class="text-[14px]">Description</label>

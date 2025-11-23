@@ -40,8 +40,9 @@ class Course extends Model
     public static function rules($id = null)
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:courses,name,'.$id,
             'code' => 'required|unique:courses,code,' . $id,
+            'fees'=>'required',
             'description' => 'nullable',
         ];
     }
