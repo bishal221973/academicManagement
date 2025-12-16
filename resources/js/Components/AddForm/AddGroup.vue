@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { onMounted, ref } from "vue";
 import Modal from "../Modal.vue";
 import { Link, useForm } from "@inertiajs/vue3";
@@ -12,6 +12,7 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    groups:Object,
 });
 const openModal = ref(false);
 
@@ -23,6 +24,7 @@ const form = useForm({
     name: '',
     code: '',
     description: '',
+    parent_id:''
 });
 
 
@@ -90,4 +92,168 @@ const updateData = () => {
             </div>
         </form>
     </Modal>
+</template> -->
+
+<script setup>
+import { onMounted, ref, computed } from "vue";
+import Modal from "../Modal.vue";
+import { useForm } from "@inertiajs/vue3";
+import { Plus } from "lucide-vue-next";
+
+const props = defineProps({
+  isSelect: Boolean,
+  group: Object,
+  groups: Array,
+});
+
+const openModal = ref(false);
+
+const toggleModal = () => {
+  openModal.value = !openModal.value;
+};
+
+const form = useForm({
+  name: "",
+  description: "",
+  parent_id: null,
+});
+
+/* ----------------------------
+   Build Tree
+----------------------------- */
+const buildTree = (items, parentId = null) => {
+  return items
+    .filter(i => i.parent_id === parentId)
+    .map(i => ({
+      ...i,
+      children: buildTree(items, i.id)
+    }));
+};
+
+/* ----------------------------
+   Flatten Tree for Select
+----------------------------- */
+const flattenTree = (tree, level = 0, arr = []) => {
+  tree.forEach(node => {
+    arr.push({
+      id: node.id,
+      label: `${"— ".repeat(level)}${node.name}`,
+    });
+    if (node.children?.length) {
+      flattenTree(node.children, level + 1, arr);
+    }
+  });
+  return arr;
+};
+
+const treeGroups = computed(() => buildTree(props.groups));
+const parentOptions = computed(() => flattenTree(treeGroups.value));
+
+/* ----------------------------
+   Edit Mode
+----------------------------- */
+onMounted(() => {
+  if (props.group?.id) {
+    toggleModal();
+    form.name = props.group.name;
+    form.description = props.group.description;
+    form.parent_id = props.group.parent_id;
+  }
+});
+
+/* ----------------------------
+   Submit
+----------------------------- */
+const submit = () => {
+  props.group?.id ? updateData() : saveData();
+};
+
+const saveData = () => {
+  form.post(route("group.store"), {
+    onSuccess: () => {
+      form.reset();
+      toggleModal();
+    },
+  });
+};
+
+const updateData = () => {
+  form.put(route("group.update", props.group.id), {
+    onSuccess: () => {
+      form.reset();
+      toggleModal();
+    },
+  });
+};
+</script>
+<template>
+  <button v-if="isSelect" @click="toggleModal">
+    <Plus />
+  </button>
+
+  <button
+    v-else
+    @click="toggleModal"
+    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+  >
+    Add Group
+  </button>
+
+  <Modal
+    :show="openModal"
+    maxWidth="sm"
+    :title="group?.id ? 'Edit Group' : 'Add Group'"
+    @close="toggleModal"
+  >
+    <form @submit.prevent="submit">
+      <!-- Group Name -->
+      <div class="mb-3">
+        <label class="text-sm">Group Name *</label>
+        <input
+          v-model="form.name"
+          class="w-full border rounded px-3 py-2 mt-1"
+          placeholder="Enter group name"
+        />
+        <small class="text-red-600">{{ form.errors.name }}</small>
+      </div>
+
+      <!-- Parent Group -->
+      <div class="mb-3">
+        <label class="text-sm">Parent Group</label>
+        <select
+          v-model="form.parent_id"
+          class="w-full border rounded px-3 py-2 mt-1"
+        >
+          <option :value="null" selected disabled>Select parent group</option>
+
+          <option
+            v-for="parent in parentOptions"
+            :key="parent.id"
+            :value="parent.id"
+            :disabled="parent.id === group?.id"
+          >
+            {{ parent.label }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label class="text-sm">Description</label>
+        <textarea
+          v-model="form.description"
+          class="w-full border rounded px-3 py-2 mt-1"
+        ></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end bg-gray-100 p-3 rounded">
+        <button
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          {{ group?.id ? "Update Group" : "Save Group" }}
+        </button>
+      </div>
+    </form>
+  </Modal>
 </template>

@@ -24,7 +24,7 @@ const columns = [
     { label: "Checkin", key: "checkin" },
     { label: "Checkout", key: "checkout" },
     { label: "Price", key: "price" },
-    { label: "Bed No.", key: "bed_no" },
+    // { label: "Bed No.", key: "bed_no" },
 
     { label: "Actions", key: "actions" },
 ];
@@ -39,8 +39,8 @@ const tableData = computed(() =>
         student: item.student?.name,
         checkin: item.check_in_date,
         checkout: item.check_out_date,
-        price: "Rs."+ item.price,
-        bed_no: item.bed_no ? "Bed No. " + item.bed_no : '',
+        price: "Rs."+ (item.price-item?.discount ?? 0),
+        // bed_no: item.bed_no ? "Bed No. " + item.bed_no : '',
 
         actions: item.id,
     }))

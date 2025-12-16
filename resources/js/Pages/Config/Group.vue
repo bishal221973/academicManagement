@@ -15,6 +15,7 @@ const props = defineProps({
 const columns = [
     { label: "S.N.", key: "sn" },
     { label: "Group", key: "group" },
+    { label: "Parent Group", key: "parent" },
     { label: "Description", key: "description" },
     { label: "Status", key: "status" },
 
@@ -25,6 +26,7 @@ const tableData = computed(() =>
     props.groups.map((item, index) => ({
         sn: index + 1,
         group: item?.name,
+        parent: item?.parent?.name,
         description: item?.description,
         status: item?.status,
 
@@ -42,7 +44,7 @@ const tableData = computed(() =>
         <template #content>
             <div class="flex items-center justify-between mb-3">
                 <Breadcrumb :breadcrumbs="[{ label: 'Group Management' }]" />
-                <AddGroup :group="group" />
+                <AddGroup :group="group" :groups="groups" />
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">

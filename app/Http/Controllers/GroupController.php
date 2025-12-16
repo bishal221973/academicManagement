@@ -10,7 +10,7 @@ class GroupController extends Controller
 {
     public function index()
     {
-        $groups = Group::latest()->get();
+        $groups = Group::latest()->with('parent')->get();
         return inertia('Config/Group', [
             'menu' => 'Group',
             'sidebar' => 'Academic',
@@ -29,6 +29,7 @@ class GroupController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         $data = $request->validate(Group::rules());
         try {
             Group::create($data);

@@ -22,9 +22,7 @@ class GroupFactory extends Factory
 
         // Predefined group names
         $predefinedNames = [
-            'Lali Gurash', 'Danfe', 'Surya', 'Chandrama',
-            'Linux', 'Ubuntu', 'Mint', 'Parrot', 'Kali',
-            'Red', 'Blue', 'Green'
+            'Army', 'Police'
         ];
 
         // Get existing group names already used for this course

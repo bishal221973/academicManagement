@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import Modal from "../Modal.vue";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import { Minus, Plus } from "lucide-vue-next";
@@ -14,6 +14,7 @@ import Switch from "../Switch.vue";
 import Toggle from "../Toggle.vue";
 import axios from "axios";
 import MultiMonthSelect from "../MultiMonthSelect.vue";
+import TreeDropDown from "../TreeDropDown.vue";
 const props = defineProps({
     isSelect: {
         type: Boolean,
@@ -302,6 +303,59 @@ const computePercentageAmount=(netAmt,percent)=>{
     return percentage;
 }
 
+const groups = ref([]);
+
+/* ----------------------------
+   Fetch Groups
+----------------------------- */
+const fetchGroups = async () => {
+  try {
+    const response = await axios.get(route("group.all"));
+    groups.value = response.data.groups ?? [];
+  } catch (error) {
+    console.error("Failed to fetch groups", error);
+  }
+};
+
+onMounted(fetchGroups);
+
+/* ----------------------------
+   Build Tree
+----------------------------- */
+const buildTree = (items, parentId = null) => {
+  return items
+    .filter(item => item.parent_id === parentId)
+    .map(item => ({
+      ...item,
+      children: buildTree(items, item.id),
+    }));
+};
+
+/* ----------------------------
+   Flatten Tree for Select
+----------------------------- */
+const flattenTree = (tree, level = 0) => {
+  let result = [];
+
+  tree.forEach(node => {
+    result.push({
+      id: node.id,
+      label: `${"— ".repeat(level)}${node.name}`,
+    });
+
+    if (node.children && node.children.length) {
+      result = result.concat(flattenTree(node.children, level + 1));
+    }
+  });
+
+  return result;
+};
+
+/* ----------------------------
+   Computed
+----------------------------- */
+const treeGroups = computed(() => buildTree(groups.value));
+const parentOptions = computed(() => flattenTree(treeGroups.value));
 </script>
 <template>
     <button @click="toggleModal" class="" v-if="isSelect" type="button">
@@ -426,7 +480,24 @@ const computePercentageAmount=(netAmt,percent)=>{
                                 </div>
                                 <div class="w-full">
                                     <label class="text-[14px]">Group</label>
-                                    <SelectGroup class="mt-[5px]" v-model="form.group_id" />
+                                    <TreeDropDown v-model="form.group_id"  :items="groups"
+  placeholder="Select parent group"/>
+                                    <!-- <SelectGroup class="mt-[5px]" v-model="form.group_id" /> -->
+                                     <select
+          v-model="form.group_id"
+          class="w-full border rounded px-3 py-2 mt-1"
+        >
+          <option :value="null" selected disabled>Select parent group</option>
+
+          <option
+            v-for="parent in parentOptions"
+            :key="parent.id"
+            :value="parent.id"
+            :disabled="parent.id === group?.id"
+          >
+            {{ parent.label }}
+          </option>
+        </select>
                                     <small class="text-red-600">{{ form.errors.group_id }}</small>
                                 </div>
                             </div>
