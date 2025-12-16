@@ -16,7 +16,7 @@ const columns = [
     { label: "S.N.", key: "sn" },
     { label: "Hostel Name", key: "hostel" },
     { label: "Room", key: "name" },
-    { label: "No. of Bed", key: "no_of_bed" },
+    // { label: "No. of Bed", key: "no_of_bed" },
     { label: "Type", key: "type" },
     { label: "Price", key: "price" },
     // { label: "Total Students", key: "students" },
@@ -43,9 +43,9 @@ const tableData = computed(() =>
 
 <template>
     <AppLayout>
-        <template #sidebar>
+        <!-- <template #sidebar>
             <Hostel />
-        </template>
+        </template> -->
 
         <template #content>
             <div class="flex items-center justify-between mb-3">

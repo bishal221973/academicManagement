@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import Modal from "../Modal.vue";
 import { Link, useForm, usePage } from "@inertiajs/vue3";
-import { Plus } from "lucide-vue-next";
+import { Minus, Plus } from "lucide-vue-next";
 import Datepicker from "../Datepicker.vue";
 import SelectComponent from "@/Components/SelectComponent.vue";
 import SelectCourse from "../Select/SelectCourse.vue";
@@ -308,9 +308,11 @@ const computePercentageAmount=(netAmt,percent)=>{
         <component :is="Plus" />
     </button>
     <div v-else>
-        <button @click="toggleModal" type="button" class="text-[14px] hover:text-main/80 flex items-center gap-3 mb-5"
-            v-if="title">{{ title }}</button>
-        <button @click="toggleModal" type="button" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        <button @click="toggleModal" type="button" class="text-[12px] py-2 hover:bg-white w-full hover:text-main/80 px-3 flex items-center gap-3"
+            v-if="title">
+            <component :is="Minus" class="w-4 h-4"/>
+            {{ title }}</button>
+        <button @click="toggleModal" type="button" class="px-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             v-else>Add Student</button>
             
     </div>

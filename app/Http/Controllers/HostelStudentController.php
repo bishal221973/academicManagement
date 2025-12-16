@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\HostelFeature;
 use App\Models\HostelStudent;
+use App\Models\HostelStudentFeature;
 use App\Models\Room;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -18,6 +20,7 @@ class HostelStudentController extends Controller
         $rooms = Room::latest()->with('hostel')->get();
         $cources = Course::latest()->get();
         $hostelStudents = HostelStudent::with('student', 'hostel', 'room')->latest()->get();
+        $features=HostelFeature::latest()->get();
         return Inertia::render('Hostel/AddStudent', [
             'menu' => 'AddStudent',
             'sidebar' => 'Hostel',
@@ -26,6 +29,7 @@ class HostelStudentController extends Controller
             'cources' => $cources,
             'hostelStudents' => $hostelStudents,
             'hostelStudent' => new HostelStudent(),
+            'features'=>$features,
         ]);
     }
 
@@ -43,6 +47,15 @@ class HostelStudentController extends Controller
         $hostelStudent=HostelStudent::create($data);
         $course = Course::find($request->course_id);
         $student = Student::find($request->student_id);
+
+        foreach($request->features as $feature){
+            HostelStudentFeature::create([
+                'hostel_feature_id'=>$feature['feature_id'],
+                'hostel_student_id'=>$hostelStudent->id,
+                'price'=>$feature['price'],
+            ]);
+        }
+
 
         if (!$student->hostel_id_number) {
             $student->update([
@@ -98,7 +111,9 @@ class HostelStudentController extends Controller
     public function destroy($id)
     {
 
-        HostelStudent::find($id)->delete();
+        $student=HostelStudent::find($id);
+        HostelStudentFeature::where('hostel_student_id',$student->id)->delete();
+        $student->delete();
 
         return redirect()->route('hostelStudent.index')->with('success', "Selected Student have been removed from hostel");
     }

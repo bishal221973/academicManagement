@@ -104,9 +104,9 @@ const updateData = async () => {
 
 <template>
     <AppLayout>
-        <template #sidebar>
+        <!-- <template #sidebar>
             <Hostel />
-        </template>
+        </template> -->
 
         <template #content>
             <div class="flex items-center justify-between mb-3">

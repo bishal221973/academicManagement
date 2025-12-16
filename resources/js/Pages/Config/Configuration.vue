@@ -44,9 +44,9 @@ const dateFormats = [
 
 <template>
     <AppLayout>
-        <template #sidebar>
+        <!-- <template #sidebar>
             <Configuration />
-        </template>
+        </template> -->
 
         <template #content>
             <Breadcrumb :breadcrumbs="[{ label: 'Configuration' },{ label: 'System Setup' }]" />

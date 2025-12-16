@@ -40,7 +40,7 @@ class RoomController extends Controller
     }
     public function store(Request $request)
     {
-
+        // return $request;
         $data = $request->validate(Room::rules());
         try {
 
@@ -105,5 +105,15 @@ class RoomController extends Controller
             //throw $th;
             return redirect()->route('room.index')->with('error', $e->getMessage());
         }
+    }
+
+    public function find(Request $request){
+        $room=Room::latest();
+        if($request->id){
+            $room=$room->where('id',$request->id);
+        }
+        $room=$room->first();
+
+        return response()->json($room);
     }
 }

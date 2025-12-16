@@ -73,9 +73,9 @@ const sendMail = () => {
 
 <template>
     <AppLayout>
-        <template #sidebar>
+        <!-- <template #sidebar>
             <Configuration />
-        </template>
+        </template> -->
 
         <template #content>
             <!-- {{ mailSetup }} -->

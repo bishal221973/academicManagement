@@ -33,7 +33,7 @@ class StudentController extends Controller
             });
 
         return inertia('Student/List', [
-            'menu' => 'Student',
+            'menu' => 'Student List',
             'sidebar' => 'Students',
             'students' => $students,
             'student' => new Student(),
@@ -57,15 +57,18 @@ class StudentController extends Controller
             // $students = $students->get();
         } elseif ($request->filled('course_id')) {
             $students = $students->where('course_id', $request->course_id);
+        } elseif ($request->filled('contact')) {
+            $students = $students->where('email', $request->contact)->orWhere('phone',$request->contact);
+
             // $students = $students->get();
         } elseif ($request->is_for_hostel_room) {
             $students = $students->whereDoesntHave('hostelStudent');
-        } elseif($request->isAllStudent){
-            $students=$students->get();
+        } elseif ($request->isAllStudent) {
+            $students = $students->get();
             return response()->json([
-            'students' => $students,
-        ]);
-        }else {
+                'students' => $students,
+            ]);
+        } else {
             // If no section_id, return null directly
             $students = null;
             return response()->json([
@@ -85,18 +88,18 @@ class StudentController extends Controller
             return redirect()->back()->with('error', "Please active an academy year");
         }
         $students = Student::query()
-    ->latest()
-    ->where(function ($query) use ($academyYear) {
-        $query->where('academic_year_id', $academyYear->id)
-              ->where('status', 1)
-              ->where('is_transfered', 0);
-    })
-    ->where(function ($query) {
-        $query->whereDoesntHave('hostelStudents') // no hostel record
-              ->orWhereHas('hostelStudents', function ($subQuery) {
-                  $subQuery->whereDate('check_out_date', '<', Carbon::today());
-              });
-    });
+            ->latest()
+            ->where(function ($query) use ($academyYear) {
+                $query->where('academic_year_id', $academyYear->id)
+                    ->where('status', 1)
+                    ->where('is_transfered', 0);
+            })
+            ->where(function ($query) {
+                $query->whereDoesntHave('hostelStudents') // no hostel record
+                    ->orWhereHas('hostelStudents', function ($subQuery) {
+                        $subQuery->whereDate('check_out_date', '<', Carbon::today());
+                    });
+            });
         if ($request->filled('section_id')) {
             $students = $students->where('section_id', $request->section_id);
         } elseif ($request->filled('course_id')) {
@@ -127,21 +130,21 @@ class StudentController extends Controller
         if ($request->hasFile('transfer_certificate')) {
             $data['transfer_certificate'] = $request->file('transfer_certificate')->store('students', 'public');
         }
-        if($request->hasFile('profile')){
-            $data['profile']=$request->file('profile')->store('studentProfile','public');
+        if ($request->hasFile('profile')) {
+            $data['profile'] = $request->file('profile')->store('studentProfile', 'public');
         }
-        $data['admission_fee']=$request->admition_fees ?? 0;
+        $data['admission_fee'] = $request->admition_fees ?? 0;
         try {
-            $student=Student::create($data);
+            $student = Student::create($data);
 
-            if($request->months){
-                $course=Course::find($request->course_id);
-                foreach($request->months as $month){
+            if ($request->months) {
+                $course = Course::find($request->course_id);
+                foreach ($request->months as $month) {
                     StudentTutionFee::create([
-                        'student_id'=>$student->id,
-                        'academic_year_id'=>$student->academic_year_id,
-                        'month'=>$month,
-                        'amount'=>$course->fees,
+                        'student_id' => $student->id,
+                        'academic_year_id' => $student->academic_year_id,
+                        'month' => $month,
+                        'amount' => $course->fees,
                     ]);
                 }
             }
@@ -170,13 +173,13 @@ class StudentController extends Controller
         return inertia('Student/Show', [
             'menu' => 'Student',
             'sidebar' => 'Students',
-            'student' => $student->load('section','group','bills.items.product.unit','hostels.hostel','hostels.room'),
+            'student' => $student->load('section', 'group', 'bills.items.product.unit', 'hostels.hostel', 'hostels.room'),
         ]);
     }
 
     public function edit(Student $student)
     {
-        
+
         $academyYear = AcademicYear::where('status', true)->first();
         if (!$academyYear) {
             return redirect()->back()->with('error', "Please active an academy year");
@@ -189,13 +192,13 @@ class StudentController extends Controller
         });
         $student->registration_date = formatDate($student->registration_date);
         $student->birth_date = formatDate($student->birth_date);
-        $bill=Bill::orderBy('id','asc')->where('student_id',$student->id)->first();
+        $bill = Bill::orderBy('id', 'asc')->where('student_id', $student->id)->first();
         return inertia('Student/List', [
             'menu' => 'Student',
             'sidebar' => 'Students',
             'students' => $students,
             'student' => $student->load('studentTuitionFees'),
-            'bill'=>$bill,
+            'bill' => $bill,
         ]);
     }
 
@@ -290,28 +293,41 @@ class StudentController extends Controller
         return back()->with('success', 'Students imported successfully.');
     }
 
-    public function uploadCitizenship(Request $request, $id){
-        $student=Student::find($id);
+    public function uploadCitizenship(Request $request, $id)
+    {
+        $student = Student::find($id);
 
-        if($request->hasFile('front')){
-            $data['nationality_card_front']=$request->file('front')->store('citizenship','public');
+        if ($request->hasFile('front')) {
+            $data['nationality_card_front'] = $request->file('front')->store('citizenship', 'public');
         }
-        if($request->hasFile('back')){
-            $data['nationality_card_back']=$request->file('back')->store('citizenship','public');
+        if ($request->hasFile('back')) {
+            $data['nationality_card_back'] = $request->file('back')->store('citizenship', 'public');
         }
 
         // return $data;
 
         $student->update($data);
 
-        return redirect()->back()->with('success',"File Uploaded");
+        return redirect()->back()->with('success', "File Uploaded");
     }
 
-    public function updateStatus(Student $student){
+    public function updateStatus(Student $student)
+    {
         $student->update([
-            'status'=>!$student->status
+            'status' => !$student->status
         ]);
 
-        return redirect()->back()->with('success',"Student status have been changed");
+        return redirect()->back()->with('success', "Student status have been changed");
+    }
+
+    public function find(Request $request){
+        $student=Student::latest();
+      
+        if($request->contact){
+            $student=$student->where('email',$request->contact)->orWhere('phone',$request->contact);
+        }
+        $student=$student->first();
+
+        return response()->json($student);
     }
 }

@@ -8,10 +8,12 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HostelController;
+use App\Http\Controllers\HostelFeatureController;
 use App\Http\Controllers\HostelStudentController;
 use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
@@ -128,6 +130,7 @@ Route::prefix('student-management')->group(function () {
     Route::prefix('student')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('student.index');
         Route::get('/all', [StudentController::class, 'all'])->name('student.all');
+        Route::get('/find', [StudentController::class, 'find'])->name('student.find');
         Route::get('/hostel/all', [StudentController::class, 'hostelAll'])->name('student.all.hostel');
         Route::post('/store', [StudentController::class, 'store'])->name('student.store');
         Route::put('/status/{student}', [StudentController::class, 'updateStatus'])->name('student.update.status');
@@ -216,6 +219,7 @@ Route::prefix('hostel-management')->group(function () {
     Route::prefix('room-management')->group(function () {
         Route::get('/', [RoomController::class, 'index'])->name('room.index');
         Route::get('/all', [RoomController::class, 'all'])->name('room.all');
+        Route::get('/find', [RoomController::class, 'find'])->name('room.find');
         Route::get('/show/{roomId}', [RoomController::class, 'show'])->name('room.show');
         Route::post('/store', [RoomController::class, 'store'])->name('room.store');
         Route::put('/status/{room}', [RoomController::class, 'updateStatus'])->name('room.update.status');
@@ -232,6 +236,15 @@ Route::prefix('hostel-management')->group(function () {
         Route::get('/show/{hostelStudent}', [HostelStudentController::class, 'show'])->name('hostelStudent.show');
         Route::put('/update/{hostelStudent}', [HostelStudentController::class, 'update'])->name('hostelStudent.update');
         Route::delete('/delete/{id}', [HostelStudentController::class, 'destroy'])->name('hostelStudent.delete');
+    });
+    Route::prefix('hostel-facilities')->group(function () {
+        Route::get('/', [HostelFeatureController::class, 'index'])->name('hostelFeature.index');
+        Route::post('/store', [HostelFeatureController::class, 'store'])->name('hostelFeature.store');
+        Route::put('/status/{hostelFeature}', [HostelFeatureController::class, 'updateStatus'])->name('hostelFeature.update.status');
+        Route::get('/edit/{hostelFeature}', [HostelFeatureController::class, 'edit'])->name('hostelFeature.edit');
+        Route::get('/show/{hostelFeature}', [HostelFeatureController::class, 'show'])->name('hostelFeature.show');
+        Route::put('/update/{hostelFeature}', [HostelFeatureController::class, 'update'])->name('hostelFeature.update');
+        Route::delete('/delete/{id}', [HostelFeatureController::class, 'destroy'])->name('hostelFeature.delete');
     });
 });
 
@@ -312,3 +325,13 @@ Route::prefix('inventory-management')->group(function () {
         Route::delete('/delete/{id}', [SellController::class, 'destroy'])->name('sell.delete');
     });
 });
+
+Route::prefix('billing')->group(function () {
+        Route::get('/', [BillingController::class, 'index'])->name('billing.index');
+        Route::get('/all', [BillingController::class, 'all'])->name('billing.all');
+        Route::post('/store', [BillingController::class, 'store'])->name('billing.store');
+        Route::get('/edit/{billing}', [BillingController::class, 'edit'])->name('billing.edit');
+        Route::put('/update/{billing}', [BillingController::class, 'update'])->name('billing.update');
+        Route::put('/status/{billing}', [BillingController::class, 'status'])->name('billing.status');
+        Route::delete('/delete/{billing}', [BillingController::class, 'delete'])->name('billing.delete');
+    });

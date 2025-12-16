@@ -29,7 +29,7 @@ class Room extends Model
                     ->ignore($id),
             ],
             'type' => 'nullable',
-            'no_of_bed' => 'required',
+            'no_of_bed' => 'nullable',
             'price' => 'required',
             'remarks' => 'nullable',
         ];

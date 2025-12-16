@@ -42,7 +42,7 @@ const fetchData = async () => {
            :value="localDate"
            @input="(e) => localDate = e.target.value"
            type="date"
-           class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+           class="w-full border border-gray-300 rounded px-3 py-[7px] mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
     <div v-else class="w-full border-[1px] border-gray-300 rounded pl-3 pr-[3px] py-[2.4px] mt-[3px]">
       <NepaliDatePicker

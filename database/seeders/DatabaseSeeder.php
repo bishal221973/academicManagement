@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CourseSeeder::class);
         Section::factory()->count(25)->create();
         Group::factory()->count(20)->create();
-        Student::factory()->count(400)->create();
+        Student::factory()->count(60)->create();
         $this->call(HostelSeeder::class);
         $this->call(ProductCategorySeeder::class);
         $this->call(UnitSeeder::class);
