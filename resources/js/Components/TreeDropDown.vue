@@ -39,7 +39,7 @@ const selectItem = item => {
   <div class="relative w-full">
     <button
       type="button"
-      class="w-full px-3 py-2 border rounded-lg bg-white flex justify-between items-center"
+      class="w-full px-3 py-[9px] border rounded-lg bg-white flex justify-between items-center"
       :disabled="disabled"
       @click="open = !open"
     >

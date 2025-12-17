@@ -38,7 +38,7 @@ class SectionFactory extends Factory
         }
 
         return [
-            'course_id' => $course->id,
+            'course_id' => rand(1,8),
             'name' => $name,
             'description' => $this->faker->sentence(),
             'position' => $this->faker->numberBetween(1, 10),

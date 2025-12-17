@@ -15,6 +15,7 @@ import Toggle from "../Toggle.vue";
 import axios from "axios";
 import MultiMonthSelect from "../MultiMonthSelect.vue";
 import TreeDropDown from "../TreeDropDown.vue";
+import SelectCourse1 from "../Select/SelectCourse1.vue";
 const props = defineProps({
     isSelect: {
         type: Boolean,
@@ -25,7 +26,7 @@ const props = defineProps({
         default: null,
     },
     title: String,
-    bill:Object,
+    bill: Object,
 });
 const openModal = ref(false);
 
@@ -64,38 +65,38 @@ const form = useForm({
 
 
     admition_fees: '',
-    months:[],
+    months: [],
     tution_fees: '',
-    discount:0,
+    discount: 0,
     is_percentage: false,
-    sub_total:0,
-    net_total:0,
-    total_amount:0,
+    sub_total: 0,
+    net_total: 0,
+    total_amount: 0,
     taxes: [],
 });
 
 const addTax = () => {
-  form.taxes.push({ tax_id: null, percentage: 0 })
+    form.taxes.push({ tax_id: null, percentage: 0 })
 }
 
 const removeTax = (index) => {
-  form.taxes.splice(index, 1)
+    form.taxes.splice(index, 1)
 }
 
 const isSelected = (tax) => {
-  return form.taxes.some(t => t.tax_id === tax.id)
+    return form.taxes.some(t => t.tax_id === tax.id)
 }
 
 const toggleTax = (tax) => {
-  const index = form.taxes.findIndex(t => t.tax_id === tax.id)
-  if (index === -1) {
-    // Add tax
-    form.taxes.push({ tax_id: tax.id, name: tax.name, percentage: tax.percentage })
-  } else {
-    // Remove tax
-    form.taxes.splice(index, 1)
-  }
-  computeTotalAmount(netTotalAmount.value)
+    const index = form.taxes.findIndex(t => t.tax_id === tax.id)
+    if (index === -1) {
+        // Add tax
+        form.taxes.push({ tax_id: tax.id, name: tax.name, percentage: tax.percentage })
+    } else {
+        // Remove tax
+        form.taxes.splice(index, 1)
+    }
+    computeTotalAmount(netTotalAmount.value)
 }
 const submit = () => {
     if (props.student?.id) {
@@ -137,8 +138,8 @@ onMounted(() => {
         form.transfer_certificate = props.student.transfer_certificate;
 
         form.admition_fees = props.bill?.total_amount ?? usePage()?.props?.academy?.admission_fees;
-        form.discount=props?.bill?.discount ?? 0;
-            form.months = props.student.student_tuition_fees.map(fee => Number(fee.month))
+        form.discount = props?.bill?.discount ?? 0;
+        form.months = props.student.student_tuition_fees.map(fee => Number(fee.month))
     }
     form.admition_fees = props.student?.admission_fee ?? usePage()?.props?.academy?.admission_fees;
     computeSubTotal(usePage()?.props?.academy?.admission_fees)
@@ -203,7 +204,7 @@ const taxes = ref([]);
 
 onMounted(() => {
     fetchTaxes();
-   
+
 });
 
 const fetchTaxes = async () => {
@@ -211,95 +212,95 @@ const fetchTaxes = async () => {
     taxes.value = response.data.taxes;
 
 }
-const monthlyFees=ref(0);
+const monthlyFees = ref(0);
 watch(
-  () => form.course_id,
-  async (newVal, oldVal) => {
-    if (!newVal) return
+    () => form.course_id,
+    async (newVal, oldVal) => {
+        if (!newVal) return
 
-    try {
-      const response = await axios.get(route('course.find',newVal))
-      monthlyFees.value=response.data?.course?.fees;
+        try {
+            const response = await axios.get(route('course.find', newVal))
+            monthlyFees.value = response.data?.course?.fees;
 
-      computeTutionFee();
-    } catch (error) {
-      console.error('Failed to fetch course details:', error)
+            computeTutionFee();
+        } catch (error) {
+            console.error('Failed to fetch course details:', error)
+        }
     }
-  }
 )
 watch(
-  () => form.months,
-  (newVal, oldVal) => {
-    computeTutionFee();
-  }
+    () => form.months,
+    (newVal, oldVal) => {
+        computeTutionFee();
+    }
 )
 
-const computeTutionFee=()=>{
-    const fees=monthlyFees.value*form.months.length;
-    form.tution_fees= fees ?? 0;
+const computeTutionFee = () => {
+    const fees = monthlyFees.value * form.months.length;
+    form.tution_fees = fees ?? 0;
 }
 
 
-const netTotalAmount=ref(0);
-const discountAmount=ref(0)
-const computeNetTotal=(netAmount,discount)=>{
-    const netAmt=Number(netAmount)-Number(discount);
-    netTotalAmount.value=Number(netAmt).toFixed(2);
-    form.net_total=netAmt;
+const netTotalAmount = ref(0);
+const discountAmount = ref(0)
+const computeNetTotal = (netAmount, discount) => {
+    const netAmt = Number(netAmount) - Number(discount);
+    netTotalAmount.value = Number(netAmt).toFixed(2);
+    form.net_total = netAmt;
     computeTotalAmount(netAmt)
 }
 
-const totalAmountVal=ref(0);
+const totalAmountVal = ref(0);
 const computeTotalAmount = (amt) => {
-  let totalAmt = 0;
+    let totalAmt = 0;
 
-  for (const tax of form.taxes) {
-    const taxAmount = Number(amt) * (tax.percentage / 100);
-    totalAmt += taxAmount;
-  }
-  const total=Number(amt)+Number(totalAmt);
-  totalAmountVal.value=total;
-  form.total_amount=total;
-}
-
-const subTotal=ref(0);
-const computeSubTotal=(admittionFee)=>{
-   
-    const tutionFees=form.tution_fees;
-    subTotal.value=Number(admittionFee)+Number(tutionFees)
-    computeNetTotal(subTotal.value,discountAmount.value)
-    form.sub_total=Number(admittionFee)+Number(tutionFees);
-}
-watch(
-  [() => form.months, () => form.course_id, () => form.admission_fees],
-  () => computeSubTotal(form.admition_fees),
-  { immediate: true }
-)
-
-
-const computeDiscount=()=>{
-    if(form.is_percentage){
-        if(subTotal.value>0){
-            const discount=subTotal.value*form.discount/100;
-            discountAmount.value=discount.toFixed(2);
-        }else{
-            discountAmount.value='0.0';
-        }
-    }else{
-        discountAmount.value=Number(form.discount).toFixed(2);
+    for (const tax of form.taxes) {
+        const taxAmount = Number(amt) * (tax.percentage / 100);
+        totalAmt += taxAmount;
     }
-    computeNetTotal(subTotal.value,discountAmount.value)
+    const total = Number(amt) + Number(totalAmt);
+    totalAmountVal.value = total;
+    form.total_amount = total;
+}
+
+const subTotal = ref(0);
+const computeSubTotal = (admittionFee) => {
+
+    const tutionFees = form.tution_fees;
+    subTotal.value = Number(admittionFee) + Number(tutionFees)
+    computeNetTotal(subTotal.value, discountAmount.value)
+    form.sub_total = Number(admittionFee) + Number(tutionFees);
 }
 watch(
-  [() => form.is_percentage, () => form.discount],
-  () => {
-    // alert('hello')
-    computeDiscount()
-  }
+    [() => form.months, () => form.course_id, () => form.admission_fees],
+    () => computeSubTotal(form.admition_fees),
+    { immediate: true }
 )
 
-const computePercentageAmount=(netAmt,percent)=>{
-    const percentage=netAmt*percent/100;
+
+const computeDiscount = () => {
+    if (form.is_percentage) {
+        if (subTotal.value > 0) {
+            const discount = subTotal.value * form.discount / 100;
+            discountAmount.value = discount.toFixed(2);
+        } else {
+            discountAmount.value = '0.0';
+        }
+    } else {
+        discountAmount.value = Number(form.discount).toFixed(2);
+    }
+    computeNetTotal(subTotal.value, discountAmount.value)
+}
+watch(
+    [() => form.is_percentage, () => form.discount],
+    () => {
+        // alert('hello')
+        computeDiscount()
+    }
+)
+
+const computePercentageAmount = (netAmt, percent) => {
+    const percentage = netAmt * percent / 100;
     return percentage;
 }
 
@@ -309,12 +310,12 @@ const groups = ref([]);
    Fetch Groups
 ----------------------------- */
 const fetchGroups = async () => {
-  try {
-    const response = await axios.get(route("group.all"));
-    groups.value = response.data.groups ?? [];
-  } catch (error) {
-    console.error("Failed to fetch groups", error);
-  }
+    try {
+        const response = await axios.get(route("group.all"));
+        groups.value = response.data.groups ?? [];
+    } catch (error) {
+        console.error("Failed to fetch groups", error);
+    }
 };
 
 onMounted(fetchGroups);
@@ -323,32 +324,32 @@ onMounted(fetchGroups);
    Build Tree
 ----------------------------- */
 const buildTree = (items, parentId = null) => {
-  return items
-    .filter(item => item.parent_id === parentId)
-    .map(item => ({
-      ...item,
-      children: buildTree(items, item.id),
-    }));
+    return items
+        .filter(item => item.parent_id === parentId)
+        .map(item => ({
+            ...item,
+            children: buildTree(items, item.id),
+        }));
 };
 
 /* ----------------------------
    Flatten Tree for Select
 ----------------------------- */
 const flattenTree = (tree, level = 0) => {
-  let result = [];
+    let result = [];
 
-  tree.forEach(node => {
-    result.push({
-      id: node.id,
-      label: `${"— ".repeat(level)}${node.name}`,
+    tree.forEach(node => {
+        result.push({
+            id: node.id,
+            label: `${"— ".repeat(level)}${node.name}`,
+        });
+
+        if (node.children && node.children.length) {
+            result = result.concat(flattenTree(node.children, level + 1));
+        }
     });
 
-    if (node.children && node.children.length) {
-      result = result.concat(flattenTree(node.children, level + 1));
-    }
-  });
-
-  return result;
+    return result;
 };
 
 /* ----------------------------
@@ -362,13 +363,14 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
         <component :is="Plus" />
     </button>
     <div v-else>
-        <button @click="toggleModal" type="button" class="text-[12px] py-2 hover:bg-white w-full hover:text-main/80 px-3 flex items-center gap-3"
-            v-if="title">
-            <component :is="Minus" class="w-4 h-4"/>
-            {{ title }}</button>
-        <button @click="toggleModal" type="button" class="px-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            v-else>Add Student</button>
-            
+        <button @click="toggleModal" type="button"
+            class="text-[12px] py-2 hover:bg-white w-full hover:text-main/80 px-3 flex items-center gap-3" v-if="title">
+            <component :is="Minus" class="w-4 h-4" />
+            {{ title }}
+        </button>
+        <button @click="toggleModal" type="button"
+            class="px-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" v-else>Add Student</button>
+
     </div>
 
     <Modal :show="openModal" maxWidth="4xl" :title="student?.id ? 'Edit Student' : 'Add Student'" @close="toggleModal"
@@ -467,9 +469,17 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                         </div>
                         <div class="col-span-12">
                             <div class="flex gap-3">
+                                 <div class="w-full">
+                                    <label class="text-[14px]">Group *</label>
+                                    <TreeDropDown v-model="form.group_id" :items="groups"
+                                        placeholder="Select parent group" class="mt-2" />
+                                    <!-- <SelectGroup class="mt-[5px]" v-model="form.group_id" /> -->
+
+                                    <small class="text-red-600">{{ form.errors.group_id }}</small>
+                                </div>
                                 <div class="w-full">
                                     <label class="text-[14px]">Course *</label>
-                                    <SelectCourse class="mt-[5px]" v-model="form.course_id" />
+                                    <SelectCourse1 class="mt-[5px]" v-model="form.course_id" :group_id="form.group_id"/>
                                     <small class="text-red-600">{{ form.errors.course_id }}</small>
                                 </div>
                                 <div class="w-full">
@@ -478,28 +488,7 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                                         :courseId="form.course_id" />
                                     <small class="text-red-600">{{ form.errors.section_id }}</small>
                                 </div>
-                                <div class="w-full">
-                                    <label class="text-[14px]">Group</label>
-                                    <TreeDropDown v-model="form.group_id"  :items="groups"
-  placeholder="Select parent group"/>
-                                    <!-- <SelectGroup class="mt-[5px]" v-model="form.group_id" /> -->
-                                     <select
-          v-model="form.group_id"
-          class="w-full border rounded px-3 py-2 mt-1"
-        >
-          <option :value="null" selected disabled>Select parent group</option>
-
-          <option
-            v-for="parent in parentOptions"
-            :key="parent.id"
-            :value="parent.id"
-            :disabled="parent.id === group?.id"
-          >
-            {{ parent.label }}
-          </option>
-        </select>
-                                    <small class="text-red-600">{{ form.errors.group_id }}</small>
-                                </div>
+                               
                             </div>
                         </div>
 
@@ -634,20 +623,21 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                     <div class="bg-gray-100 py-2 px-3 rounded mb-2">
                         <span class="text-[14px]">Profile Information :</span>
                     </div>
-                    <ImageUploader1 :height="'100px'" :title="'Brows Profile'" v-model="form.profile"/>
+                    <ImageUploader1 :height="'100px'" :title="'Brows Profile'" v-model="form.profile" />
 
                     <div class="bg-gray-100 py-2 px-3 mt-2 rounded mb-2">
                         <span class="text-[14px]">Billing Information :</span>
                     </div>
 
                     <div class="block">
-                        
+
                         <label class="checkbox-wrapper">
                             <input type="checkbox" disabled checked />
                             <span class="checkmark"></span>
                             Admission Fees
                         </label>
-                        <input type="number" :class="student?.id ? 'pointer-events-none bg-gray-100' : ''" v-model="form.admition_fees" step="0.01"
+                        <input type="number" :class="student?.id ? 'pointer-events-none bg-gray-100' : ''"
+                            v-model="form.admition_fees" step="0.01"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Enter admission fees" />
                     </div>
@@ -658,7 +648,7 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                             <span class="checkmark"></span>
                             Tution Fees
                         </label>
-                        <MultiMonthSelect :class="student?.id ? 'pointer-events-none ' : ''" v-model="form.months"/>
+                        <MultiMonthSelect :class="student?.id ? 'pointer-events-none ' : ''" v-model="form.months" />
                     </div>
 
                     <div class="block mt-3 hidden">
@@ -684,10 +674,11 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                                 <small class="block pl-3" style="padding-left: 25px;">%</small>
                             </div>
                         </div>
-                        <input type="text" v-model="form.discount" :class="student?.id ? 'pointer-events-none bg-gray-100' : ''"
+                        <input type="text" v-model="form.discount"
+                            :class="student?.id ? 'pointer-events-none bg-gray-100' : ''"
                             class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Discounts" />
-                            <!-- {{ form.discount }} -->
+                        <!-- {{ form.discount }} -->
                     </div>
 
                     <hr class="my-3">
@@ -703,7 +694,8 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                             <hr class="my-2">
                             <div class="flex justify-between mb-1" v-for="(item, key) in taxes">
                                 <div class="flex items-center gap-3">
-                                    <input type="checkbox" :checked="isSelected(item)" @change="toggleTax(item)" name="" id=""></input>
+                                    <input type="checkbox" :checked="isSelected(item)" @change="toggleTax(item)" name=""
+                                        id=""></input>
                                     {{ item?.name }}
                                 </div>
                                 <div>
@@ -712,14 +704,14 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="block mt-3 bg-gray-100 p-3 rounded">
                         <div class="flex justify-between">
                             <small>
                                 Admission Fees
                             </small>
                             <small>
-                                Rs. {{form.admition_fees}}
+                                Rs. {{ form.admition_fees }}
                             </small>
                         </div>
                         <hr class="my-1">
@@ -737,7 +729,7 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                                 Tution Fees
                             </small>
                             <small>
-                                Rs. {{form.tution_fees}}
+                                Rs. {{ form.tution_fees }}
                             </small>
                         </div>
                         <hr class="my-1">
@@ -746,7 +738,7 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                                 Sub Total
                             </small>
                             <small>
-                                Rs. {{subTotal}}
+                                Rs. {{ subTotal }}
                             </small>
                         </div>
                         <hr class="my-1">
@@ -755,7 +747,7 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                                 Discount
                             </small>
                             <small>
-                                Rs. {{discountAmount}}
+                                Rs. {{ discountAmount }}
                             </small>
                         </div>
                         <hr class="my-1">
@@ -764,29 +756,29 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                                 Net Total
                             </small>
                             <small>
-                                Rs. {{netTotalAmount}}
+                                Rs. {{ netTotalAmount }}
                             </small>
                         </div>
                         <hr class="my-1">
 
-                        
+
                         <div><small><b>Taxes</b></small></div>
-                        <div class="flex justify-between" v-for="(item,index) in form.taxes" :key="index">
+                        <div class="flex justify-between" v-for="(item, index) in form.taxes" :key="index">
                             <small>
-                                {{item?.name}} ({{ item?.percentage }}%)
+                                {{ item?.name }} ({{ item?.percentage }}%)
                             </small>
                             <small>
-                                Rs. {{computePercentageAmount(netTotalAmount,item.percentage)}}
+                                Rs. {{ computePercentageAmount(netTotalAmount, item.percentage) }}
                             </small>
                         </div>
-                        
+
                         <hr class="my-1">
                         <div class="flex justify-between font-bold">
                             <small>
                                 Grand Total
                             </small>
                             <small>
-                                Rs. {{totalAmountVal}}
+                                Rs. {{ totalAmountVal }}
                             </small>
                         </div>
                     </div>
@@ -805,50 +797,50 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
 
 <style scoped>
 .checkbox-wrapper {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 16px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 /* Hide default checkbox */
 .checkbox-wrapper input[type="checkbox"] {
-  opacity: 0;
-  width: 0;
-  height: 0;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 /* Custom checkmark box */
 .checkmark {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #4a90e2;
-  border-radius: 4px;
-  margin-right: 8px;
-  position: relative;
-  transition: all 0.2s ease;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #4a90e2;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+    transition: all 0.2s ease;
 }
 
 /* Checkmark indicator */
-.checkbox-wrapper input:checked + .checkmark {
-  background-color: #4a90e2;
-  border-color: #4a90e2;
+.checkbox-wrapper input:checked+.checkmark {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
 }
 
 .checkmark::after {
-  content: "";
-  position: absolute;
-  display: none;
+    content: "";
+    position: absolute;
+    display: none;
 }
 
-.checkbox-wrapper input:checked + .checkmark::after {
-  display: block;
-  left: 5px;
-  top: 2px;
-  width: 4px;
-  height: 8px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+.checkbox-wrapper input:checked+.checkmark::after {
+    display: block;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 </style>

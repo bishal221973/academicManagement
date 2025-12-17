@@ -41,16 +41,24 @@ class DatabaseSeeder extends Seeder
             'status' => true,
         ]);
 
-        $this->call(CourseSeeder::class);
-        Section::factory()->count(25)->create();
         // Group::factory()->count(2)->create();
         Group::create([
             'name' => "Army",
         ]);
-         Group::create([
+        Group::create([
             'name' => "Police",
         ]);
-        Student::factory()->count(60)->create();
+        Group::create([
+            'name' => "Jana Pad",
+            'parent_id'=>2,
+        ]);
+        Group::create([
+            'name' => "Prabidhik",
+            'parent_id'=>2,
+        ]);
+        $this->call(CourseSeeder::class);
+        Section::factory()->count(25)->create();
+        // Student::factory()->count(60)->create();
         $this->call(HostelSeeder::class);
         $this->call(ProductCategorySeeder::class);
         $this->call(UnitSeeder::class);

@@ -154,7 +154,7 @@ class Student extends Model
             'national_id' => 'nullable',
             'course_id' => 'required',
             'section_id' => 'nullable',
-            'group_id' => 'nullable',
+            'group_id' => 'required',
             'father_name' => 'nullable',
             'father_phone' => 'nullable',
             'father_education' => 'nullable',

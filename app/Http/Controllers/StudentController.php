@@ -58,7 +58,7 @@ class StudentController extends Controller
         } elseif ($request->filled('course_id')) {
             $students = $students->where('course_id', $request->course_id);
         } elseif ($request->filled('contact')) {
-            $students = $students->where('email', $request->contact)->orWhere('phone',$request->contact);
+            $students = $students->where('email', $request->contact)->orWhere('phone', $request->contact);
 
             // $students = $students->get();
         } elseif ($request->is_for_hostel_room) {
@@ -126,6 +126,8 @@ class StudentController extends Controller
             return redirect()->back()->with('error', "Please active an academy year");
         }
         $data = $request->validate(Student::rules());
+        $course = Course::where('id', $data['course_id'])->first();
+        $data['group_id'] = $course->group_id;
         $data['academic_year_id'] = $academyYear->id;
         if ($request->hasFile('transfer_certificate')) {
             $data['transfer_certificate'] = $request->file('transfer_certificate')->store('students', 'public');
@@ -209,7 +211,8 @@ class StudentController extends Controller
             return redirect()->back()->with('error', "Please active an academy year");
         }
         $data = $request->validate(Student::rules());
-
+        $course = Course::where('id', $data['course_id'])->first();
+        $data['group_id'] = $course->group_id;
         try {
             $student->update($data);
             return redirect()->route('student.index')->with('success', 'Student update successfully');
@@ -320,13 +323,14 @@ class StudentController extends Controller
         return redirect()->back()->with('success', "Student status have been changed");
     }
 
-    public function find(Request $request){
-        $student=Student::latest();
-      
-        if($request->contact){
-            $student=$student->where('email',$request->contact)->orWhere('phone',$request->contact);
+    public function find(Request $request)
+    {
+        $student = Student::latest();
+
+        if ($request->contact) {
+            $student = $student->where('email', $request->contact)->orWhere('phone', $request->contact);
         }
-        $student=$student->first();
+        $student = $student->first();
 
         return response()->json($student);
     }

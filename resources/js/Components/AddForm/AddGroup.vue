@@ -99,7 +99,7 @@ import { onMounted, ref, computed } from "vue";
 import Modal from "../Modal.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Plus } from "lucide-vue-next";
-
+import TreeDropDown from "../TreeDropDown.vue";
 const props = defineProps({
   isSelect: Boolean,
   group: Object,
@@ -206,6 +206,12 @@ const updateData = () => {
     @close="toggleModal"
   >
     <form @submit.prevent="submit">
+        <div class="mb-3">
+        <label class="text-sm">Parent Group</label>
+        
+          <TreeDropDown v-model="form.parent_id" :items="groups"
+                                        placeholder="Select parent group" class="mt-2" />
+      </div>
       <!-- Group Name -->
       <div class="mb-3">
         <label class="text-sm">Group Name *</label>
@@ -218,24 +224,7 @@ const updateData = () => {
       </div>
 
       <!-- Parent Group -->
-      <div class="mb-3">
-        <label class="text-sm">Parent Group</label>
-        <select
-          v-model="form.parent_id"
-          class="w-full border rounded px-3 py-2 mt-1"
-        >
-          <option :value="null" selected disabled>Select parent group</option>
-
-          <option
-            v-for="parent in parentOptions"
-            :key="parent.id"
-            :value="parent.id"
-            :disabled="parent.id === group?.id"
-          >
-            {{ parent.label }}
-          </option>
-        </select>
-      </div>
+      
 
       <!-- Description -->
       <div class="mb-3">

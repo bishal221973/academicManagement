@@ -71,15 +71,35 @@ class CourseController extends Controller
         return redirect()->route('course.index')->with('success', 'Course deleted successfully');
     }
 
-    public function getCourse()
+    public function getCourse(Request $request)
     {
+        $courses = [];
+        if ($request->group_id) {
+            $groupIds = $this->getGroupWithChildrenIds($request->group_id);
+
+            $courses = Course::whereIn('group_id', $groupIds)
+                ->latest()
+                ->get();
+        }
         return response()->json([
-            'courses' => Course::where('status', 1)->latest()->get()
+            'courses' => $courses
         ]);
     }
+    private function getGroupWithChildrenIds($groupId)
+    {
+        $ids = [$groupId];
 
-    public function findCourse($id){
-        $course=Course::find($id);
+        $children = \App\Models\Group::where('parent_id', $groupId)->pluck('id');
+
+        foreach ($children as $childId) {
+            $ids = array_merge($ids, $this->getGroupWithChildrenIds($childId));
+        }
+
+        return $ids;
+    }
+    public function findCourse($id)
+    {
+        $course = Course::find($id);
         return response()->json([
             'course' => $course
         ]);

@@ -37,7 +37,7 @@ class StudentFactory extends Factory
             'course_id' => Course::inRandomOrder()->value('id') ?? Course::factory(),
             'academic_year_id' => 1,
             'section_id' => Section::inRandomOrder()->value('id') ?? Section::factory(),
-            'group_id' => Group::inRandomOrder()->value('id') ?? Group::factory(),
+            'group_id' => rand(1,2),
 
             'father_name' => $this->faker->name('male'),
             'father_phone' => $this->faker->phoneNumber(),
