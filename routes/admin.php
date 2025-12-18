@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\CallLogController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
@@ -33,12 +34,13 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\VisitorController;
 use Database\Seeders\IcardSeeder;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'sidebar' => 'Dashboard',
-        'menu'=>'Dashboard'
+        'menu' => 'Dashboard'
     ]);
 })->name('dashboard');
 Route::get('test', function () {
@@ -103,16 +105,16 @@ Route::prefix('configuration')->group(function () {
             Route::put('status/{id}', [AdmissionSectionController::class, 'status'])->name('admission-section.status');
         });
     });
-    Route::prefix('mail-setup')->group(function(){
-        Route::get('/',[MailSettingController::class,'index'])->name('mail.setup.index');
-        Route::post('/store',[MailSettingController::class,'store'])->name('mail.setup.store');
-        Route::post('/send-test-mail',[MailSettingController::class,'sendTestMail'])->name('mail.setup.sendTestMail');
+    Route::prefix('mail-setup')->group(function () {
+        Route::get('/', [MailSettingController::class, 'index'])->name('mail.setup.index');
+        Route::post('/store', [MailSettingController::class, 'store'])->name('mail.setup.store');
+        Route::post('/send-test-mail', [MailSettingController::class, 'sendTestMail'])->name('mail.setup.sendTestMail');
     });
 
-    Route::prefix('mail-format')->group(function(){
-        Route::get('/',[MailFormatController::class,'index'])->name('mail.format.index');
-        Route::post('/store',[MailFormatController::class,'store'])->name('mail.format.store');
-        Route::post('/send-test-mail',[MailFormatController::class,'sendTestMail'])->name('mail.format.sendTestMail');
+    Route::prefix('mail-format')->group(function () {
+        Route::get('/', [MailFormatController::class, 'index'])->name('mail.format.index');
+        Route::post('/store', [MailFormatController::class, 'store'])->name('mail.format.store');
+        Route::post('/send-test-mail', [MailFormatController::class, 'sendTestMail'])->name('mail.format.sendTestMail');
     });
 
     Route::prefix('payment-mode')->group(function () {
@@ -278,7 +280,7 @@ Route::prefix('inventory-management')->group(function () {
         Route::delete('/delete/{id}', [ProductCategoryController::class, 'destroy'])->name('productCategory.delete');
         Route::get('/api/get-product-category', [ProductCategoryController::class, 'getCategory'])->name('product.category.get.all');
     });
-    
+
     Route::prefix('unit')->group(function () {
         Route::get('/', [UnitController::class, 'index'])->name('unit.index');
         Route::post('/unit', [UnitController::class, 'store'])->name('unit.store');
@@ -288,7 +290,7 @@ Route::prefix('inventory-management')->group(function () {
         Route::delete('/delete/{id}', [UnitController::class, 'destroy'])->name('unit.delete');
         Route::get('/api/get-product', [UnitController::class, 'getUnit'])->name('unit.get.all');
     });
-    
+
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('product.index');
         Route::post('/product', [ProductController::class, 'store'])->name('product.store');
@@ -318,7 +320,7 @@ Route::prefix('inventory-management')->group(function () {
     });
     Route::get('/stock-manager', [ProductController::class, 'stockManager'])->name('stock.manager');
 
-     Route::prefix('sell')->group(function () {
+    Route::prefix('sell')->group(function () {
         Route::get('/', [SellController::class, 'index'])->name('sell.index');
         Route::post('/sell', [SellController::class, 'store'])->name('sell.store');
         Route::put('/status/{sell}', [SellController::class, 'updateStatus'])->name('sell.update.status');
@@ -329,11 +331,32 @@ Route::prefix('inventory-management')->group(function () {
 });
 
 Route::prefix('billing')->group(function () {
-        Route::get('/', [BillingController::class, 'index'])->name('billing.index');
-        Route::get('/all', [BillingController::class, 'all'])->name('billing.all');
-        Route::post('/store', [BillingController::class, 'store'])->name('billing.store');
-        Route::get('/edit/{billing}', [BillingController::class, 'edit'])->name('billing.edit');
-        Route::put('/update/{billing}', [BillingController::class, 'update'])->name('billing.update');
-        Route::put('/status/{billing}', [BillingController::class, 'status'])->name('billing.status');
-        Route::delete('/delete/{billing}', [BillingController::class, 'delete'])->name('billing.delete');
+    Route::get('/', [BillingController::class, 'index'])->name('billing.index');
+    Route::get('/all', [BillingController::class, 'all'])->name('billing.all');
+    Route::post('/store', [BillingController::class, 'store'])->name('billing.store');
+    Route::get('/edit/{billing}', [BillingController::class, 'edit'])->name('billing.edit');
+    Route::put('/update/{billing}', [BillingController::class, 'update'])->name('billing.update');
+    Route::put('/status/{billing}', [BillingController::class, 'status'])->name('billing.status');
+    Route::delete('/delete/{billing}', [BillingController::class, 'delete'])->name('billing.delete');
+});
+
+
+Route::prefix('front-office')->group(function () {
+    Route::prefix('visitor')->group(function () {
+        Route::get('/', [VisitorController::class, 'index'])->name('visitor.index');
+        Route::post('/store', [VisitorController::class, 'store'])->name('visitor.store');
+        Route::get('/edit/{visitor}', [VisitorController::class, 'edit'])->name('visitor.edit');
+        Route::put('/update/{visitor}', [VisitorController::class, 'update'])->name('visitor.update');
+        Route::put('/status/{visitor}', [VisitorController::class, 'status'])->name('visitor.status');
+        Route::delete('/delete/{visitor}', [VisitorController::class, 'delete'])->name('visitor.delete');
     });
+
+    Route::prefix('phone-call-log')->group(function () {
+        Route::get('/', [CallLogController::class, 'index'])->name('callLog.index');
+        Route::post('/store', [CallLogController::class, 'store'])->name('callLog.store');
+        Route::get('/edit/{callLog}', [CallLogController::class, 'edit'])->name('callLog.edit');
+        Route::put('/update/{callLog}', [CallLogController::class, 'update'])->name('callLog.update');
+        Route::put('/status/{callLog}', [CallLogController::class, 'status'])->name('callLog.status');
+        Route::delete('/delete/{callLog}', [CallLogController::class, 'delete'])->name('callLog.delete');
+    });
+});

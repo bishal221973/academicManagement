@@ -25,8 +25,9 @@ const menus = ref([
     title: "Front Office",
     icon: Printer,
     children: [
+      {title:"Visitor Book",url:"visitor.index"},
+      { title: "Phone Call Log", url: "callLog.index" },
       { title: "Admission Enquiry", url: "dashboard" },
-      { title: "Phone Call Log", url: "dashboard" },
       { title: "Postal Dispatch", url: "dashboard" },
       { title: "Postal Receive", url: "dashboard" },
       { title: "Complain", url: "dashboard" },
