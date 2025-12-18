@@ -45,9 +45,9 @@ const tableData = computed(() =>
 
 <template>
     <AppLayout>
-        <template #sidebar>
+        <!-- <template #sidebar>
             <Inventory />
-        </template>
+        </template> -->
 
         <template #content>
             <div class="flex items-center justify-between mb-3">

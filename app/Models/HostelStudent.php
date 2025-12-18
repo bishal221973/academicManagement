@@ -40,4 +40,8 @@ class HostelStudent extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function features(){
+        return $this->hasMany(HostelStudentFeature::class,'hostel_student_id','id');
+    }
 }

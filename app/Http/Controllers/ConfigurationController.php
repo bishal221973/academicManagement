@@ -17,7 +17,7 @@ class ConfigurationController extends Controller
         $settings = MySetting::get();
         return Inertia::render('Config/Configuration', [
             'sidebar' => 'Settings',
-            'menu' => 'SystemSetup',
+            'menu' => 'System Setup',
             'settings' => $settings,
         ]);
     }

@@ -37,7 +37,8 @@ use Database\Seeders\IcardSeeder;
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
-        'sidebar' => 'Dashboard'
+        'sidebar' => 'Dashboard',
+        'menu'=>'Dashboard'
     ]);
 })->name('dashboard');
 Route::get('test', function () {
@@ -130,6 +131,7 @@ Route::prefix('student-management')->group(function () {
     Route::prefix('student')->group(function () {
         Route::get('/', [StudentController::class, 'index'])->name('student.index');
         Route::get('/all', [StudentController::class, 'all'])->name('student.all');
+        Route::get('/roll-number/{courseId}', [StudentController::class, 'rollReg'])->name('student.rollNum');
         Route::get('/find', [StudentController::class, 'find'])->name('student.find');
         Route::get('/hostel/all', [StudentController::class, 'hostelAll'])->name('student.all.hostel');
         Route::post('/store', [StudentController::class, 'store'])->name('student.store');

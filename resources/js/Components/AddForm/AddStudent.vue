@@ -277,6 +277,13 @@ watch(
     { immediate: true }
 )
 
+watch(()=>form.course_id,async()=>{
+    const response=await axios.get(route('student.rollNum',form.course_id));
+
+    form.roll_number=response.data?.roll_number;
+    form.registration_number=response.data?.reg_number;
+})
+
 
 const computeDiscount = () => {
     if (form.is_percentage) {
@@ -364,12 +371,12 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
     </button>
     <div v-else>
         <button @click="toggleModal" type="button"
-            class="text-[12px] py-2 hover:bg-white w-full hover:text-main/80 px-3 flex items-center gap-3" v-if="title">
+            class="hover:bg-white/10 text-white/70 hover:text-white mx-2 flex items-center gap-3 py-1 px-3 text-[12px] rounded transition-colors w-[92%]" v-if="title">
             <component :is="Minus" class="w-4 h-4" />
             {{ title }}
         </button>
         <button @click="toggleModal" type="button"
-            class="px-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" v-else>Add Student</button>
+            class="px-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-white/10" v-else>Add Student</button>
 
     </div>
 
@@ -384,14 +391,43 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                     <div class="grid grid-cols-12 gap-3">
                         <div class="col-span-12">
                             <div class="bg-gray-100 py-2 px-3 rounded">
+                                <span class="text-[14px]">Academic Information :</span>
+                            </div>
+                        </div>
+                        <div class="col-span-12">
+                            <div class="flex gap-3">
+                                 <div class="w-full">
+                                    <label class="text-[14px]">Group *</label>
+                                    <TreeDropDown v-model="form.group_id" :items="groups"
+                                        placeholder="Select parent group" class="mt-2" />
+                                    <!-- <SelectGroup class="mt-[5px]" v-model="form.group_id" /> -->
+
+                                    <small class="text-red-600">{{ form.errors.group_id }}</small>
+                                </div>
+                                <div class="w-full">
+                                    <label class="text-[14px]">Course *</label>
+                                    <SelectCourse1 class="mt-[5px]" v-model="form.course_id" :group_id="form.group_id"/>
+                                    <small class="text-red-600">{{ form.errors.course_id }}</small>
+                                </div>
+                                <div class="w-full">
+                                    <label class="text-[14px]">Section</label>
+                                    <SelectSection class="mt-[5px]" v-model="form.section_id"
+                                        :courseId="form.course_id" />
+                                    <small class="text-red-600">{{ form.errors.section_id }}</small>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="col-span-12">
+                            <div class="bg-gray-100 py-2 px-3 rounded">
                                 <span class="text-[14px]">Basic Information :</span>
                             </div>
                         </div>
 
                         <div class="col-span-3">
                             <label class="text-[14px]">Roll Number *</label>
-                            <input type="number" v-model="form.roll_number"
-                                class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            <input type="number" readonly v-model="form.roll_number"
+                                class="w-full border bg-gray-100 border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Roll number" />
                             <small class="text-red-600">{{ form.errors.roll_number }}</small>
                         </div>
@@ -404,8 +440,8 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                         </div>
                         <div class="col-span-3">
                             <label class="text-[14px]">Registration No. *</label>
-                            <input type="text" v-model="form.registration_number"
-                                class="w-full border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            <input type="text" readonly v-model="form.registration_number"
+                                class="w-full border bg-gray-100 border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter registration" />
                             <small class="text-red-600">{{ form.errors.registration_number }}</small>
                         </div>
@@ -462,35 +498,7 @@ const parentOptions = computed(() => flattenTree(treeGroups.value));
                         </div>
 
                         <!-- ========================== -->
-                        <div class="col-span-12">
-                            <div class="bg-gray-100 py-2 px-3 rounded">
-                                <span class="text-[14px]">Academic Information :</span>
-                            </div>
-                        </div>
-                        <div class="col-span-12">
-                            <div class="flex gap-3">
-                                 <div class="w-full">
-                                    <label class="text-[14px]">Group *</label>
-                                    <TreeDropDown v-model="form.group_id" :items="groups"
-                                        placeholder="Select parent group" class="mt-2" />
-                                    <!-- <SelectGroup class="mt-[5px]" v-model="form.group_id" /> -->
-
-                                    <small class="text-red-600">{{ form.errors.group_id }}</small>
-                                </div>
-                                <div class="w-full">
-                                    <label class="text-[14px]">Course *</label>
-                                    <SelectCourse1 class="mt-[5px]" v-model="form.course_id" :group_id="form.group_id"/>
-                                    <small class="text-red-600">{{ form.errors.course_id }}</small>
-                                </div>
-                                <div class="w-full">
-                                    <label class="text-[14px]">Section</label>
-                                    <SelectSection class="mt-[5px]" v-model="form.section_id"
-                                        :courseId="form.course_id" />
-                                    <small class="text-red-600">{{ form.errors.section_id }}</small>
-                                </div>
-                               
-                            </div>
-                        </div>
+                        
 
                         <!-- =============================== -->
                         <div class="col-span-12">

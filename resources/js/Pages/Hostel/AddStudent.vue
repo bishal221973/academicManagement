@@ -4,7 +4,7 @@ import Student from "@/Components/Menus/Student.vue";
 import Breadcrumb from "@/Components/Breadcrumb.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import Table from "@/Components/Table.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import axios from "axios";
 import HostelBooking from "@/Components/StudentProfile/HostelBooking.vue";
 const props = defineProps({
@@ -13,6 +13,8 @@ const props = defineProps({
     hostelStudents:Object,
     hostelStudent:Object,
     features:Object,
+    student:Object,
+    myFeatures:Object,
 });
 
 const columns = [
@@ -93,6 +95,7 @@ const updateData = async () => {
         }
     });
 }
+
 </script>
 
 <template>
@@ -102,9 +105,10 @@ const updateData = async () => {
         </template> -->
 
         <template #content>
+            <!-- {{ student }} -->
             <div class="flex items-center justify-between mb-3">
                 <Breadcrumb :breadcrumbs="[{ label: 'Hostel Management' }, { label: 'Booking Management' }]" />
-                <HostelBooking :features="features"/>
+                <HostelBooking :features="features" :student="student" :myFeatures="myFeatures"/>
             </div>
             <div class="flex w-full gap-3">
                 <div style="width: 100%;">

@@ -13,7 +13,7 @@ class IcardController extends Controller
         $icards=Icard::latest()->get();
         return Inertia::render('Config/Icard', [
             'sidebar' => 'Settings',
-            'menu' => 'Icard',
+            'menu' => 'ID Card',
             'icards'=>$icards,
         ]);
     }

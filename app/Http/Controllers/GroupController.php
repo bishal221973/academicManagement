@@ -12,7 +12,7 @@ class GroupController extends Controller
     {
         $groups = Group::latest()->with('parent')->get();
         return inertia('Config/Group', [
-            'menu' => 'Group',
+            'menu' => 'Group Management',
             'sidebar' => 'Academic',
             'groups' => $groups,
             'group' => new Group(),
@@ -55,7 +55,7 @@ class GroupController extends Controller
     {
         $groups = Group::latest()->get();
         return inertia('Config/Group', [
-            'menu' => 'Group',
+            'menu' => 'Group Management',
             'sidebar' => 'Academic',
             'groups' => $groups,
             'group' => $group,

@@ -6,7 +6,8 @@ import AddStudent from '../AddForm/AddStudent.vue';
 import AddRoom from '../AddForm/AddRoom.vue';
 const props = defineProps({
   modelValue: [String, Number], // the value coming from parent
-  hostelId: [String, Number]
+  hostelId: [String, Number],
+  lastRoom:[String,Number]
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -14,14 +15,16 @@ const emit = defineEmits(["update:modelValue"]);
 const courseList = ref([]);
 
 const fetchSection = async (hostelId=null) => {
+ 
   const response = await axios.get(route("room.all"), {
-    params: { hostel_id: hostelId || '' }
+    params: { hostel_id: hostelId ?? props?.hostelId ?? "" }
   });
   courseList.value = response.data.rooms;
 };
 
 onMounted(() => {
   fetchSection();
+  // alert("Hello")
 
   Pusher.logToConsole = true;
 
@@ -49,13 +52,19 @@ const transformData = (data) => {
 const formattedServiceData = computed(() => transformData(courseList.value));
 
 watch(() => props.hostelId, (newVal) => {
-  // alert()
+  // alert(newVal)
   fetchSection(newVal)
-});
+  emit("update:modelValue", null);
+},{ immediate: true });
+
+watch(() => props.lastRoom, (newVal) => {
+  // alert(newVal)
+  // fetchSection(newVal)
+  emit("update:modelValue", newVal);
+},{ immediate: true });
 </script>
 <template>
     <div class="w-full border-[1px] border-gray-300 rounded-md flex px-3">
-
         <SelectComponent :options="formattedServiceData" 
         label="Date Format *"
          placeholder="Select student"

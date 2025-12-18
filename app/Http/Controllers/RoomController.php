@@ -14,7 +14,7 @@ class RoomController extends Controller
     {
         $rooms = Room::latest()->with('hostel','students')->get();
         return Inertia::render('Hostel/Room', [
-            'menu' => 'Room',
+            'menu' => 'Room Management',
             'sidebar' => 'Hostel',
             'rooms' => $rooms,
             'room' => new Room()
@@ -67,7 +67,7 @@ class RoomController extends Controller
     {
         $rooms = Room::latest()->with('hostel','students')->get();
         return Inertia::render('Hostel/Room', [
-            'menu' => 'Room',
+            'menu' => 'Room Management',
             'sidebar' => 'Hostel',
             'rooms' => $rooms,
             'room' => $room

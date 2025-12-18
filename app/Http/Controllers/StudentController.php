@@ -10,6 +10,7 @@ use App\Imports\StudentImport;
 use App\Models\AcademicYear;
 use App\Models\Bill;
 use App\Models\Course;
+use App\Models\HostelFeature;
 use App\Models\StudentTutionFee;
 use Carbon\Carbon;
 
@@ -37,6 +38,7 @@ class StudentController extends Controller
             'sidebar' => 'Students',
             'students' => $students,
             'student' => new Student(),
+            // 'sidebar_menu'=>''
         ]);
     }
 
@@ -172,10 +174,21 @@ class StudentController extends Controller
             $student->birth_date = $student->birth_date ? formatDate($student->birth_date) : null;
         }
 
+        $data=$student->load('section', 'group', 'bills.items.product.unit', 'hostels.hostel', 'hostels.room.students.features');
+        // return $data?->hostels[0];
+         $features=HostelFeature::latest()->get();
         return inertia('Student/Show', [
-            'menu' => 'Student',
+            'menu' => 'Student List',
             'sidebar' => 'Students',
-            'student' => $student->load('section', 'group', 'bills.items.product.unit', 'hostels.hostel', 'hostels.room'),
+            'student' => $student->load([
+                'section',
+                'group',
+                'bills.items.product.unit',
+                'hostels.hostel',
+                
+                'hostels.room.students.features',
+            ]),
+            'features'=>$features,
         ]);
     }
 
@@ -196,7 +209,7 @@ class StudentController extends Controller
         $student->birth_date = formatDate($student->birth_date);
         $bill = Bill::orderBy('id', 'asc')->where('student_id', $student->id)->first();
         return inertia('Student/List', [
-            'menu' => 'Student',
+            'menu' => 'Student List',
             'sidebar' => 'Students',
             'students' => $students,
             'student' => $student->load('studentTuitionFees'),
@@ -248,7 +261,7 @@ class StudentController extends Controller
         $students = $students->get();
 
         return inertia('Student/IDCard', [
-            'menu' => 'ICard',
+            'menu' => 'ID Card',
             'sidebar' => 'Students',
             'students' => $students,
         ]);
@@ -333,5 +346,28 @@ class StudentController extends Controller
         $student = $student->first();
 
         return response()->json($student);
+    }
+
+    public function rollReg($courseId)
+    {
+        $student = Student::where('course_id', $courseId)
+            ->latest('id')
+            ->first();
+
+        $rollNumber = $student ? $student->roll_number + 1 : 1;
+
+        $course = Course::findOrFail($courseId);
+        $year   = now()->year;
+
+        $sequence = $student
+            ? ((int) substr($student->reg_number, -4)) + 1
+            : 1;
+
+        $regNumber = strtoupper($course->code) . '-' . $year . '-' . str_pad($sequence, 4, '0', STR_PAD_LEFT);
+
+        return [
+            'roll_number' => $rollNumber,
+            'reg_number'  => $regNumber,
+        ];
     }
 }

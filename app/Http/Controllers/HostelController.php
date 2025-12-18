@@ -18,7 +18,7 @@ class HostelController extends Controller
         return Inertia::render('Hostel/Hostel', [
             'hostels' => $hostels,
             'hostel' => new Hostel(),
-            'menu' => 'Hostel',
+            'menu' => 'Hostel List',
             'sidebar' => 'Hostel',
         ]);
     }
@@ -51,7 +51,7 @@ class HostelController extends Controller
          ->whereDate('check_out_date', '>', Carbon::today())->latest()->get();
         return Inertia::render('Hostel/HostelShow', [
             'hostel' => $hostel,
-            'menu' => 'Hostel',
+            'menu' => 'Hostel List',
             'sidebar' => 'Hostel',
             'room'=>$room,
             'hostelStudents'=>$hostelStudents,
@@ -76,7 +76,7 @@ class HostelController extends Controller
         return Inertia::render('Hostel/Hostel', [
             'hostels' => $hostels,
             'hostel' => $hostel,
-            'menu' => 'Hostel',
+            'menu' => 'Hostel List',
             'sidebar' => 'Hostel',
         ]);
     }

@@ -16,6 +16,7 @@ import Print from "./Print.vue";
 const props = defineProps({
     students: Object,
     student: Object,
+    features:Object,
 });
 
 const columns = [
@@ -173,7 +174,7 @@ const changeStatus=()=>{
                             <Profile :student="student" v-if="type == 'profile'"/>
                             <Fees :student="student" v-if="type == 'fees'"/>
                             <Document :student="student" v-if="type == 'documents'"/>
-                            <Hostel :student="student" v-if="type == 'hostel'"/>
+                            <Hostel :student="student" :features="features" v-if="type == 'hostel'"/>
                             <!-- {{ student?.bills }} -->
                         </div>
                     </div>

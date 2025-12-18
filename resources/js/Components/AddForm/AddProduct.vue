@@ -29,7 +29,7 @@ const form = useForm({
     product: props.product?.product ?? '',
     product_category_id: props.product?.product_category_id ?? '',
     unit_id: props.product?.unit_id ?? '',
-    rate:props?.rate ?? '',
+    rate:props?.product?.rate ?? '',
 });
 
 const submit = () => {
@@ -89,7 +89,7 @@ const fetchTaxes = async () => {
 
     </div>
 
-    <Modal :show="openModal" maxWidth="sm" :title="product?.id ? 'Edit Unit' : 'Add Unit'" @close="toggleModal"
+    <Modal :show="openModal" maxWidth="sm" :title="product?.id ? 'Edit Product' : 'Add Product'" @close="toggleModal"
         :selectedData="unit">
 
         <form @submit.prevent="submit">

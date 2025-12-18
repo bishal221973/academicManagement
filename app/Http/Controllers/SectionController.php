@@ -12,7 +12,7 @@ class SectionController extends Controller
     public function index(){
         $sections=Section::with('course')->latest()->get();
         return inertia('Config/Section',[
-            'menu'=>'Section',
+            'menu'=>'Section Management',
             'sidebar' => 'Academic',
             'sections'=>$sections,
             'section'=>new Section(),
@@ -56,7 +56,7 @@ class SectionController extends Controller
     public function edit(Section $section){
         $sections=Section::with('course')->latest()->get();
         return inertia('Config/Section',[
-            'menu'=>'Section',
+            'menu'=>'Section Management',
             'sidebar' => 'Academic',
             'sections'=>$sections,
             'section'=>$section,

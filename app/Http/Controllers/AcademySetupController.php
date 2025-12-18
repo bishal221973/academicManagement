@@ -18,7 +18,7 @@ class AcademySetupController extends Controller
         
         return Inertia::render("Config/AcademySetup", [
             'sidebar' => 'Settings',
-            'menu' => 'AcademySetup',
+            'menu' => 'Academy Management',
             'settings' => $settings,
         ]);
     }

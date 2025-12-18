@@ -11,7 +11,7 @@ class SubjectController extends Controller
     {
         $subjects = Subject::with('course')->latest()->get();
         return inertia('Config/Subject', [
-            'menu' => 'Subject',
+            'menu' => 'Subject Management',
             'sidebar' => 'Academic',
             'subjects' => $subjects,
             'subject' => new Subject(),
@@ -45,7 +45,7 @@ class SubjectController extends Controller
     {
         $subjects = Subject::with('course')->latest()->get();
         return inertia('Config/Subject', [
-            'menu' => 'Subject',
+            'menu' => 'Subject Management',
             'sidebar' => 'Academic',
             'subjects' => $subjects,
             'subject' => $subject,

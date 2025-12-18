@@ -15,7 +15,7 @@ class HostelFeatureController extends Controller
     {
         $features = HostelFeature::latest()->get();
         return Inertia::render('Hostel/HostelFeature', [
-            'menu' => 'AddStudent',
+            'menu' => 'Hostel Facilities',
             'sidebar' => 'Hostel',
             'features' => $features,
             'hostelFeature' => new HostelFeature(),
@@ -33,7 +33,7 @@ class HostelFeatureController extends Controller
     {
         $features = HostelFeature::latest()->get();
         return Inertia::render('Hostel/HostelFeature', [
-            'menu' => 'AddStudent',
+            'menu' => 'Hostel Facilities',
             'sidebar' => 'Hostel',
             'features' => $features,
             'hostelFeature' => $hostelFeature,

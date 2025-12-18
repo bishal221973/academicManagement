@@ -13,7 +13,7 @@ class CourseController extends Controller
     {
         $courses = Course::latest()->get();
         return inertia('Config/Course', [
-            'menu' => 'Course',
+            'menu' => 'Course Management',
             'sidebar' => 'Academic',
             'courses' => $courses,
             'course' => new Course(),
@@ -47,7 +47,7 @@ class CourseController extends Controller
     {
         $courses = Course::latest()->get();
         return inertia('Config/Course', [
-            'menu' => 'Course',
+            'menu' => 'Course Management',
             'sidebar' => 'Academic',
             'courses' => $courses,
             'course' => $course,

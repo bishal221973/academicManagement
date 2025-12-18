@@ -9,12 +9,15 @@ import Toggle from "@/Components/Toggle.vue";
 import SelectHostel from "../Select/SelectHostel.vue";
 import SelectHostelRoom from "../Select/SelectHostelRoom.vue";
 import axios from "axios";
+import { CloudCog } from "lucide-vue-next";
 const props = defineProps({
     hostel: Object,
     room: Object,
     hostelStudents: Object,
     studentsInRoom: Object,
     features: Object,
+    student: Object,
+    myFeatures:Object,
 });
 
 const courseList = ref(props?.hostel?.rooms);
@@ -39,6 +42,8 @@ onMounted(() => {
     channel.bind("hostel-room-event", () => {
         fetchSection();
     });
+
+
 });
 
 const roomId = ref(null);
@@ -46,6 +51,8 @@ onMounted(() => {
     const params = new URLSearchParams(window.location.search);
     roomId.value = params.get("room_id");
 });
+
+
 
 const isRoomBook = ref(false);
 const bookingRoomNo = ref(null);
@@ -59,10 +66,11 @@ const form = useForm({
     contact: "",
     course_id: "",
     student_id: "",
+    student_name: "",
     roll_no: "",
     reg_no: "",
     hostel_id: "",
-    room_id: props?.room?.id ?? "",
+    room_id: 3,
     price: props?.room?.price ?? "0",
     check_in_date: "",
     stay_month: "1",
@@ -79,6 +87,42 @@ const netTotalAmount = ref(0);
 watch((form.price), () => {
     subTotal.value = form.price;
     netTotalAmount.value = form.price;
+})
+
+const lastRoom=ref(null);
+onMounted(() => {
+
+
+    if (props.myFeatures) {
+        // alert("hello")
+        form.features = props.myFeatures?.features?.map(f => ({
+            feature_id: f.hostel_feature_id,
+            name: f.feature?.title,
+            price: f.feature?.price
+        }));
+        computeSubTotal(); // update totals after setting features
+    }
+    
+    if (props?.student?.id) {
+        openBookRoom();
+        // alert('Hello')
+        // openBookRoom();
+        form.contact = props.student?.phone;
+        // console.log("----------------");
+        // console.log(props.student.hostels[props.student.hostels.length-1]);
+        // form.room_id=props.student.hostels[props.student.hostels.length-1]?.room_id ?? 1;
+        // form.hostel_id=props.student.hostels[props.student.hostels.length-1]?.hostel_id;
+
+        const lastHostel = Array.isArray(props.student.hostels)
+            ? props.student.hostels.at(-1)
+            : null;
+
+        if (lastHostel?.room_id) {
+            form.room_id = Number(lastHostel.room_id);
+            form.hostel_id = Number(lastHostel.hostel_id);
+            lastRoom.value=Number(lastHostel?.room_id)
+        }
+    }
 })
 const computeDiscount = () => {
     if (form.is_percentage) {
@@ -144,8 +188,8 @@ const bookedBeds = computed(() => {
         });
 });
 
-const orgPrice=ref(0);
-const totalServicePrice=ref(0);
+const orgPrice = ref(0);
+const totalServicePrice = ref(0);
 watch(() => form.stay_month, (newVal) => {
     if (newVal >= 1) {
         form.price = orgPrice.value * newVal;
@@ -162,9 +206,10 @@ const fetchTaxes = async () => {
     taxes.value = response.data.taxes;
 
 }
-const isSelected = (tax) => {
-    return form.taxes.some(t => t.tax_id === tax.id)
+const isSelected = (item) => {
+    return form.features?.some(f => f.feature_id === item.id)
 }
+
 const toggleTax = (tax) => {
     const index = form.taxes.findIndex(t => t.tax_id === tax.id)
     if (index === -1) {
@@ -190,74 +235,79 @@ const computePercentageAmount = (netAmt, percent) => {
     return percentage;
 }
 
-const computeSubTotal=()=>{
-    const price=orgPrice.value;
-    const stay_month=form.stay_month;
-    const service_amount = form.features.reduce(
+const computeSubTotal = () => {
+    const price = orgPrice.value;
+    const stay_month = form.stay_month;
+    const service_amount = form.features?.reduce(
         (sum, f) => sum + (Number(f.price) || 0),
         0
     );
-    const totalPrice=(price*stay_month)+service_amount;
-    form.price=totalPrice;
+    const totalPrice = (price * stay_month) + service_amount;
+    form.price = totalPrice;
+    computeNetTotal(form.price, discountAmount.value)
 }
 
-watch(()=>form.contact,()=>{
-   fetchStudent()
+watch(() => form.contact, () => {
+    fetchStudent()
 })
 
-watch(()=>form.room_id,()=>{
+watch(() => form.room_id, () => {
     fetchRoom()
-    
+
 })
 
-const fetchStudent=async()=>{
-    const response= await axios.get(route('student.find')+'?contact='+form.contact);
+const fetchStudent = async () => {
+    const response = await axios.get(route('student.find') + '?contact=' + form.contact);
 
-    form.course_id=response.data?.course_id;
-    form.student_id=response.data?.id;
-    form.roll_no=response.data?.roll_number;
-    form.reg_no=response.data?.registration_number;
+    form.course_id = response.data?.course_id;
+    form.student_id = response.data?.id;
+    form.student_name=response.data?.name;
+    form.roll_no = response.data?.roll_number;
+    form.reg_no = response.data?.registration_number;
 }
 
-const fetchRoom=async()=>{
-    
-    const response= await axios.get(route('room.find')+'?id='+form.room_id);
+const fetchRoom = async () => {
 
-    form.price=response.data?.price;
-    orgPrice.value=response.data.price;
+    const response = await axios.get(route('room.find') + '?id=' + form.room_id);
+
+    form.price = response.data?.price;
+    orgPrice.value = response.data.price;
     computeSubTotal();
-    
+
 }
 
-watch(()=>form.stay_month,()=>{
+watch(() => form.stay_month, () => {
     computeSubTotal();
 })
+
+
 </script>
 <template>
+    <!-- {{ student }} -->
     <button @click="openBookRoom(n)" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book
         now</button>
 
-    <Modal :title="'Book Room'" maxWidth="4xl" @close="openBookRoom" :show="isRoomBook">
+    <Modal :title="student?.id ? 'Renew Now' : 'Book Room'" maxWidth="4xl" @close="openBookRoom" :show="isRoomBook">
         <form @submit.prevent="submit">
             <div class="flex gap-3">
                 <div class="w-full">
-                    <div class="mb-1">
-                        <label class="text-[14px]">Mobile / Email *</label>
-                        <input type="text" v-model="form.contact"
-                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter mobile number or emial address" />
-                        <small class="text-red-600">{{ form.errors.bed_no }}</small>
-                    </div>
+
                     <div class="grid grid-cols-12 gap-3">
-                        <div class="col-span-5">
-                            <!-- <div class="mb-1"> -->
+                        <!-- <div class="col-span-5">
                             <label class="text-[14px]">Course*</label>
                             <SelectCourse v-model="form.course_id" />
-                            <!-- </div> -->
+                        </div> -->
+                        <div class="col-span-5">
+                            <label class="text-[14px]">Mobile / Email *</label>
+                            <input type="text" v-model="form.contact"
+                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="Enter mobile number or emial address" />
+                            <small class="text-red-600">{{ form.errors.bed_no }}</small>
                         </div>
 
                         <div class="col-span-5">
                             <!-- <div class="mb-1"> -->
+                                {{ form.student_name }}
                             <label class="text-[14px]">Student*</label>
                             <SelectStudent1 v-model="form.student_id" :courseId="form.course_id" />
                             <!-- </div> -->
@@ -279,7 +329,7 @@ watch(()=>form.stay_month,()=>{
                         <div class="col-span-5">
                             <!-- <div class="mb-1"> -->
                             <label class="text-[14px]">Reg. No *</label>
-                            <input type="number" step="1" :min="1" v-model="form.reg_no"
+                            <input type="text" step="1" :min="1" v-model="form.reg_no"
                                 class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter price" />
                             <small class="text-red-600">{{ form.errors.reg_no }}</small>
@@ -295,15 +345,17 @@ watch(()=>form.stay_month,()=>{
                             <SelectHostel v-model="form.hostel_id" />
                             <!-- </div> -->
                         </div>
+                        <!-- {{ hostel_id }} -->
                         <div class="col-span-4">
                             <!-- <div class="mb-1"> -->
+                            <!-- {{ lastRoom }} -->
                             <label class="text-[14px]">Room*</label>
-                            <SelectHostelRoom v-model="form.room_id" :hostelId="form.hostel_id" />
+                            <SelectHostelRoom :lastRoom="lastRoom" v-model="form.room_id" :hostelId="form.hostel_id" />
                             <!-- </div> -->
                         </div>
                         <div class="col-span-4">
                             <!-- <div class="mb-1"> -->
-                            <label class="text-[14px]">Checkin Date *</label>
+                            <label class="text-[14px]">{{ student?.id ? 'Renew' : 'Checkin' }} Date *</label>
                             <Datepicker v-model="form.check_in_date" class="-mt-1" />
                             <small class="text-red-600">{{ form.errors.check_in_date }}</small>
                             <!-- </div> -->
@@ -322,15 +374,15 @@ watch(()=>form.stay_month,()=>{
                             <hr>
                             <!-- {{ features }} -->
                         </div>
-                        
+
                         <div class="col-span-12">
                             <span>Services</span>
                         </div>
                         <div class="col-span-4 -mt-3" v-for="(item, index) in features" :key="index">
                             <div class="flex justify-between">
                                 <div class="flex items-center gap-3">
-                                    <input type="checkbox" class="rounded-xl" :checked="isSelected(item)" @change="toggleFeature(item)" name=""
-                                        id=""></input>
+                                    <input type="checkbox" class="rounded-xl" :checked="isSelected(item)"
+                                        @change="toggleFeature(item)" name="" id=""></input>
                                     {{ item?.title }} <small>(Rs. {{ item?.price }})</small>
                                 </div>
 
@@ -421,11 +473,13 @@ watch(()=>form.stay_month,()=>{
 
                 </div>
             </div>
-             <div class=" flex justify-end bg-gray-100 rounded p-3 mt-3">
-                        <button class="bg-blue-600  text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
-                            {{ 'Book Now' }}
-                        </button>
-                    </div>
+            <!-- {{ myFeatures.features }} -->
+              <!-- {{ form }} -->
+            <div class=" flex justify-end bg-gray-100 rounded p-3 mt-3">
+                <button class="bg-blue-600  text-white px-4 py-2 rounded hover:bg-blue-700" type="submit">
+                    {{ student?.id ? 'Renew Now' : 'Book Now' }}
+                </button>
+            </div>
 
         </form>
     </Modal>

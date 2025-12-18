@@ -10,4 +10,8 @@ class HostelStudentFeature extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function feature(){
+        return $this->belongsTo(HostelFeature::class,'hostel_feature_id','id');
+    }
 }

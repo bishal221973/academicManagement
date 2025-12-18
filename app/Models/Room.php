@@ -40,5 +40,9 @@ class Room extends Model
         return $this->hasMany(HostelStudent::class);
     }
 
+    // public function hostelStudents(){
+
+    // }
+
     
 }

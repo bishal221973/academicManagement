@@ -13,7 +13,7 @@ class ProductCategoryController extends Controller
     {
         $productCategories = ProductCategory::latest()->get();
         return Inertia::render("Inventory/ProductCategory", [
-            'menu' => 'ProductCategory',
+            'menu' => 'Category',
             'sidebar' => 'Inventory',
             'productCategories' => $productCategories,
             'productCategory' => new ProductCategory(),
@@ -44,7 +44,7 @@ class ProductCategoryController extends Controller
     {
         $productCategories = ProductCategory::latest()->get();
         return Inertia::render("Inventory/ProductCategory", [
-            'menu' => 'ProductCategory',
+            'menu' => 'Category',
             'sidebar' => 'Inventory',
             'productCategories' => $productCategories,
             'productCategory' => $productCategory,

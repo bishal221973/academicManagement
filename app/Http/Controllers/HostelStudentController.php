@@ -15,14 +15,21 @@ use Inertia\Inertia;
 
 class HostelStudentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $rooms = Room::latest()->with('hostel')->get();
         $cources = Course::latest()->get();
-        $hostelStudents = HostelStudent::with('student', 'hostel', 'room')->latest()->get();
+        $hostelStudents = HostelStudent::with('student', 'hostel', 'room','features')->latest()->get();
         $features=HostelFeature::latest()->get();
+        $student=new Student();
+        $myFeatures=[];
+        if($request->phone){
+            $student=Student::with('hostels')->where('phone',$request->phone)->first();
+            $myFeatures=HostelStudent::with('features.feature')->where('student_id',$student->id)->latest()->first();
+        }
+        // return $student;
         return Inertia::render('Hostel/AddStudent', [
-            'menu' => 'AddStudent',
+            'menu' => 'Booking Management',
             'sidebar' => 'Hostel',
             'rooms' => $rooms,
             'room' => new Room(),
@@ -30,6 +37,8 @@ class HostelStudentController extends Controller
             'hostelStudents' => $hostelStudents,
             'hostelStudent' => new HostelStudent(),
             'features'=>$features,
+            'student'=>$student,
+            'myFeatures'=>$myFeatures,
         ]);
     }
 
@@ -79,7 +88,7 @@ class HostelStudentController extends Controller
         $cources = Course::latest()->get();
         $hostelStudents = HostelStudent::with('student.course', 'hostel', 'room')->latest()->get();
         return Inertia::render('Hostel/AddStudent', [
-            'menu' => 'AddStudent',
+            'menu' => 'Booking Management',
             'sidebar' => 'Hostel',
             'rooms' => $rooms,
             'room' => new Room(),
@@ -93,7 +102,7 @@ class HostelStudentController extends Controller
     {
         $hostelStudent->load('student.course', 'hostel', 'room');
         return Inertia::render('Hostel/Show', [
-            'menu' => 'AddStudent',
+            'menu' => 'Booking Management',
             'sidebar' => 'Hostel',
             'hostelStudent' => $hostelStudent,
         ]);
