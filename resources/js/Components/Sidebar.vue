@@ -27,9 +27,9 @@ const menus = ref([
     children: [
       {title:"Visitor Book",url:"visitor.index"},
       { title: "Phone Call Log", url: "callLog.index" },
+      { title: "Postal Dispatch", url: "postalDispatch.index" },
+      { title: "Postal Receive", url: "postalReceive.index" },
       { title: "Admission Enquiry", url: "dashboard" },
-      { title: "Postal Dispatch", url: "dashboard" },
-      { title: "Postal Receive", url: "dashboard" },
       { title: "Complain", url: "dashboard" },
     ],
   },

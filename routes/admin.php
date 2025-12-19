@@ -21,6 +21,8 @@ use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MailFormatController;
 use App\Http\Controllers\MailSettingController;
 use App\Http\Controllers\PaymentModeController;
+use App\Http\Controllers\PostalDispatchController;
+use App\Http\Controllers\PostalReceiveController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductPurchaseController;
@@ -358,5 +360,23 @@ Route::prefix('front-office')->group(function () {
         Route::put('/update/{callLog}', [CallLogController::class, 'update'])->name('callLog.update');
         Route::put('/status/{callLog}', [CallLogController::class, 'status'])->name('callLog.status');
         Route::delete('/delete/{callLog}', [CallLogController::class, 'delete'])->name('callLog.delete');
+    });
+
+    Route::prefix('postal-dispatch')->group(function () {
+        Route::get('/', [PostalDispatchController::class, 'index'])->name('postalDispatch.index');
+        Route::post('/store', [PostalDispatchController::class, 'store'])->name('postalDispatch.store');
+        Route::get('/edit/{postalDispatch}', [PostalDispatchController::class, 'edit'])->name('postalDispatch.edit');
+        Route::put('/update/{postalDispatch}', [PostalDispatchController::class, 'update'])->name('postalDispatch.update');
+        Route::put('/status/{postalDispatch}', [PostalDispatchController::class, 'status'])->name('postalDispatch.status');
+        Route::delete('/delete/{postalDispatch}', [PostalDispatchController::class, 'delete'])->name('postalDispatch.delete');
+    });
+
+    Route::prefix('postal-receive')->group(function () {
+        Route::get('/', [PostalReceiveController::class, 'index'])->name('postalReceive.index');
+        Route::post('/store', [PostalReceiveController::class, 'store'])->name('postalReceive.store');
+        Route::get('/edit/{postalReceive}', [PostalReceiveController::class, 'edit'])->name('postalReceive.edit');
+        Route::put('/update/{postalReceive}', [PostalReceiveController::class, 'update'])->name('postalReceive.update');
+        Route::put('/status/{postalReceive}', [PostalReceiveController::class, 'status'])->name('postalReceive.status');
+        Route::delete('/delete/{postalReceive}', [PostalReceiveController::class, 'delete'])->name('postalReceive.delete');
     });
 });
