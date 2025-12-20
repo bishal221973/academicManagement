@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CallLogController;
+use App\Http\Controllers\ComplainController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\GroupController;
@@ -378,5 +379,14 @@ Route::prefix('front-office')->group(function () {
         Route::put('/update/{postalReceive}', [PostalReceiveController::class, 'update'])->name('postalReceive.update');
         Route::put('/status/{postalReceive}', [PostalReceiveController::class, 'status'])->name('postalReceive.status');
         Route::delete('/delete/{postalReceive}', [PostalReceiveController::class, 'delete'])->name('postalReceive.delete');
+    });
+
+    Route::prefix('complain')->group(function () {
+        Route::get('/', [ComplainController::class, 'index'])->name('complain.index');
+        Route::post('/store', [ComplainController::class, 'store'])->name('complain.store');
+        Route::get('/edit/{complain}', [ComplainController::class, 'edit'])->name('complain.edit');
+        Route::put('/update/{complain}', [ComplainController::class, 'update'])->name('complain.update');
+        Route::put('/status/{complain}', [ComplainController::class, 'status'])->name('complain.status');
+        Route::delete('/delete/{complain}', [ComplainController::class, 'delete'])->name('complain.delete');
     });
 });

@@ -29,8 +29,8 @@ const menus = ref([
       { title: "Phone Call Log", url: "callLog.index" },
       { title: "Postal Dispatch", url: "postalDispatch.index" },
       { title: "Postal Receive", url: "postalReceive.index" },
-      { title: "Admission Enquiry", url: "dashboard" },
-      { title: "Complain", url: "dashboard" },
+      // { title: "Admission Enquiry", url: "dashboard" },
+      // { title: "Complain", url: "complain.index" },
     ],
   },
 
