@@ -1,14 +1,46 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
+import Breadcrumb from '@/Components/Breadcrumb.vue';
+import DashboardCard from '@/Components/DashboardCard1.vue';
+import DashboardCard1 from '@/Components/DashboardCard1.vue';
+import DashboardCard2 from '@/Components/DashboardCard2.vue';
+import DashboardCard3 from '@/Components/DashboardCard3.vue';
+import DashboardCard4 from '@/Components/DashboardCard4.vue';
 </script>
 
 <template>
     <AppLayout title="Dashboard">
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Dashboard
-            </h2>
+        <template #content>
+            <div class="flex items-center justify-between mb-3">
+                <Breadcrumb :breadcrumbs="[{ label: 'Home' }]" />
+            </div>
+            <div class="grid grid-cols-12 gap-3">
+                <div class="col-span-3">
+                    <DashboardCard1 
+                    title="Students"
+                    count="40"
+                    color="red" />
+                </div>
+                 <div class="col-span-3">
+                    <DashboardCard2 
+                    title="Students"
+                    count="40"
+                    color="blue" />
+                </div>
+                <div class="col-span-3">
+                    <DashboardCard3 
+                    title="Students"
+                    count="40"
+                    color="green" />
+                </div>
+                <div class="col-span-3">
+                    <DashboardCard4 
+                    title="Students"
+                    count="40"
+                    color="blue" />
+                </div>
+            </div>
         </template>
 
         <div class="py-12">

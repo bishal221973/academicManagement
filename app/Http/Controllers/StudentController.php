@@ -16,6 +16,11 @@ use Carbon\Carbon;
 
 class StudentController extends Controller
 {
+
+    public function count(){
+        $students=Student::count();
+        return response()->json($students);
+    }
     public function index()
     {
         $academyYear = AcademicYear::where('status', true)->first();

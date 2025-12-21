@@ -134,6 +134,7 @@ Route::prefix('configuration')->group(function () {
 
 Route::prefix('student-management')->group(function () {
     Route::prefix('student')->group(function () {
+        Route::get('count', [StudentController::class, 'count'])->name('student.count');
         Route::get('/', [StudentController::class, 'index'])->name('student.index');
         Route::get('/all', [StudentController::class, 'all'])->name('student.all');
         Route::get('/roll-number/{courseId}', [StudentController::class, 'rollReg'])->name('student.rollNum');
@@ -334,6 +335,7 @@ Route::prefix('inventory-management')->group(function () {
 });
 
 Route::prefix('billing')->group(function () {
+    Route::get('count-receivable', [BillingController::class, 'totalReceivable'])->name('billing.totalReceivable');
     Route::get('/', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/all', [BillingController::class, 'all'])->name('billing.all');
     Route::post('/store', [BillingController::class, 'store'])->name('billing.store');
