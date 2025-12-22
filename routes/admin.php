@@ -38,12 +38,15 @@ use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\VisitorController;
+use App\Models\Course;
 use Database\Seeders\IcardSeeder;
 
 Route::get('/dashboard', function () {
+    $courses=Course::withCount('students')->latest()->get();
     return Inertia::render('Dashboard', [
         'sidebar' => 'Dashboard',
-        'menu' => 'Dashboard'
+        'menu' => 'Dashboard',
+        'courses'=>$courses,
     ]);
 })->name('dashboard');
 Route::get('test', function () {

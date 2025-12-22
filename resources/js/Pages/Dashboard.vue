@@ -7,6 +7,14 @@ import DashboardCard1 from '@/Components/DashboardCard1.vue';
 import DashboardCard2 from '@/Components/DashboardCard2.vue';
 import DashboardCard3 from '@/Components/DashboardCard3.vue';
 import DashboardCard4 from '@/Components/DashboardCard4.vue';
+import CourseWiseStudent from '@/Components/CourseWiseStudent.vue';
+
+const props = defineProps({
+  courses: {
+    type: Array,
+    required: true
+  }
+})
 </script>
 
 <template>
@@ -39,6 +47,13 @@ import DashboardCard4 from '@/Components/DashboardCard4.vue';
                     title="Students"
                     count="40"
                     color="blue" />
+                </div>
+
+                <div class="col-span-6">
+                    <div class="bg-white shadow rounded p-3">
+                        <!-- {{ courses }} -->
+                        <CourseWiseStudent :courseStudents="courses"/>
+                    </div>
                 </div>
             </div>
         </template>

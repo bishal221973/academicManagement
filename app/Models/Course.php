@@ -46,4 +46,8 @@ class Course extends Model
             'description' => 'nullable',
         ];
     }
+
+    public function students(){
+        return $this->hasMany(Student::class);
+    }
 }
