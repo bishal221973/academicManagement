@@ -7,6 +7,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { ref } from 'vue';
 
 defineProps({
     canResetPassword: Boolean,
@@ -27,110 +28,89 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
+const showPassword=ref(false);
+
 </script>
-
 <template>
-
     <Head title="Log in" />
 
-    <!-- <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-<div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-    {{ status }}
-</div>
-
-<form @submit.prevent="submit">
-    <div>
-        <InputLabel for="email" value="Email" />
-        <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required autofocus
-            autocomplete="username" />
-        <InputError class="mt-2" :message="form.errors.email" />
-    </div>
-
-    <div class="mt-4">
-        <InputLabel for="password" value="Password" />
-        <TextInput id="password" v-model="form.password" type="password" class="mt-1 block w-full" required
-            autocomplete="current-password" />
-        <InputError class="mt-2" :message="form.errors.password" />
-    </div>
-
-    <div class="block mt-4">
-        <label class="flex items-center">
-            <Checkbox v-model:checked="form.remember" name="remember" />
-            <span class="ms-2 text-sm text-gray-600">Remember me</span>
-        </label>
-    </div>
-
-    <div class="flex items-center justify-end mt-4">
-        <Link v-if="canResetPassword" :href="route('password.request')"
-            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Forgot your password?
-        </Link>
-
-        <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-            Log in
-        </PrimaryButton>
-    </div>
-</form>
-</AuthenticationCard> -->
     <div class="container">
-        <div class="hover">
-            <div class="flex">
-                <div class="w-[100%]">
-                    <img src="/logo.jpg" class="h-[60px] rounded-full mt-10 ml-10" alt="">
-                    <div class="pl-10 mt-10">
-                        <span class="text-white font-bold text-[50px] uppercase">Bauddhik Education Academy</span>
-                        <span class="block text-white">Birendranagar-7, Surkhet</span>
+        <div class="hover flex items-center justify-center">
+            <div class="flex flex-col lg:flex-row justify-between w-full max-w-7xl px-4">
 
-                        <span class="text-gray-300 block mt-[190px]">Bauddhik Education Academy is a renowned educational institution
-                            located
-                            in Birendranagar, Surkhet, offering specialized teaching and training for aspiring
-                            candidates
-                            aiming to join the Nepal Army and Police. With a team of highly skilled instructors and
-                            comprehensive programs covering physical fitness, written exams, and interview techniques,
-                            the
-                            academy ensures students are well-prepared for the competitive selection processes.</span>
+                <!-- LEFT SECTION -->
+                <div class="w-full lg:w-1/2 text-center lg:text-left pl-5">
+                    <img
+                        src="/logo.jpg"
+                        class="h-16 mx-auto lg:mx-0 rounded-full mt-6"
+                        alt=""
+                    />
+
+                    <div class="mt-8 lg:mt-10">
+                        <span class="text-white font-bold text-xl sm:text-2xl lg:text-[50px] uppercase block" style="line-height:50px">
+                            Bauddhik Education Academy
+                        </span>
+
+                        <span class="block text-white text-sm sm:text-base mt-2">
+                            Birendranagar-7, Surkhet
+                        </span>
+
+                        <span class="text-gray-300 block mt-6 lg:mt-20 text-sm sm:text-base">
+                            Bauddhik Education Academy is a renowned educational institution located in
+                            Birendranagar, Surkhet, offering specialized teaching and training for aspiring
+                            candidates aiming to join the Nepal Army and Police.
+                        </span>
                     </div>
                 </div>
-                <div class="card">
-                    <span class="uppercase text-[35px] font-bold text-blue-500 block text-center">Welcome</span>
-                    <span class="block text-center text-[12px] text-gray-500">Comprehensive Training, Expert Guidance,
-                        and
-                        Unwavering Discipline for a Successful Career in Defense Services.</span>
 
-                    <div class="mt-16">
-                        <hr class="mb-16">
-                        <form @submit.prevent="submit">
-                            <div class="block mb-3">
-                                <label for="">Email</label>
-                                <input type="email" v-model="form.email" class="w-full rounded border-gray-300" placeholder="Email" name=""
-                                    id="">
-                                    <InputError class="mt-2" :message="form.errors.email" />
-                            </div>
+                <!-- RIGHT CARD -->
+                <div class="card w-full lg:w-1/3 mt-10 lg:mt-0">
+                    <span class="uppercase text-2xl sm:text-3xl font-bold text-blue-500 block text-center">
+                        Welcome
+                    </span>
 
-                            <div class="block">
-                                <label for="">Password</label>
-                                <input type="password" v-model="form.password" class="w-full rounded border-gray-300" placeholder="Email"
-                                    name="" id="">
-                                    <InputError class="mt-2" :message="form.errors.email" />
-                            </div>
+                    <span class="block text-center text-xs sm:text-sm text-gray-500 mt-2">
+                        Comprehensive Training, Expert Guidance, and Unwavering Discipline
+                    </span>
 
-                            <div class="flex mt-2">
-                                <label for="checkbox flex">
-                                    <input type="checkbox" name="" id="checkbox" class="rounded-xl mr-2">
-                                    <span>Show Password</span>
-                                </label>
-                            </div>
+                    <hr class="my-5">
 
-                            <button class="bg-blue-700 py-[7px] w-full text-white rounded mt-5">
-                                Login
-                            </button>
-                        </form>
-                    </div>
+                    <form @submit.prevent="submit">
+                        <div class="mb-1">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                v-model="form.email"
+                                class="w-full rounded border-gray-300"
+                                placeholder="Email"
+                            />
+                            <InputError class="" :message="form.errors.email" />
+                        </div>
+
+                        <div class="mb-2">
+                            <label>Password</label>
+                            <input
+                                :type="showPassword ? 'text' : 'password'"
+                                v-model="form.password"
+                                class="w-full rounded border-gray-300"
+                                placeholder="Password"
+                            />
+                            <label for="checkbox">
+                                <input type="checkbox" name="" id="checkbox" v-model="showPassword" class="rounded-full">
+                                <span class="text-xs text-gray-500 ml-2">Show Password</span>
+                            </label>
+                            <InputError class="" :message="form.errors.password" />
+                        </div>
+
+                        <button
+                            class="bg-blue-700 py-2 w-full text-white rounded mt-4"
+                        >
+                            Login
+                        </button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -156,12 +136,12 @@ const submit = () => {
 
 .card {
     background-color: white;
-    width: 65%;
-    min-height: 86vh;
+    height: 80vh;
     position: block;
     margin-top: 5vh;
     margin: 50px;
     padding: 50px;
     border-radius: 50px;
+    /* overflow: hidden; */
 }
 </style>

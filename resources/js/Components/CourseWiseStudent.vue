@@ -80,7 +80,7 @@ const renderChart = () => {
       scales: {
         x: {
           ticks: {
-            font: { size: 6 }
+            font: { size: 6.6 }
           }
         },
         y: {
