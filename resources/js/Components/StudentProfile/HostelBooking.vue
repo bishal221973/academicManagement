@@ -102,7 +102,7 @@ onMounted(() => {
         }));
         computeSubTotal(); // update totals after setting features
     }
-    
+
     if (props?.student?.id) {
         openBookRoom();
         // alert('Hello')
@@ -220,15 +220,36 @@ const toggleTax = (tax) => {
     computeTotalAmount(form.net_total)
 }
 
+// const toggleFeature = (feature) => {
+//     const index = form.features.findIndex(t => t.feature_id === feature.id)
+//     if (index === -1) {
+//         form.features.push({ feature_id: feature.id, name: feature.title, price: feature.price })
+//     } else {
+//         form.features.splice(index, 1)
+//     }
+//     computeSubTotal()
+// }
+
 const toggleFeature = (feature) => {
-    const index = form.features.findIndex(t => t.feature_id === feature.id)
-    if (index === -1) {
-        form.features.push({ feature_id: feature.id, name: feature.title, price: feature.price })
-    } else {
-        form.features.splice(index, 1)
+    if (!Array.isArray(form.features)) {
+        form.features = [];
     }
-    computeSubTotal()
-}
+
+    const index = form.features.findIndex(f => f.feature_id === feature.id);
+
+    if (index === -1) {
+        form.features.push({
+            feature_id: feature.id,
+            name: feature.title,
+            price: feature.price
+        });
+    } else {
+        form.features.splice(index, 1);
+    }
+
+    computeSubTotal();
+};
+
 
 const computePercentageAmount = (netAmt, percent) => {
     const percentage = netAmt * percent / 100;
@@ -236,12 +257,16 @@ const computePercentageAmount = (netAmt, percent) => {
 }
 
 const computeSubTotal = () => {
-    const price = orgPrice.value;
-    const stay_month = form.stay_month;
-    const service_amount = form.features?.reduce(
-        (sum, f) => sum + (Number(f.price) || 0),
-        0
-    );
+    const price = orgPrice.value ?? 0;
+    const stay_month = form.stay_month ?? 1;
+    // const service_amount = form.features?.reduce(
+    //     (sum, f) => sum + (Number(f.price) || 0),
+    //     0
+    // );
+    const service_amount = (form.features || []).reduce(
+    (sum, f) => sum + Number(f.price || 0),
+    0
+);
     const totalPrice = (price * stay_month) + service_amount;
     form.price = totalPrice;
     computeNetTotal(form.price, discountAmount.value)

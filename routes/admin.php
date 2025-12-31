@@ -21,6 +21,7 @@ use App\Http\Controllers\IcardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MailFormatController;
 use App\Http\Controllers\MailSettingController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaymentModeController;
 use App\Http\Controllers\PostalDispatchController;
 use App\Http\Controllers\PostalReceiveController;
@@ -131,6 +132,7 @@ Route::prefix('configuration')->group(function () {
         Route::put('/update/{paymentMode}', [PaymentModeController::class, 'update'])->name('paymentMode.update');
         Route::put('/status/{paymentMode}', [PaymentModeController::class, 'status'])->name('paymentMode.status');
         Route::delete('/delete/{paymentMode}', [PaymentModeController::class, 'delete'])->name('paymentMode.delete');
+        Route::get('/all/api', [PaymentModeController::class, 'allApi'])->name('paymentMode.all.api');
     });
 });
 
@@ -346,6 +348,9 @@ Route::prefix('billing')->group(function () {
     Route::put('/update/{billing}', [BillingController::class, 'update'])->name('billing.update');
     Route::put('/status/{billing}', [BillingController::class, 'status'])->name('billing.status');
     Route::delete('/delete/{billing}', [BillingController::class, 'delete'])->name('billing.delete');
+    Route::get('/all/api', [BillingController::class, 'allApi'])->name('billing.all.api');
+    Route::get('/find/{id}', [BillingController::class, 'find'])->name('billing.find');
+    Route::get('/find/{billing_id}/billing_id', [BillingController::class, 'findBillingID'])->name('billing.findBillingID');
 });
 
 
@@ -393,5 +398,13 @@ Route::prefix('front-office')->group(function () {
         Route::put('/update/{complain}', [ComplainController::class, 'update'])->name('complain.update');
         Route::put('/status/{complain}', [ComplainController::class, 'status'])->name('complain.status');
         Route::delete('/delete/{complain}', [ComplainController::class, 'delete'])->name('complain.delete');
+    });
+    Route::prefix('payment')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('payment.index');
+        Route::post('/store', [PaymentController::class, 'store'])->name('payment.store');
+        Route::get('/edit/{payment}', [PaymentController::class, 'edit'])->name('payment.edit');
+        Route::put('/update/{payment}', [PaymentController::class, 'update'])->name('payment.update');
+        Route::put('/status/{payment}', [PaymentController::class, 'status'])->name('payment.status');
+        Route::delete('/delete/{payment}', [PaymentController::class, 'delete'])->name('payment.delete');
     });
 });

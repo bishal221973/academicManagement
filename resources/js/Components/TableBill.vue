@@ -9,6 +9,8 @@ import ExportExcel from "./ExportExcel.vue";
 import ExportPdf from "./ExportPdf.vue";
 import ExportPrint from "./ExportPrint.vue";
 import Modal from "./Modal.vue";
+import Payment from "./Payment.vue";
+import Invoice from "./Invoice.vue";
 const props = defineProps({
   columns: { type: Array, required: true },
   data: { type: Array, required: true },
@@ -29,7 +31,7 @@ const props = defineProps({
   linkUrl: String,
   showUrl: String,
   addBook: String,
-  addFunction: Function
+  addFunction: Function,
 });
 
 const searchRef = ref("");
@@ -153,32 +155,31 @@ const deleteData = async (data, permanent = false) => {
   });
 
   if (confirm.isConfirmed) {
-    useForm({}).delete(route(props?.deleteUrl, data),
-      {
-        data: { permanent },
-        onSuccess: () => {
-          Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "success",
-            title: usePage()?.props?.success || "Deleted successfully!",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-        },
-        onError: () => {
-          Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "error",
-            title: "Failed to delete!",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-        },
-      });
+    useForm({}).delete(route(props?.deleteUrl, data), {
+      data: { permanent },
+      onSuccess: () => {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: usePage()?.props?.success || "Deleted successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+      },
+      onError: () => {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title: "Failed to delete!",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+      },
+    });
   }
 };
 
@@ -216,7 +217,7 @@ const columnFilters = ref({});
 
 const addBtn = () => {
   props.addFunction();
-}
+};
 </script>
 
 <template>
@@ -224,22 +225,52 @@ const addBtn = () => {
     <div class="mb-3 flex justify-between items-center flex-wrap gap-3">
       <div class="flex items-center gap-3">
         <div class="flex">
-          <select id="paginationSelect" v-model="pageLength" @change="onPageLengthChange"
-            class="px-2 py-[3px] text-[13px] w-[60px] rounded border border-main/20">
+          <select
+            id="paginationSelect"
+            v-model="pageLength"
+            @change="onPageLengthChange"
+            class="px-2 py-[3px] text-[13px] w-[60px] rounded border border-main/20"
+          >
             <option v-for="len in lengthOptions" :key="len" :value="len">
               {{ len }}
             </option>
           </select>
         </div>
-        <input v-if="showSearch" v-model="searchRef" @input="onSearch" type="text" placeholder="Search..."
-          class="px-4 py-1 text-[12px] rounded-xl shadow-inner border border-main/20 focus:outline-none focus:ring-1 focus:ring-[#9e0105] text-slate-900 w-50" />
+        <input
+          v-if="showSearch"
+          v-model="searchRef"
+          @input="onSearch"
+          type="text"
+          placeholder="Search..."
+          class="px-4 py-1 text-[12px] rounded-xl shadow-inner border border-main/20 focus:outline-none focus:ring-1 focus:ring-[#9e0105] text-slate-900 w-50"
+        />
       </div>
       <div class="flex gap-2 flex-wrap items-center">
         <CopyTable :exportTitle="exportTitle" :columns="columns" :data="data" />
-        <ExportCsv :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
-        <ExportExcel :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
-        <ExportPdf :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
-        <ExportPrint :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
+        <ExportCsv
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
+        <ExportExcel
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
+        <ExportPdf
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
+        <ExportPrint
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
       </div>
     </div>
 
@@ -248,9 +279,12 @@ const addBtn = () => {
     <table ref="tableRef" class="display stripe hover w-full">
       <thead>
         <tr>
-
-          <th class="py-[9px] px-3 cursor-pointer select-none" v-for="col in columns" :key="col.key"
-            @click="toggleSort(col.key)">
+          <th
+            class="py-[9px] px-3 cursor-pointer select-none"
+            v-for="col in columns"
+            :key="col.key"
+            @click="toggleSort(col.key)"
+          >
             <div class="flex items-center text-[11px]">
               {{ col.label }}
             </div>
@@ -261,29 +295,42 @@ const addBtn = () => {
         <template v-for="(row, rIndex) in paginatedData" :key="rIndex">
           <!-- Parent Row -->
           <tr class="bg-white hover:bg-gray-50 border-b">
-            <td v-for="col in columns" :key="col.key" class="px-3 py-2 text-sm text-gray-800">
-              {{ row[col.key] }}
+            <td
+              v-for="col in columns"
+              :key="col.key"
+              class="px-3 py-2 text-sm text-gray-800"
+            >
+                <!-- {{ col.key}} -->
+            <!-- {{ col }} -->
+              <template v-if="col.key === 'payment'">
+                <!-- actions column -->
+                <Payment v-if="!row['isPaid']" :billID="row['actions']" :studentId="row['studentId']"/>
+              </template>
+              <template v-else-if="col.key == 'billId'">
+                <Invoice :invoiceID="row[col.key]"/>
+                <!-- <Link  class="text-blue-800">
+                {{ row[col.key] }}
+                </Link> -->
+              </template>
+
+              <template v-else>
+                {{ row[col.key] }}
+              </template>
             </td>
           </tr>
 
           <!-- Child Rows (multi level) -->
-          <tr v-for="(child, cIndex) in row.bills" :key="cIndex" class="bg-gray-50 text-xs text-gray-600">
+          <!-- <tr v-for="(child, cIndex) in row.bills" :key="cIndex" class="bg-gray-50 text-xs text-gray-600">
             <td class="px-3 py-2 text-sm text-gray-800">-</td>
-            <td class="px-3 py-2 text-sm text-gray-800">-</td>
-            <td class="px-3 py-2 text-sm text-gray-800">{{child?.bill_no}}</td>
-            <td class="px-3 py-2 text-sm text-gray-800">Rs. {{child?.sub_total}}</td>
-            <td class="px-3 py-2 text-sm text-gray-800">Rs. {{child?.discount}}</td>
-            <td class="px-3 py-2 text-sm text-gray-800">Rs. {{child?.total_tax}}</td>
-            <td class="px-3 py-2 text-sm text-gray-800">Rs. {{child?.total_amount}}</td>
-            <td class="px-3 py-2 text-sm text-gray-800">Rs. 0</td>
-            <td class="px-3 py-2 text-sm text-gray-800">Rs. {{child?.total_amount}}</td>
-          </tr>
+            <td class="px-3 py-2 text-sm text-gray-800" colspan="5"><span class="text-gray-500">{{ child?.title }}</span></td>
+            <td class="px-3 py-2 text-sm text-gray-800">Rs. {{child?.amount}}</td>
+            <td class="px-3 py-2 text-sm text-gray-800" colspan="3"></td>
+          </tr> -->
         </template>
 
         <!-- custom slot if needed -->
         <slot name="customTr" :datas="paginatedData" />
       </tbody>
-
     </table>
 
     <div class="flex justify-between items-center">
@@ -291,20 +338,31 @@ const addBtn = () => {
         {{ infoText }}
       </span>
       <div class="mt-4 flex justify-center gap-2 items-center flex-wrap">
-        <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
-          class="px-3 py-1 rounded-lg text-[12px] bg-[#D9A250] text-white disabled:bg-gray-300 transition">
+        <button
+          @click="goToPage(currentPage - 1)"
+          :disabled="currentPage === 1"
+          class="px-3 py-1 rounded-lg text-[12px] bg-[#D9A250] text-white disabled:bg-gray-300 transition"
+        >
           ‹
         </button>
-        <button v-for="page in pagesArray" :key="page" @click="goToPage(page)" :class="[
-          'px-3 py-1 rounded-lg transition text-[12px]',
-          page === currentPage
-            ? 'bg-[#ef4444] text-white font-bold'
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
-        ]">
+        <button
+          v-for="page in pagesArray"
+          :key="page"
+          @click="goToPage(page)"
+          :class="[
+            'px-3 py-1 rounded-lg transition text-[12px]',
+            page === currentPage
+              ? 'bg-[#ef4444] text-white font-bold'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+          ]"
+        >
           {{ page }}
         </button>
-        <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"
-          class="px-3 py-1 rounded-lg bg-[#ef4444] text-white text-[12px] disabled:bg-gray-300 transition">
+        <button
+          @click="goToPage(currentPage + 1)"
+          :disabled="currentPage === totalPages"
+          class="px-3 py-1 rounded-lg bg-[#ef4444] text-white text-[12px] disabled:bg-gray-300 transition"
+        >
           ›
         </button>
       </div>

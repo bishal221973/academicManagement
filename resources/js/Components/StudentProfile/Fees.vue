@@ -27,7 +27,7 @@ const tableData = computed(() =>
         discount: 'Rs. ' + item?.discount,
         tax: 'Rs. ' + item?.total_tax,
         total: 'Rs. ' + item?.total_amount,
-        paid: 'Rs. ' + 0,
+        paid: 'Rs. ' + item.total_paid,
         balance: 'Rs. ' + item?.total_amount,
         multiLevels:item?.items,
     }))

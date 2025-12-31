@@ -53,7 +53,8 @@ class HandleInertiaRequests extends Middleware
                 'logo' => "/storage/".$settings->get('logo'),
                 'admission_fees'=>$settings->get('admission_fees'),
             ],
-            'date_type'=>$settings->get('date_type')
+            'date_type'=>$settings->get('date_type'),
+            //  'settings' => MySetting::get()
         ]);
     }
 }

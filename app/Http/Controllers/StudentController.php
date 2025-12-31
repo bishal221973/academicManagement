@@ -146,17 +146,18 @@ class StudentController extends Controller
         try {
             $student = Student::create($data);
 
-            if ($request->months) {
-                $course = Course::find($request->course_id);
-                foreach ($request->months as $month) {
-                    StudentTutionFee::create([
-                        'student_id' => $student->id,
-                        'academic_year_id' => $student->academic_year_id,
-                        'month' => $month,
-                        'amount' => $course->fees,
-                    ]);
-                }
-            }
+            // if ($request->months) {
+            //     $course = Course::find($request->course_id);
+            //     foreach ($request->months as $month) {
+            //         StudentTutionFee::create([
+            //             'bill_id' => $student->bill_id,
+            //             'student_id' => $student->id,
+            //             'academic_year_id' => $student->academic_year_id,
+            //             'month' => $month,
+            //             'amount' => $course->fees,
+            //         ]);
+            //     }
+            // }
             return redirect()->back()->with('success', 'New student saved successfully');
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -190,7 +191,7 @@ class StudentController extends Controller
                 'group',
                 'bills.items.product.unit',
                 'hostels.hostel',
-                
+
                 'hostels.room.students.features',
             ]),
             'features'=>$features,

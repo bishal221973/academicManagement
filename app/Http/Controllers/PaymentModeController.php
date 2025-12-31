@@ -70,4 +70,9 @@ class PaymentModeController extends Controller
 
         return redirect()->route('paymentMode.index')->with('success','Selected payment mode have been removed');
     }
+
+    public function allApi(){
+        $paymentModes=PaymentMode::latest()->get();
+        return response()->json($paymentModes);
+    }
 }

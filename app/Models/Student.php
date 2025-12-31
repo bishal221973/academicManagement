@@ -69,6 +69,8 @@ class Student extends Model
                 $tution_fees = $request->input('tution_fees', 0);
 
                 $taxes = $request->input('taxes', []);
+                $months = $request->input('months', []);
+                $course_id = $request->input('course_id', 0);
             } else {
                 $sub_total = rand(500, 1000);
                 $net_total = $sub_total - rand(0, 100);
@@ -77,6 +79,8 @@ class Student extends Model
                 $admission_fees = rand(00000, 999999);
                 $tution_fees = 0;
                 $taxes = [];
+                $months = [];
+                $course_id = 0;
             }
 
             $billing = $student->billings()->create([
@@ -99,6 +103,7 @@ class Student extends Model
             ]);
 
             if ($tution_fees > 0) {
+
                 BillItem::create([
                     'student_id' => $student->id,
                     'academic_year_id' => $student->academic_year_id,
@@ -109,12 +114,25 @@ class Student extends Model
             }
 
             foreach ($taxes as $tax) {
+                // dd($tax);
                 BillTax::create([
                     'student_id' => $student->id,
                     'academic_year_id' => $student->academic_year_id,
                     'bill_id' => $billing->id,
+                    'tax_id' => $tax['tax_id'],
                     'percentage' => $tax['percentage'],
-                    'amount' => $total_amount * $tax['percentage'] / 100,
+                    'amount' => $net_total * $tax['percentage'] / 100,
+                ]);
+            }
+
+            foreach ($months as $month) {
+                $course = Course::find($course_id);
+                StudentTutionFee::create([
+                    'bill_id' => $billing->id,
+                    'student_id' => $student->id,
+                    'academic_year_id' => $student->academic_year_id,
+                    'month' => $month,
+                    'amount' => $course->fees,
                 ]);
             }
 

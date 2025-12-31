@@ -10,4 +10,9 @@ class BillTax extends Model
     use HasFactory;
 
     protected $guarded=['id'];
+
+    public function tax()
+    {
+        return $this->belongsTo(Tax::class,'tax_id','id');
+    }
 }

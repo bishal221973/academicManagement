@@ -8,6 +8,7 @@ import TableMultiLevel from '@/Components/TableMultiLevel.vue';
 import TableBill from '@/Components/TableBill.vue';
 const props = defineProps({
     students: Object,
+    bills:Object,
 })
 
 const columns = [
@@ -21,22 +22,25 @@ const columns = [
     { label: "Paid", key: "paid" },
     { label: "Balance", key: "balance" },
     { label: "Payment", key: "payment" },
-    
+
 ];
 
 const tableData = computed(() =>
-    props.students.map((item, index) => ({
+    props.bills.map((item, index) => ({
         sn: index + 1,
-        student:item?.name,
-        billId:'-',
-        subTotal:'-',
-        discount:'-',
-        tax:'-',
-        payable:'-',
-        paid:'-',
-        balance:'-',
-        bills:item?.bills,
-        
+        student:item?.student?.name,
+        billId:item?.bill_no,
+        subTotal:"Rs. "+item?.sub_total,
+        discount:"Rs. "+item.discount,
+        tax:"Rs. "+item?.total_tax,
+        payable:'Rs. ' + item?.total_amount,
+        paid:'Rs. ' + item?.total_paid,
+        balance:'Rs. ' + (item?.total_amount-item?.total_paid <= 0 ? 0 : item?.total_amount-item?.total_paid),
+        bills:item.items,
+        actions:item.id,
+        studentId:item?.student?.id,
+        isPaid:item?.total_amount - item?.total_paid <=0 ? true : false
+
     }))
 );
 </script>

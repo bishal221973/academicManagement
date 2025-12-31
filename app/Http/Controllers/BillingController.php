@@ -23,10 +23,29 @@ class BillingController extends Controller
 
     public function index()
     {
-        $students = Student::with('bills')->latest()->get();
+       $bills=Bill::with('student','items')->latest()->get();
+       $students = Student::with('bills')->latest()->get();
 
         return Inertia::render('Billing', [
-            'students' => $students
+            'students' => $students,
+            'bills' => $bills
         ]);
+    }
+
+    public function allApi()
+    {
+        $bills=Bill::latest()->get();
+        return response()->json($bills);
+    }
+
+    public function find($id){
+        $bill=Bill::find($id);
+        return response()->json($bill);
+    }
+
+    public function findBillingID($billing_id){
+        $bill=Bill::where('bill_no', $billing_id)->with('student','items','months','taxes.tax')->first();
+
+        return response()->json($bill);
     }
 }

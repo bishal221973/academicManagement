@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('student_tution_fees', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('bill_id')->constrained('bills');
             $table->foreignId('student_id')->constrained('students');
             $table->foreignId('academic_year_id')->constrained('academic_years');
             $table->string('month');

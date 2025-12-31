@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bill_taxes', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('bill_id')->constrained('bills');
             $table->foreignId('student_id')->constrained('students');
             $table->foreignId('academic_year_id')->constrained('academic_years');
-            $table->foreignId('bill_id')->constrained('bills');
-            $table->foreignId('tax_id')->constrained('taxes');
-            $table->string('percentage')->default(0);
-            $table->string('amount')->default(0);
+            $table->foreignId('payment_mode_id')->constrained('payment_modes');
+            $table->string('amount');
+            $table->string('payment_date');
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bill_taxes');
+        Schema::dropIfExists('payments');
     }
 };
