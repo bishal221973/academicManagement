@@ -10,7 +10,7 @@ import {
   PiggyBank,
   Settings,
   ChevronDown,
-  Minus
+  Minus,
 } from "lucide-vue-next";
 import { ref, onMounted } from "vue";
 import AddStudent from "./AddForm/AddStudent.vue";
@@ -81,6 +81,7 @@ const menus = ref([
   },
 
   { title: "Billing", icon: PiggyBank, url: "billing.index" },
+  { title: "Payments", icon: PiggyBank, url: "payment.index" },
 
   {
     title: "Settings",

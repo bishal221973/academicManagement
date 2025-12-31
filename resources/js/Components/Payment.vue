@@ -66,6 +66,7 @@ const submit = () => {
     <form @submit.prevent="submit">
       <div class="mb-3">
         <label for="">Bill Number</label>
+        <input type="text" v-model="form.bill_id">
         <SelectInvoice v-model="form.bill_id"/>
       </div>
       <div class="mb-3">

@@ -404,7 +404,7 @@ Route::prefix('front-office')->group(function () {
         Route::post('/store', [PaymentController::class, 'store'])->name('payment.store');
         Route::get('/edit/{payment}', [PaymentController::class, 'edit'])->name('payment.edit');
         Route::put('/update/{payment}', [PaymentController::class, 'update'])->name('payment.update');
-        Route::put('/status/{payment}', [PaymentController::class, 'status'])->name('payment.status');
+        Route::get('/status/{id}', [PaymentController::class, 'status'])->name('payment.status');
         Route::delete('/delete/{payment}', [PaymentController::class, 'delete'])->name('payment.delete');
     });
 });

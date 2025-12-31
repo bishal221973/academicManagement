@@ -9,6 +9,7 @@ import ExportExcel from "./ExportExcel.vue";
 import ExportPdf from "./ExportPdf.vue";
 import ExportPrint from "./ExportPrint.vue";
 import Modal from "./Modal.vue";
+import axios from "axios";
 const props = defineProps({
   columns: { type: Array, required: true },
   data: { type: Array, required: true },
@@ -29,7 +30,7 @@ const props = defineProps({
   linkUrl: String,
   showUrl: String,
   addBook: String,
-  addFunction: Function
+  addFunction: Function,
 });
 
 const searchRef = ref("");
@@ -153,32 +154,31 @@ const deleteData = async (data, permanent = false) => {
   });
 
   if (confirm.isConfirmed) {
-    useForm({}).delete(route(props?.deleteUrl, data),
-      {
-        data: { permanent },
-        onSuccess: () => {
-          Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "success",
-            title: usePage()?.props?.success || "Deleted successfully!",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-        },
-        onError: () => {
-          Swal.fire({
-            toast: true,
-            position: "top-end",
-            icon: "error",
-            title: "Failed to delete!",
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-          });
-        },
-      });
+    useForm({}).delete(route(props?.deleteUrl, data), {
+      data: { permanent },
+      onSuccess: () => {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: usePage()?.props?.success || "Deleted successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+      },
+      onError: () => {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "error",
+          title: "Failed to delete!",
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+        });
+      },
+    });
   }
 };
 
@@ -216,7 +216,26 @@ const columnFilters = ref({});
 
 const addBtn = () => {
   props.addFunction();
-}
+};
+
+const cancelPayment =async (data) => {
+    const confirm = await Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, cancel it!",
+  });
+
+  if (confirm.isConfirmed) {
+    axios.get(route("payment.status", data)).then((res) => {
+    window.location.reload();
+  });
+  }
+
+};
 </script>
 
 <template>
@@ -224,22 +243,52 @@ const addBtn = () => {
     <div class="mb-3 flex justify-between items-center flex-wrap gap-3">
       <div class="flex items-center gap-3">
         <div class="flex">
-          <select id="paginationSelect" v-model="pageLength" @change="onPageLengthChange"
-            class="px-2 py-[3px] text-[13px] w-[60px] rounded border border-main/20">
+          <select
+            id="paginationSelect"
+            v-model="pageLength"
+            @change="onPageLengthChange"
+            class="px-2 py-[3px] text-[13px] w-[60px] rounded border border-main/20"
+          >
             <option v-for="len in lengthOptions" :key="len" :value="len">
               {{ len }}
             </option>
           </select>
         </div>
-        <input v-if="showSearch" v-model="searchRef" @input="onSearch" type="text" placeholder="Search..."
-          class="px-4 py-1 text-[12px] rounded-xl shadow-inner border border-main/20 focus:outline-none focus:ring-1 focus:ring-[#9e0105] text-slate-900 w-50" />
+        <input
+          v-if="showSearch"
+          v-model="searchRef"
+          @input="onSearch"
+          type="text"
+          placeholder="Search..."
+          class="px-4 py-1 text-[12px] rounded-xl shadow-inner border border-main/20 focus:outline-none focus:ring-1 focus:ring-[#9e0105] text-slate-900 w-50"
+        />
       </div>
       <div class="flex gap-2 flex-wrap items-center">
         <CopyTable :exportTitle="exportTitle" :columns="columns" :data="data" />
-        <ExportCsv :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
-        <ExportExcel :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
-        <ExportPdf :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
-        <ExportPrint :exportTitle="exportTitle" :columns="columns" :data="data" :tableRef="tableRef" />
+        <ExportCsv
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
+        <ExportExcel
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
+        <ExportPdf
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
+        <ExportPrint
+          :exportTitle="exportTitle"
+          :columns="columns"
+          :data="data"
+          :tableRef="tableRef"
+        />
       </div>
     </div>
 
@@ -248,48 +297,55 @@ const addBtn = () => {
     <table ref="tableRef" class="display stripe hover w-full">
       <thead>
         <tr>
-
-          <th class="py-[9px] px-3 cursor-pointer select-none" v-for="col in columns" :key="col.key"
-            @click="toggleSort(col.key)">
+          <th
+            class="py-[9px] px-3 cursor-pointer select-none"
+            v-for="col in columns"
+            :key="col.key"
+            @click="toggleSort(col.key)"
+          >
             <div class="flex items-center text-[11px]">
               {{ col.label }}
-
             </div>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, rIndex) in paginatedData" :key="rIndex" :class="row['is_returned'] == 1 ? 'line-through' : ''">
+        <tr
+          v-for="(row, rIndex) in paginatedData"
+          :key="rIndex"
+          :class="row['is_returned'] == 1 ? 'line-through' : ''"
+        >
           <td class="py-[9px] px-3 cursor-pointer" v-for="col in columns" :key="col.key">
             <template v-if="col.key === 'status'">
-              <Switch v-if="status" :route="route(status, row['actions'])" v-model="row.status" :onColor="'#fff'"
-                :offColor="'#ccc'" />
+              <Switch
+                v-if="status"
+                :route="route(status, row['actions'])"
+                v-model="row.status"
+                :onColor="'#fff'"
+                :offColor="'#ccc'"
+              />
             </template>
-            <template v-else-if="col.key === 'student_name'">
-
-            </template>
+            <template v-else-if="col.key === 'student_name'"> </template>
             <template v-else-if="col.key === 'link'">
               <Link :href="linkUrl + '?expense=' + row['link']" class="text-blue-800">
-              <span class="block">{{ row["link"] }}</span>
+                <span class="block">{{ row["link"] }}</span>
               </Link>
             </template>
             <template v-else-if="col.key === 'view'">
               <Link :href="row['url']" class="text-blue-800">
-              <span class="block">{{ row["view"] }}</span>
+                <span class="block">{{ row["view"] }}</span>
               </Link>
             </template>
             <template v-else-if="col.key === 'boolean'">
               <span v-if="row['boolean']" class="text-green-600 font-semibold">
                 Active
               </span>
-              <span v-else class="text-red-600 font-semibold">
-                Inactive
-              </span>
+              <span v-else class="text-red-600 font-semibold"> Inactive </span>
             </template>
 
             <template v-else-if="col.key === 'show'">
               <Link :href="route(showUrl, row['actions'])" class="text-blue-800">
-              <span class="block">{{ row["show"] }}</span>
+                <span class="block">{{ row["show"] }}</span>
               </Link>
             </template>
             <template v-else-if="col.key === 'image'">
@@ -300,36 +356,62 @@ const addBtn = () => {
               <small class="block">{{ row["email"] }}</small>
             </template>
             <template v-else-if="col.key === 'actions'">
-
-              <div v-if="isTrashed" class="flex gap-2">
-              </div>
+              <div v-if="isTrashed" class="flex gap-2"></div>
               <div v-else>
-                <div class="flex gap-2" v-if="row['is_returned'] != 1 && hideActionOfID != row['actions']">
+                <div
+                  class="flex gap-2"
+                  v-if="row['is_returned'] != 1 && hideActionOfID != row['actions']"
+                >
                   <slot name="invoice" :row="row" />
-                  <Link v-if="payment && canCreateSell" :href="route(payment) + '?student_id=' + row['actions']"
-                    class="royal-payment-btn flex items-center gap-1 px-3 py-2 font-semibold text-white rounded-xl shadow-md transition-all duration-300">
-                  <i class="fa fa-money-bill"></i>
+                  <Link
+                    v-if="payment && canCreateSell"
+                    :href="route(payment) + '?student_id=' + row['actions']"
+                    class="royal-payment-btn flex items-center gap-1 px-3 py-2 font-semibold text-white rounded-xl shadow-md transition-all duration-300"
+                  >
+                    <i class="fa fa-money-bill"></i>
                   </Link>
-                  <Link v-if="edit && canEdit" :href="route(edit, row[['actions']])"
-                    class="royal-edit-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-2 font-semibold text-white rounded-lg shadow-md transition-all duration-300">
-                  <i class="fa fa-pen text-[10px]"></i>
+                  <Link
+                    v-if="edit && canEdit"
+                    :href="route(edit, row[['actions']])"
+                    class="royal-edit-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-2 font-semibold text-white rounded-lg shadow-md transition-all duration-300"
+                  >
+                    <i class="fa fa-pen text-[10px]"></i>
                   </Link>
 
-                  <button v-if="deleteUrl && canDelete" @click="deleteData(row[col.key])"
-                    class="royal-delete-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-0 font-semibold text-white rounded-lg shadow-md transition-all duration-300">
+                  <button
+                    v-if="deleteUrl && canDelete"
+                    @click="deleteData(row[col.key])"
+                    class="royal-delete-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-0 font-semibold text-white rounded-lg shadow-md transition-all duration-300"
+                  >
                     <i class="fa fa-trash text-[10px]"></i>
                   </button>
 
-                  <button v-if="addBook" @click="addBtn(row[col.key])"
-                    class="royal-delete-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-0 font-semibold text-white rounded-lg shadow-md transition-all duration-300">
+                  <button
+                    v-if="addBook"
+                    @click="addBtn(row[col.key])"
+                    class="royal-delete-btn h-[25px] w-[30px] flex items-center gap-1 px-3 py-0 font-semibold text-white rounded-lg shadow-md transition-all duration-300"
+                  >
                     <i class="fa fa-plus text-[10px]"></i>
                   </button>
                 </div>
               </div>
             </template>
-
+            <template v-else-if="col.key === 'cancelPayment'">
+              <span v-if="row['status'] == 'canceled'" class="text-red-500"
+                >Canceled</span
+              >
+              <button
+                v-else
+                @click="cancelPayment(row[col.key])"
+                class="bg-red-100 text-red-500 px-3 py-1 rounded"
+              >
+                Cancel Payment
+              </button>
+            </template>
             <template v-else>
-              {{ row[col.key] }}
+              <span :class="row['status'] == 'canceled' ? 'line-through' : ''">{{
+                row[col.key]
+              }}</span>
             </template>
           </td>
         </tr>
@@ -343,20 +425,31 @@ const addBtn = () => {
         {{ infoText }}
       </span>
       <div class="mt-4 flex justify-center gap-2 items-center flex-wrap">
-        <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
-          class="px-3 py-1 rounded-lg text-[12px] bg-[#D9A250] text-white disabled:bg-gray-300 transition">
+        <button
+          @click="goToPage(currentPage - 1)"
+          :disabled="currentPage === 1"
+          class="px-3 py-1 rounded-lg text-[12px] bg-[#D9A250] text-white disabled:bg-gray-300 transition"
+        >
           ‹
         </button>
-        <button v-for="page in pagesArray" :key="page" @click="goToPage(page)" :class="[
-          'px-3 py-1 rounded-lg transition text-[12px]',
-          page === currentPage
-            ? 'bg-[#ef4444] text-white font-bold'
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
-        ]">
+        <button
+          v-for="page in pagesArray"
+          :key="page"
+          @click="goToPage(page)"
+          :class="[
+            'px-3 py-1 rounded-lg transition text-[12px]',
+            page === currentPage
+              ? 'bg-[#ef4444] text-white font-bold'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+          ]"
+        >
           {{ page }}
         </button>
-        <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"
-          class="px-3 py-1 rounded-lg bg-[#ef4444] text-white text-[12px] disabled:bg-gray-300 transition">
+        <button
+          @click="goToPage(currentPage + 1)"
+          :disabled="currentPage === totalPages"
+          class="px-3 py-1 rounded-lg bg-[#ef4444] text-white text-[12px] disabled:bg-gray-300 transition"
+        >
           ›
         </button>
       </div>

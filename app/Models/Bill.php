@@ -30,7 +30,7 @@ class Bill extends Model
     }
     public function getTotalPaidAttribute()
     {
-        return $this->payments()->sum('amount');
+        return $this->payments()->where('status','verified')->sum('amount');
     }
 
     public function months()
