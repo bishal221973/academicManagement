@@ -136,7 +136,7 @@ class Student extends Model
                 ]);
             }
 
-            notifyMail($student->email,$student->id,$billing->id,'Admission Mail');
+            // notifyMail($student->email,$student->id,$billing->id,'Admission Mail');
             // notifyMail($student->email,$student->id,'Bill Generated Mail');
         });
         // static::deleting(function ($advance) {
